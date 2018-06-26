@@ -1,1 +1,1 @@
-# crm_task_manager
+# com.gb.students.crm_task_manager
