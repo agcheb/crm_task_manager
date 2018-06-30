@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/client_item_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Логин"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/background_dark"/>
+
+    <TextView
+        android:id="@+id/client_item_number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Номер телефона"
+        android:textSize="15sp"
+        android:textColor="@android:color/background_dark"/>
+
+    <TextView
+        android:id="@+id/client_item_tags"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Тэг 1, Тэг 2"
+        android:textSize="15sp"
+        android:textColor="@android:color/background_dark"/>
+
+</LinearLayout>
