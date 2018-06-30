@@ -1,5 +1,6 @@
 package com.gb.students.crm_task_manager.contacts;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -15,10 +16,12 @@ import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.gb.students.crm_task_manager.R;
+import com.gb.students.crm_task_manager.contacts.data.TempDataManager;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
 
@@ -40,6 +43,7 @@ public class FragmentClients extends MvpAppCompatFragment implements FragmentCli
     @ProvidePresenter
     public ClientPresenter provideMainPresenter()
     {
+
         ClientPresenter presenter = new ClientPresenter(AndroidSchedulers.mainThread());
         return presenter;
     }
@@ -94,6 +98,16 @@ public class FragmentClients extends MvpAppCompatFragment implements FragmentCli
 //        getActivity().startActivityForResult(intent,REQUEST_CODE_CLIENT);
 //
 //    }
+
+
+    @SuppressLint("CheckResult")
+    @Override
+    public void getContacts() {
+        TempDataManager.getContactsFromPhone(getActivity().getContentResolver())
+                  .subscribeOn(Schedulers.io())
+                  .observeOn(AndroidSchedulers.mainThread())
+                  .subscribe(clientPresenter::setContactList);
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

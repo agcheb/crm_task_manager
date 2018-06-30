@@ -9,4 +9,6 @@ public interface FragmentClientView extends MvpView {
     void init();
     void updateClientsList();
     //void openNewEditClientA(Client client);
+
+    void getContacts();
 }

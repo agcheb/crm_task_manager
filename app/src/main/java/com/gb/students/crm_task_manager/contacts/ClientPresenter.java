@@ -10,12 +10,7 @@ import com.gb.students.crm_task_manager.contacts.data.TempDataManager;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.reactivex.Observer;
 import io.reactivex.Scheduler;
-
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
-import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
 @InjectViewState
@@ -23,8 +18,9 @@ public class ClientPresenter extends MvpPresenter<FragmentClientView> {
 
     private Scheduler scheduler;
 
-    TempDataManager dataManager = new TempDataManager();
-    List<TempContact> tempContactList;
+    private TempDataManager dataManager = new TempDataManager();
+    private List<TempContact> tempContactList;
+    private List<TempContact> contactList;
 
     public ClientPresenter(Scheduler scheduler) {
         this.scheduler = scheduler;
@@ -43,17 +39,16 @@ public class ClientPresenter extends MvpPresenter<FragmentClientView> {
     @SuppressLint("CheckResult")
     public void loadData(){
 
-          dataManager.getContactsFromPhone()
-                  .subscribeOn(Schedulers.io())
-                  .observeOn(scheduler)
-                  .subscribe(new Consumer<List<TempContact>>() {
-                                 @Override
-                                 public void accept(List<TempContact> tempContacts) throws Exception {
-                                     tempContactList = new ArrayList<>();
-                                     tempContactList.addAll(tempContacts);
-                                     getViewState().updateClientsList();
-                                 }
-                             });
+        getViewState().getContacts();
+
+//          dataManager.getContactsFromPhone()
+//                  .subscribeOn(Schedulers.io())
+//                  .observeOn(scheduler)
+//                  .subscribe(tempContacts -> {
+//                      tempContactList = new ArrayList<>();
+//                      tempContactList.addAll(tempContacts);
+//                      getViewState().updateClientsList();
+//                  });
 
 //        userData.putTags(ClientAddEditPresenter.cs);
 //
@@ -87,7 +82,6 @@ public class ClientPresenter extends MvpPresenter<FragmentClientView> {
 //                    //getViewState().showError(throwable.getMessage());
 //                    //getViewState().hideLoading();
 //                });
-
 
     }
 
@@ -141,4 +135,9 @@ public class ClientPresenter extends MvpPresenter<FragmentClientView> {
 //                });
     }
 
+    public void setContactList(List<TempContact> contactList) {
+        tempContactList = new ArrayList<>();
+        tempContactList.addAll(contactList);
+        getViewState().updateClientsList();
+    }
 }
