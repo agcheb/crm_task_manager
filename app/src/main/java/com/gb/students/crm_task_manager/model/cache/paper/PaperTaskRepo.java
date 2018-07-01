@@ -1,4 +1,4 @@
-package com.gb.students.crm_task_manager.model.cache;
+package com.gb.students.crm_task_manager.model.cache.paper;
 
 import com.gb.students.crm_task_manager.model.entity.Task;
 import com.gb.students.crm_task_manager.model.repos.TaskRepo;
@@ -15,11 +15,7 @@ public class PaperTaskRepo implements TaskRepo {
     @Override
     public Observable<List<Task>> getTasks() {
         return Observable.fromCallable(() -> {
-            List<Task> tasks = Paper.book("tasks").read("all");
-            if (tasks == null) {
-                Timber.d("TaskList is empty, new one created");
-                return new ArrayList<>();
-            }
+            List<Task> tasks = readFromPaper();
             Timber.d("TaskList loader from memory");
             return tasks;
         });
@@ -28,10 +24,7 @@ public class PaperTaskRepo implements TaskRepo {
     @Override
     public Observable<Boolean> addTask(Task task) {
         return Observable.fromCallable(() -> {
-            List<Task> savedTasks = Paper.book("tasks").read("all");
-            if (savedTasks == null) {
-                savedTasks = new ArrayList<>();
-            }
+            List<Task> savedTasks = readFromPaper();
             savedTasks.add(task);
             Timber.d("New task was written to memory");
             Paper.book("task").write("all", savedTasks);
@@ -43,10 +36,21 @@ public class PaperTaskRepo implements TaskRepo {
     public Observable<Boolean> removeTask(Task task) {
         return Observable.fromCallable(() -> {
             List<Task> savedTasks = Paper.book("tasks").read("all");
-            savedTasks.remove(task);
+            for (Task t : savedTasks) {
+                if (t.getTitle().equals(task.getTitle()))
+                    savedTasks.remove(t);
+            }
+
             return true;
         });
     }
 
-
+    private List<Task> readFromPaper() {
+        List<Task> tasks = Paper.book("tasks").read("all");
+        if (tasks == null) {
+            Timber.d("TaskList is empty, new one created");
+            return new ArrayList<>();
+        }
+        return tasks;
+    }
 }

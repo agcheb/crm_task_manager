@@ -4,14 +4,14 @@ import java.util.Date;
 
 // информация об отношениях, романтические, родственные ...
 public class Relation {
-    private Integer type;
+    private String type;
     private String name;
 
-    public Integer getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(Integer type) {
+    public void setType(String type) {
         this.type = type;
     }
 

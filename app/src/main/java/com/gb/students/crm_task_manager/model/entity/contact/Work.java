@@ -1,14 +1,14 @@
 package com.gb.students.crm_task_manager.model.entity.contact;
 
 public class Work {
-    private Integer field;
+    private String field;
     private String company;
 
-    public Integer getField() {
+    public String getField() {
         return field;
     }
 
-    public void setField(Integer field) {
+    public void setField(String field) {
         this.field = field;
     }
 
