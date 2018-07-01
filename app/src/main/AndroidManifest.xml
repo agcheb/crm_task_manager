@@ -29,6 +29,11 @@
             </intent-filter>
 
         </activity>
+        <activity
+            android:name=".view.AddTaskActivity"
+            android:label="@string/add_task"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
     </application>
 
 </manifest>
