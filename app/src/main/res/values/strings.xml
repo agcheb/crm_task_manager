@@ -2,4 +2,7 @@
     <string name="app_name">CRM_TASK_MANAGER</string>
     <string name="title_activity_contact">ContactActivity</string>
     <string name="add_task">Add Task</string>
+    <string name="title">Title</string>
+    <string name="addsubtask">AddSubtask</string>
+    <string name="add_note">Add note</string>
 </resources>
