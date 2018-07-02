@@ -28,14 +28,12 @@ public class MainActivity extends MvpAppCompatActivity implements MainView {
     }
 
     @ProvidePresenter
-    public MainPresenter provideMainPresenter()
-    {
-        MainPresenter presenter = new MainPresenter();
-        return presenter;
+    public MainPresenter provideMainPresenter() {
+        return new MainPresenter();
     }
 
     @Override
     public void init() {
-            firstEverTextView.setText("ИНИЦИАЛИЗАЦИЯ!!!");
+        firstEverTextView.setText("ИНИЦИАЛИЗАЦИЯ!!!");
     }
 }

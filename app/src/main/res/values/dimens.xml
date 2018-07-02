@@ -3,4 +3,5 @@
     <dimen name="std_margin">10dp</dimen>
     <dimen name="big_margin">20dp</dimen>
     <dimen name="lil_margin">5dp</dimen>
+    <dimen name="icon_size">24dp</dimen>
 </resources>

@@ -7,5 +7,5 @@ import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
 @StateStrategyType(value = AddToEndSingleStrategy.class)
 public interface AddTaskView extends MvpView {
     void init();
-
+    void toast(String msg);
 }

@@ -14,7 +14,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-
         android:layout_marginTop="@dimen/std_margin"
         android:alpha="0.5"
         android:src="@drawable/ic_circle_black_24dp" />
@@ -24,18 +23,31 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
 
+        android:layout_marginRight="@dimen/lil_margin"
         android:layout_toRightOf="@id/ivTask"
         android:hint="@string/title" />
 
-    <ImageView
-        android:id="@+id/ivSubTask"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tvTaskLabel"
+    <ImageButton
+        android:id="@+id/btnSubTask"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="@dimen/icon_size"
+        android:layout_height="@dimen/icon_size"
 
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/tvTaskLabel"
         android:alpha="0.5"
-        android:src="@drawable/ic_add_black_24dp" />
+        android:padding="0dp"
+        app:srcCompat="@drawable/ic_add_black_24dp" />
 
+
+    <!--<ImageView-->
+    <!--android:id="@+id/btnSubTask"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_below="@id/tvTaskLabel"-->
+    <!--android:alpha="0.5"-->
+    <!--android:src="@drawable/ic_add_black_24dp" />-->
 
     <TextView
         android:id="@+id/tvAddSubtask"
@@ -43,11 +55,11 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@id/tvTaskLabel"
         android:layout_below="@id/tvTaskLabel"
+        android:layout_marginLeft="@dimen/lil_margin"
         android:layout_marginTop="5dp"
-        android:layout_toRightOf="@id/ivSubTask"
+        android:layout_toRightOf="@id/btnSubTask"
         android:text="@string/addsubtask"
         android:textColor="@color/colorBlack"
-        android:layout_marginLeft="@dimen/lil_margin"
         android:textSize="12sp" />
 
 
@@ -57,9 +69,11 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/tvAddSubtask"
         android:layout_marginTop="@dimen/big_margin"
-
+        android:cursorVisible="false"
         android:drawableRight="@drawable/ic_date_range_black_24dp"
-        android:hint="Date" />
+        android:focusable="false"
+        android:hint="Date"
+        android:longClickable="false" />
 
     <Spinner
         android:id="@+id/spinner"
@@ -78,7 +92,11 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/etDatePicker"
         android:layout_marginTop="@dimen/big_margin"
-        android:hint="Contact" />
+        android:cursorVisible="false"
+        android:focusable="false"
+        android:hint="@string/contact"
+        android:inputType="none"
+        android:longClickable="false" />
 
     <TextView
         android:id="@+id/tvNote"

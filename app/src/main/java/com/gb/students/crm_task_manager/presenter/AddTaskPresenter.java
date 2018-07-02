@@ -19,4 +19,20 @@ public class AddTaskPresenter extends MvpPresenter<AddTaskView> {
         super.onFirstViewAttach();
         getViewState().init();
     }
+
+    public void onDateClicked() {
+        getViewState().toast("date picker clicked");
+    }
+
+    public void onAddSubtaskClicked() {
+       getViewState(). toast("add subtask clicked");
+    }
+
+    public void applyNewTask() {
+        getViewState(). toast("add new task applied ");
+    }
+
+    public void addContact() {
+        getViewState(). toast("add contact to task ");
+    }
 }

@@ -5,4 +5,6 @@
     <string name="title">Title</string>
     <string name="addsubtask">AddSubtask</string>
     <string name="add_note">Add note</string>
+    <string name="date">Date</string>
+    <string name="contact">Contact</string>
 </resources>
