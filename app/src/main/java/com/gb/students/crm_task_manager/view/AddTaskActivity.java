@@ -141,6 +141,7 @@ public class AddTaskActivity extends MvpAppCompatActivity implements AddTaskView
     }
 
     private void addNewSubtask() {
+        //todo определиться с тем, как будут отображатсья новые сабтаски на текущем экране
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
         builder.setTitle(getString(R.string.add_subtask));
