@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">CRM_TASK_MANAGER</string>
     <string name="title_activity_contact">ContactActivity</string>
+    <string name="contacts_str">Contacts</string>
+    <string name="tasks_str">Tasks</string>
+    <string name="notifications_str">Notifications</string>
+    <string name="profile_str">Profile</string>
+    <string name="add_task_notifications">Add Task</string>
 </resources>

@@ -1,6 +1,7 @@
 package com.gb.students.crm_task_manager.view;
 
 import android.os.Bundle;
+import android.support.design.widget.BottomNavigationView;
 import android.widget.TextView;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
@@ -19,6 +20,9 @@ public class MainActivity extends MvpAppCompatActivity implements MainView {
 
     @BindView(R.id.hello_world_tv)
     TextView firstEverTextView;
+
+    @BindView(R.id.bottom_navigation)
+    BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
