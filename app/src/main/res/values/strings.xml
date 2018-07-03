@@ -3,8 +3,12 @@
     <string name="title_activity_contact">ContactActivity</string>
     <string name="add_task">Add Task</string>
     <string name="title">Title</string>
-    <string name="addsubtask">AddSubtask</string>
+    <string name="add_subtask">Add Subtask</string>
     <string name="add_note">Add note</string>
     <string name="date">Date</string>
     <string name="contact">Contact</string>
+    <string name="ok">Ok</string>
+    <string name="select_date">Select date</string>
+    <string name="select_time">Select time</string>
+
 </resources>

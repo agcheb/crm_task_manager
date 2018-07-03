@@ -2,6 +2,7 @@ package com.gb.students.crm_task_manager.model.entity;
 
 import com.gb.students.crm_task_manager.model.entity.contact.Contact;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -10,13 +11,25 @@ public class Task {
     private Boolean isComplete;
     private Date creationDate;
     private Date expDate;
-    private List<Subtask> subtasks;
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    private String type;
+    private List<Subtask> subtasks = new ArrayList<>();
     private List<Contact> contacts;
 
     public String getTitle() {
         return title;
     }
-
+    public void addSubtask(String subtaskName){
+        subtasks.add(new Subtask(subtaskName));
+    }
     public void setTitle(String title) {
         this.title = title;
     }

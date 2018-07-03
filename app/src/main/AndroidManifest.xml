@@ -5,34 +5,27 @@
     <uses-permission android:name="android.permission.READ_CONTACTS" />
 
     <application
+        android:name=".App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".view.MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".view.MainActivity"></activity>
         <activity
             android:name=".contacts.ContactActivity"
             android:label="@string/title_activity_contact"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".view.AddTaskActivity"
+            android:label="@string/add_task">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
-        </activity>
-        <activity
-            android:name=".view.AddTaskActivity"
-            android:label="@string/add_task"
-            android:theme="@style/AppTheme.NoActionBar">
         </activity>
     </application>
 
