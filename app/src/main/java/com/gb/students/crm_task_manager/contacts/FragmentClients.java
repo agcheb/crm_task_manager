@@ -2,6 +2,7 @@ package com.gb.students.crm_task_manager.contacts;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.DividerItemDecoration;
@@ -17,6 +18,7 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.gb.students.crm_task_manager.R;
 import com.gb.students.crm_task_manager.contacts.data.TempDataManager;
+import com.gb.students.crm_task_manager.view.MainActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -27,8 +29,8 @@ import timber.log.Timber;
 
 public class FragmentClients extends MvpAppCompatFragment implements FragmentClientView {
 
-//    @BindView(R.id.toolbar_clients)
-//    Toolbar toolbar;
+    @BindView(R.id.toolbar_clients)
+    Toolbar toolbar;
     @BindView(R.id.fab_clients)
     FloatingActionButton fab;
     @BindView(R.id.recycler_clients)
@@ -60,10 +62,11 @@ public class FragmentClients extends MvpAppCompatFragment implements FragmentCli
     @Override
     public void init() {
 
-//        toolbar.setTitle("Clients");
-//        toolbar.setTitleTextColor(Color.WHITE);
-//        ((MainAppActivity)getActivity()).setToolbarOnActivity(toolbar);
-//
+        toolbar.setTitle("Clients");
+        toolbar.setTitleTextColor(Color.WHITE);
+
+        ((MainActivity) getActivity()).setSupportActionBar(toolbar);
+
 //        fab.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {

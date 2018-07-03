@@ -6,4 +6,8 @@
     <string name="notifications_str">Notifications</string>
     <string name="profile_str">Profile</string>
     <string name="add_task_notifications">Add Task</string>
+    <string name="title_activity_test">TestActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
 </resources>
