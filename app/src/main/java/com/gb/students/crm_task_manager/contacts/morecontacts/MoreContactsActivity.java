@@ -7,6 +7,8 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -53,7 +55,7 @@ public class MoreContactsActivity extends MvpAppCompatActivity implements Activi
         toolbar.setTitleTextColor(Color.WHITE);
 
         setSupportActionBar(toolbar);
-
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 //        fab.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
@@ -63,6 +65,9 @@ public class MoreContactsActivity extends MvpAppCompatActivity implements Activi
 //            }
 //        });
 
+        //LinearLayoutManager horizontalLayoutManagaer = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        //recyclerView.setLayoutManager(horizontalLayoutManagaer);
+
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         adapter = new ContactMoreRVAdapter(contactMorePresenter);
@@ -70,6 +75,9 @@ public class MoreContactsActivity extends MvpAppCompatActivity implements Activi
 
         contactMorePresenter.loadData();
     }
+
+
+
 
     @SuppressLint("CheckResult")
     @Override
@@ -84,4 +92,26 @@ public class MoreContactsActivity extends MvpAppCompatActivity implements Activi
     public void updateClientsList() {
         adapter.notifyDataSetChanged();
     }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+               case android.R.id.home:
+                    finish();
+               case R.id.action_done:
+                  finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.contact_more_actions, menu);
+        return true;
+    }
+
+
+
 }
