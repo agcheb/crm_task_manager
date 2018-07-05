@@ -5,8 +5,8 @@ import android.annotation.SuppressLint;
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 import com.gb.students.crm_task_manager.contacts.RepoRowView;
-import com.gb.students.crm_task_manager.contacts.data.TempContact;
 import com.gb.students.crm_task_manager.model.cache.paper.PaperContactsRepo;
+import com.gb.students.crm_task_manager.model.entity.contact.Contact;
 import com.gb.students.crm_task_manager.model.repos.ContactsRepo;
 
 import java.util.ArrayList;
@@ -21,8 +21,8 @@ public class ContactMorePresenter extends MvpPresenter<ActivityContactMoreView> 
     private Scheduler scheduler;
 
     private ContactsRepo contactsRepo = new PaperContactsRepo();
-    private List<TempContact> tempContactList;
-    private List<TempContact> forAddingContactList;
+    private List<Contact> tempContactList;
+    private List<Contact> forAddingContactList;
 
     public ContactMorePresenter(Scheduler scheduler) {
         this.scheduler = scheduler;
@@ -101,7 +101,7 @@ public class ContactMorePresenter extends MvpPresenter<ActivityContactMoreView> 
 //                    userCRM.getClientsList().get(position).getContact(),
 //                    str.toString());
 //        }
-        TempContact tempC = tempContactList.get(position);
+        Contact tempC = tempContactList.get(position);
         holder.setTitle(tempC.getName(),null,null);
         //holder.setCheckboxInHolder(doWithContact(position));
 
@@ -129,7 +129,7 @@ public class ContactMorePresenter extends MvpPresenter<ActivityContactMoreView> 
 
     private boolean doWithContact(int position){
 
-        TempContact temp = tempContactList.get(position);
+        Contact temp = tempContactList.get(position);
 
         boolean isCheched = false;
         if (forAddingContactList.contains(temp)) {
@@ -167,7 +167,7 @@ public class ContactMorePresenter extends MvpPresenter<ActivityContactMoreView> 
 //                });
     }
 
-    public void setForAddingContactList(List<TempContact> forAddingContactList) {
+    public void setForAddingContactList(List<Contact> forAddingContactList) {
         tempContactList = new ArrayList<>();
         tempContactList.addAll(forAddingContactList);
         getViewState().updateClientsList();
