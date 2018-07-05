@@ -2,10 +2,12 @@ package com.gb.students.crm_task_manager.contacts;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -89,12 +91,32 @@ public class FragmentClients extends MvpAppCompatFragment implements FragmentCli
             @Override
             public void onClick(View view) {
 
-                Intent intent = new Intent(getContext(), MoreContactsActivity.class);
+                showDial();
+               // Intent intent = new Intent(getContext(), MoreContactsActivity.class);
 
-                startActivityForResult(intent,REQUEST_CODE_CLIENT);
+               // startActivityForResult(intent,REQUEST_CODE_CLIENT);
             }
         });
     }
+
+
+    private void showDial(){
+
+        CharSequence options[] = new CharSequence[] {"New one", "Phone contacts"};
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("Add contact");
+        builder.setItems(options, (dialog, which) -> {
+            // the user clicked on colors[which]
+            if (which == 1) {
+                 Intent intent = new Intent(getContext(), MoreContactsActivity.class);
+                 startActivityForResult(intent,REQUEST_CODE_CLIENT);
+            }
+        });
+        builder.show();
+
+    }
+
 
     @Override
     public void updateClientsList() {
