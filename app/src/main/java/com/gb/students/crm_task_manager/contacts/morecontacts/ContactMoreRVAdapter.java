@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.gb.students.crm_task_manager.R;
 import com.gb.students.crm_task_manager.contacts.ClientPresenter;
@@ -56,11 +57,13 @@ public class ContactMoreRVAdapter extends RecyclerView.Adapter<ContactMoreRVAdap
             super(itemView);
             ButterKnife.bind(this, itemView);
             itemView.setOnClickListener(this);
+            checkBox.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
-            presenter.onItemClick(getAdapterPosition());
+
+            presenter.onItemClick(getAdapterPosition(),this);
         }
 
         @Override
@@ -69,6 +72,11 @@ public class ContactMoreRVAdapter extends RecyclerView.Adapter<ContactMoreRVAdap
             itemTitle.setText(title);
             //itemNumber.setText(number);
             //itemTags.setText(tags);
+        }
+
+        @Override
+        public void setCheckboxInHolder(boolean isCheched) {
+            checkBox.setChecked(isCheched);
         }
     }
 }

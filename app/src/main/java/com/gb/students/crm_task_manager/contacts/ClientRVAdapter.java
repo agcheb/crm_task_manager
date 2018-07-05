@@ -70,5 +70,10 @@ public class ClientRVAdapter extends RecyclerView.Adapter<ClientRVAdapter.ViewHo
             itemNumber.setText(number);
             itemTags.setText(tags);
         }
+
+        @Override
+        public void setCheckboxInHolder(boolean isCheched) {
+
+        }
     }
 }

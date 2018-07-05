@@ -4,10 +4,10 @@ import android.annotation.SuppressLint;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
-import com.gb.students.crm_task_manager.contacts.FragmentClientView;
 import com.gb.students.crm_task_manager.contacts.RepoRowView;
 import com.gb.students.crm_task_manager.contacts.data.TempContact;
-import com.gb.students.crm_task_manager.contacts.data.TempDataManager;
+import com.gb.students.crm_task_manager.model.cache.paper.PaperContactsRepo;
+import com.gb.students.crm_task_manager.model.repos.ContactsRepo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,9 +20,9 @@ public class ContactMorePresenter extends MvpPresenter<ActivityContactMoreView> 
 
     private Scheduler scheduler;
 
-    private TempDataManager dataManager = new TempDataManager();
+    private ContactsRepo contactsRepo = new PaperContactsRepo();
     private List<TempContact> tempContactList;
-    //private List<TempContact> contactList;
+    private List<TempContact> forAddingContactList;
 
     public ContactMorePresenter(Scheduler scheduler) {
         this.scheduler = scheduler;
@@ -33,6 +33,7 @@ public class ContactMorePresenter extends MvpPresenter<ActivityContactMoreView> 
     {
         super.onFirstViewAttach();
         getViewState().init();
+        forAddingContactList = new ArrayList<>();
     }
 
 
@@ -102,6 +103,15 @@ public class ContactMorePresenter extends MvpPresenter<ActivityContactMoreView> 
 //        }
         TempContact tempC = tempContactList.get(position);
         holder.setTitle(tempC.getName(),null,null);
+        //holder.setCheckboxInHolder(doWithContact(position));
+
+        if (forAddingContactList.contains(tempC)) {
+            holder.setCheckboxInHolder(true);
+        }
+        else {
+            holder.setCheckboxInHolder(false);
+        }
+
     }
 
     public int getRepoCount() {
@@ -110,10 +120,30 @@ public class ContactMorePresenter extends MvpPresenter<ActivityContactMoreView> 
 
     }
 
-    public void onItemClick(int adapterPosition) {
+    public void onItemClick(int adapterPosition, RepoRowView holder ) {
        Timber.d("Position clicked  %s", adapterPosition);
-       //getViewState().openNewEditClientA(userCRM.getClientsList().get(adapterPosition));
+
+       holder.setCheckboxInHolder(doWithContact(adapterPosition));
+
     }
+
+    private boolean doWithContact(int position){
+
+        TempContact temp = tempContactList.get(position);
+
+        boolean isCheched = false;
+        if (forAddingContactList.contains(temp)) {
+            forAddingContactList.remove(temp);
+        }
+        else {
+            forAddingContactList.add(temp);
+            isCheched = true;
+        }
+
+        return isCheched;
+    }
+
+
 
 //    @SuppressLint("CheckResult")
 //    public void addEditClient(Client newEditClient) {
@@ -137,9 +167,9 @@ public class ContactMorePresenter extends MvpPresenter<ActivityContactMoreView> 
 //                });
     }
 
-    public void setContactList(List<TempContact> contactList) {
+    public void setForAddingContactList(List<TempContact> forAddingContactList) {
         tempContactList = new ArrayList<>();
-        tempContactList.addAll(contactList);
+        tempContactList.addAll(forAddingContactList);
         getViewState().updateClientsList();
     }
 }

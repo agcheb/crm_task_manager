@@ -85,7 +85,7 @@ public class MoreContactsActivity extends MvpAppCompatActivity implements Activi
         TempDataManager.getContactsFromPhone(getContentResolver())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(contactMorePresenter::setContactList);
+                .subscribe(contactMorePresenter::setForAddingContactList);
     }
 
     @Override
