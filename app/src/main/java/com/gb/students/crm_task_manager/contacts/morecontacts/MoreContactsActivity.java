@@ -1,6 +1,7 @@
 package com.gb.students.crm_task_manager.contacts.morecontacts;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
@@ -101,6 +102,7 @@ public class MoreContactsActivity extends MvpAppCompatActivity implements Activi
                     finish();
                case R.id.action_done:
                     contactMorePresenter.addContactToDB();
+                    setResult(Activity.RESULT_OK);
                     finish();
         }
         return super.onOptionsItemSelected(item);

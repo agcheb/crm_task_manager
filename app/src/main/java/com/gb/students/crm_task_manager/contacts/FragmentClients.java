@@ -1,6 +1,7 @@
 package com.gb.students.crm_task_manager.contacts;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -90,7 +91,7 @@ public class FragmentClients extends MvpAppCompatFragment implements FragmentCli
 
                 Intent intent = new Intent(getContext(), MoreContactsActivity.class);
 
-                startActivity(intent);
+                startActivityForResult(intent,REQUEST_CODE_CLIENT);
             }
         });
     }
@@ -123,17 +124,15 @@ public class FragmentClients extends MvpAppCompatFragment implements FragmentCli
                   .subscribe(clientPresenter::setContactList);
     }
 
+    private static Integer REQUEST_CODE_CLIENT = 101;
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-//        if ((requestCode == REQUEST_CODE_CLIENT) && (resultCode == Activity.RESULT_OK)) {
-//            //
-//            Client newEditClient = data.getParcelableExtra(ExtraFields.PARCELABLE_CLIENT);
-//            Timber.d("RESULT %s  %s",newEditClient.getName(),newEditClient.getContact());
-//            clientPresenter.addEditClient(newEditClient);
-//        }
-
+        if ((requestCode == REQUEST_CODE_CLIENT) && (resultCode == Activity.RESULT_OK)) {
+             clientPresenter.loadData();
+        }
 
     }
 
