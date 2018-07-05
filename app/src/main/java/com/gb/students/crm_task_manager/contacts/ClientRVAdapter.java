@@ -46,10 +46,10 @@ public class ClientRVAdapter extends RecyclerView.Adapter<ClientRVAdapter.ViewHo
 
         @BindView(R.id.client_item_title)
         TextView itemTitle;
-        @BindView(R.id.client_item_number)
-        TextView itemNumber;
-        @BindView(R.id.client_item_tags)
-        TextView itemTags;
+//        @BindView(R.id.client_item_number)
+//        TextView itemNumber;
+//        @BindView(R.id.client_item_tags)
+//        TextView itemTags;
 
         public ViewHolder(View itemView)
         {
@@ -67,8 +67,8 @@ public class ClientRVAdapter extends RecyclerView.Adapter<ClientRVAdapter.ViewHo
         public void setTitle(String title, String number, String tags)
         {
             itemTitle.setText(title);
-            itemNumber.setText(number);
-            itemTags.setText(tags);
+            //itemNumber.setText(number);
+            //itemTags.setText(tags);
         }
 
         @Override

@@ -64,7 +64,7 @@ public class FragmentClients extends MvpAppCompatFragment implements FragmentCli
     @Override
     public void init() {
 
-        toolbar.setTitle("Clients");
+        toolbar.setTitle("My Contacts");
         toolbar.setTitleTextColor(Color.WHITE);
 
         ((MainActivity) getActivity()).setSupportActionBar(toolbar);
@@ -79,7 +79,7 @@ public class FragmentClients extends MvpAppCompatFragment implements FragmentCli
 //        });
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
+        //recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
         adapter = new ClientRVAdapter(clientPresenter);
         recyclerView.setAdapter(adapter);
 
