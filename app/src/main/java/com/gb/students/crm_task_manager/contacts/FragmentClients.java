@@ -1,6 +1,7 @@
 package com.gb.students.crm_task_manager.contacts;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -18,6 +19,7 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.gb.students.crm_task_manager.R;
 import com.gb.students.crm_task_manager.contacts.data.TempDataManager;
+import com.gb.students.crm_task_manager.contacts.morecontacts.MoreContactsActivity;
 import com.gb.students.crm_task_manager.view.MainActivity;
 
 import butterknife.BindView;
@@ -82,6 +84,16 @@ public class FragmentClients extends MvpAppCompatFragment implements FragmentCli
         recyclerView.setAdapter(adapter);
 
         clientPresenter.loadData();
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(getContext(), MoreContactsActivity.class);
+
+                startActivityForResult(intent,REQUEST_CODE_CLIENT);
+            }
+        });
     }
 
     @Override
@@ -112,17 +124,15 @@ public class FragmentClients extends MvpAppCompatFragment implements FragmentCli
                   .subscribe(clientPresenter::setContactList);
     }
 
+    private static Integer REQUEST_CODE_CLIENT = 101;
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-//        if ((requestCode == REQUEST_CODE_CLIENT) && (resultCode == Activity.RESULT_OK)) {
-//            //
-//            Client newEditClient = data.getParcelableExtra(ExtraFields.PARCELABLE_CLIENT);
-//            Timber.d("RESULT %s  %s",newEditClient.getName(),newEditClient.getContact());
-//            clientPresenter.addEditClient(newEditClient);
-//        }
-
+        if ((requestCode == REQUEST_CODE_CLIENT) && (resultCode == Activity.RESULT_OK)) {
+             clientPresenter.loadData();
+        }
 
     }
 

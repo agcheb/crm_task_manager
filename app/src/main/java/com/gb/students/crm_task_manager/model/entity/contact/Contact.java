@@ -2,6 +2,7 @@ package com.gb.students.crm_task_manager.model.entity.contact;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 public class Contact {
     private String name;
@@ -117,4 +118,13 @@ public class Contact {
     public Contact(String name) {
         this.name = name;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Contact contact = (Contact) o;
+        return ((Contact) o).getName().equals(this.getName());
+    }
+
 }

@@ -1,9 +1,10 @@
-package com.gb.students.crm_task_manager.contacts;
+package com.gb.students.crm_task_manager.contacts.morecontacts;
 
 import android.annotation.SuppressLint;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
+import com.gb.students.crm_task_manager.contacts.RepoRowView;
 import com.gb.students.crm_task_manager.model.cache.paper.PaperContactsRepo;
 import com.gb.students.crm_task_manager.model.entity.contact.Contact;
 import com.gb.students.crm_task_manager.model.repos.ContactsRepo;
@@ -12,20 +13,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Scheduler;
-import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
 @InjectViewState
-public class ClientPresenter extends MvpPresenter<FragmentClientView> {
+public class ContactMorePresenter extends MvpPresenter<ActivityContactMoreView> {
 
     private Scheduler scheduler;
 
-    private List<Contact> tempContactList;
-
     private ContactsRepo contactsRepo = new PaperContactsRepo();
+    private List<Contact> tempContactList;
+    private List<Contact> forAddingContactList;
 
-    public ClientPresenter(Scheduler scheduler) {
+    public ContactMorePresenter(Scheduler scheduler) {
         this.scheduler = scheduler;
     }
 
@@ -34,6 +34,7 @@ public class ClientPresenter extends MvpPresenter<FragmentClientView> {
     {
         super.onFirstViewAttach();
         getViewState().init();
+        forAddingContactList = new ArrayList<>();
     }
 
 
@@ -42,15 +43,7 @@ public class ClientPresenter extends MvpPresenter<FragmentClientView> {
     @SuppressLint("CheckResult")
     public void loadData(){
 
-        contactsRepo.getContacts()
-                .subscribeOn(Schedulers.io())
-                .observeOn(scheduler)
-                .subscribe(contacts -> {
-                    tempContactList = new ArrayList<>();
-                    tempContactList.addAll(contacts);
-                    getViewState().updateClientsList();
-                });
-
+        getViewState().getContacts();
 
 //          dataManager.getContactsFromPhone()
 //                  .subscribeOn(Schedulers.io())
@@ -111,6 +104,15 @@ public class ClientPresenter extends MvpPresenter<FragmentClientView> {
 //        }
         Contact tempC = tempContactList.get(position);
         holder.setTitle(tempC.getName(),null,null);
+        //holder.setCheckboxInHolder(doWithContact(position));
+
+        if (forAddingContactList.contains(tempC)) {
+            holder.setCheckboxInHolder(true);
+        }
+        else {
+            holder.setCheckboxInHolder(false);
+        }
+
     }
 
     public int getRepoCount() {
@@ -119,10 +121,30 @@ public class ClientPresenter extends MvpPresenter<FragmentClientView> {
 
     }
 
-    public void onItemClick(int adapterPosition) {
+    public void onItemClick(int adapterPosition, RepoRowView holder ) {
        Timber.d("Position clicked  %s", adapterPosition);
-       //getViewState().openNewEditClientA(userCRM.getClientsList().get(adapterPosition));
+
+       holder.setCheckboxInHolder(doWithContact(adapterPosition));
+
     }
+
+    private boolean doWithContact(int position){
+
+        Contact temp = tempContactList.get(position);
+
+        boolean isCheched = false;
+        if (forAddingContactList.contains(temp)) {
+            forAddingContactList.remove(temp);
+        }
+        else {
+            forAddingContactList.add(temp);
+            isCheched = true;
+        }
+
+        return isCheched;
+    }
+
+
 
 //    @SuppressLint("CheckResult")
 //    public void addEditClient(Client newEditClient) {
@@ -146,9 +168,18 @@ public class ClientPresenter extends MvpPresenter<FragmentClientView> {
 //                });
     }
 
-    public void setContactList(List<Contact> contactList) {
+    public void setForAddingContactList(List<Contact> forAddingContactList) {
         tempContactList = new ArrayList<>();
-        tempContactList.addAll(contactList);
+        tempContactList.addAll(forAddingContactList);
         getViewState().updateClientsList();
+    }
+
+    public void addContactToDB() {
+
+        contactsRepo.addContacts(forAddingContactList)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(scheduler)
+                    .subscribe();
+
     }
 }

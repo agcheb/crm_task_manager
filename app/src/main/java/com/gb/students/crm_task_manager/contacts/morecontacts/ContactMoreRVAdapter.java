@@ -1,24 +1,28 @@
-package com.gb.students.crm_task_manager.contacts;
+package com.gb.students.crm_task_manager.contacts.morecontacts;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.TextView;
-
+import android.widget.Toast;
 
 import com.gb.students.crm_task_manager.R;
+import com.gb.students.crm_task_manager.contacts.ClientPresenter;
+import com.gb.students.crm_task_manager.contacts.RepoRowView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class ClientRVAdapter extends RecyclerView.Adapter<ClientRVAdapter.ViewHolder>
+public class ContactMoreRVAdapter extends RecyclerView.Adapter<ContactMoreRVAdapter.ViewHolder>
 {
-    ClientPresenter presenter;
+    private ContactMorePresenter presenter;
 
-    public ClientRVAdapter(ClientPresenter presenter)
+    public ContactMoreRVAdapter(ContactMorePresenter presenter)
     {
         this.presenter = presenter;
     }
@@ -27,7 +31,7 @@ public class ClientRVAdapter extends RecyclerView.Adapter<ClientRVAdapter.ViewHo
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
     {
-        return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.client_item, parent, false));
+        return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.contact_more_item, parent, false));
     }
 
     @Override
@@ -44,36 +48,35 @@ public class ClientRVAdapter extends RecyclerView.Adapter<ClientRVAdapter.ViewHo
 
     public class ViewHolder extends RecyclerView.ViewHolder implements RepoRowView, View.OnClickListener {
 
-        @BindView(R.id.client_item_title)
-        TextView itemTitle;
-        @BindView(R.id.client_item_number)
-        TextView itemNumber;
-        @BindView(R.id.client_item_tags)
-        TextView itemTags;
+        @BindView(R.id.contact_item__more_title)    TextView itemTitle;
+        @BindView(R.id.image_contact_more)         ImageView imageView;
+        @BindView(R.id.checkBox_more)             CheckBox checkBox;
 
         public ViewHolder(View itemView)
         {
             super(itemView);
             ButterKnife.bind(this, itemView);
             itemView.setOnClickListener(this);
+            checkBox.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
-            presenter.onItemClick(getAdapterPosition());
+
+            presenter.onItemClick(getAdapterPosition(),this);
         }
 
         @Override
         public void setTitle(String title, String number, String tags)
         {
             itemTitle.setText(title);
-            itemNumber.setText(number);
-            itemTags.setText(tags);
+            //itemNumber.setText(number);
+            //itemTags.setText(tags);
         }
 
         @Override
         public void setCheckboxInHolder(boolean isCheched) {
-
+            checkBox.setChecked(isCheched);
         }
     }
 }

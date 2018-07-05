@@ -11,4 +11,5 @@ public interface ContactsRepo {
     Observable<List<Contact>> getContacts();
     Observable<Boolean> addContact(Contact contact);
     Observable<Boolean> removeContact(Contact contact);
+    Observable<Boolean> addContacts(List<Contact> contacts);
 }

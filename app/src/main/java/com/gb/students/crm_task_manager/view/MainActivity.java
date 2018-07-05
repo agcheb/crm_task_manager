@@ -1,11 +1,13 @@
 package com.gb.students.crm_task_manager.view;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -17,6 +19,8 @@ import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.gb.students.crm_task_manager.R;
 import com.gb.students.crm_task_manager.contacts.FragmentClients;
 import com.gb.students.crm_task_manager.presenter.MainPresenter;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -104,5 +108,15 @@ public class MainActivity extends MvpAppCompatActivity implements MainView {
     @Override
     public void init() {
         //firstEverTextView.setText("ИНИЦИАЛИЗАЦИЯ!!!");
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        List<Fragment> list =  getSupportFragmentManager().getFragments();
+        for(Fragment f: list){
+            f.onActivityResult(requestCode,resultCode,data);
+        }
     }
 }
