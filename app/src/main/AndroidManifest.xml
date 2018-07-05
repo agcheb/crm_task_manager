@@ -29,7 +29,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".contacts.morecontacts.MoreContactsActivity"></activity>
+        <activity android:name=".contacts.morecontacts.MoreContactsActivity" />
+        <activity
+            android:name=".contacts.profile.ProfileActivity"
+            android:label="@string/title_activity_profile"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".contacts.profile.TestActivity"
+            android:label="@string/title_activity_test"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

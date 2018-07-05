@@ -22,6 +22,9 @@ import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.gb.students.crm_task_manager.R;
 import com.gb.students.crm_task_manager.contacts.data.TempDataManager;
 import com.gb.students.crm_task_manager.contacts.morecontacts.MoreContactsActivity;
+import com.gb.students.crm_task_manager.contacts.profile.ProfileActivity;
+import com.gb.students.crm_task_manager.contacts.profile.ProfileView;
+import com.gb.students.crm_task_manager.model.entity.contact.Contact;
 import com.gb.students.crm_task_manager.view.MainActivity;
 
 import butterknife.BindView;
@@ -107,7 +110,6 @@ public class FragmentClients extends MvpAppCompatFragment implements FragmentCli
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle("Add contact");
         builder.setItems(options, (dialog, which) -> {
-            // the user clicked on colors[which]
             if (which == 1) {
                  Intent intent = new Intent(getContext(), MoreContactsActivity.class);
                  startActivityForResult(intent,REQUEST_CODE_CLIENT);
@@ -158,4 +160,12 @@ public class FragmentClients extends MvpAppCompatFragment implements FragmentCli
 
     }
 
+
+    @Override
+    public void openProfile(Contact contact) {
+
+        Intent intent = new Intent(getActivity(),ProfileActivity.class);
+        intent.putExtra("name", contact.getName());
+        startActivity(intent);
+    }
 }

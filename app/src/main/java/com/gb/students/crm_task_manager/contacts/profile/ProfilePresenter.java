@@ -1,9 +1,15 @@
-package com.gb.students.crm_task_manager.contacts;
+package com.gb.students.crm_task_manager.contacts.profile;
 
 import android.annotation.SuppressLint;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
+import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.arellomobile.mvp.presenter.ProvidePresenter;
+import com.gb.students.crm_task_manager.contacts.RepoRowView;
+import com.gb.students.crm_task_manager.contacts.morecontacts.ActivityContactMoreView;
+import com.gb.students.crm_task_manager.contacts.morecontacts.ContactMorePresenter;
+import com.gb.students.crm_task_manager.contacts.morecontacts.ContactMoreRVAdapter;
 import com.gb.students.crm_task_manager.model.cache.paper.PaperContactsRepo;
 import com.gb.students.crm_task_manager.model.entity.contact.Contact;
 import com.gb.students.crm_task_manager.model.repos.ContactsRepo;
@@ -12,22 +18,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Scheduler;
-import io.reactivex.functions.Consumer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
 @InjectViewState
-public class ClientPresenter extends MvpPresenter<FragmentClientView> {
+public class ProfilePresenter extends MvpPresenter<ProfileView> {
 
     private Scheduler scheduler;
 
-    private List<Contact> tempContactList;
-
-    private ContactsRepo contactsRepo = new PaperContactsRepo();
-
-    public ClientPresenter(Scheduler scheduler) {
+    public ProfilePresenter(Scheduler scheduler) {
         this.scheduler = scheduler;
     }
+
 
     @Override
     protected void onFirstViewAttach()
@@ -36,21 +39,10 @@ public class ClientPresenter extends MvpPresenter<FragmentClientView> {
         getViewState().init();
     }
 
-
-    private String userName = "qwerty";
-
     @SuppressLint("CheckResult")
     public void loadData(){
 
-        contactsRepo.getContacts()
-                .subscribeOn(Schedulers.io())
-                .observeOn(scheduler)
-                .subscribe(contacts -> {
-                    tempContactList = new ArrayList<>();
-                    tempContactList.addAll(contacts);
-                    getViewState().updateClientsList();
-                });
-
+        //getViewState().getContacts();
 
 //          dataManager.getContactsFromPhone()
 //                  .subscribeOn(Schedulers.io())
@@ -96,49 +88,5 @@ public class ClientPresenter extends MvpPresenter<FragmentClientView> {
 
     }
 
-    public void bindRepoListRow(int position, RepoRowView holder) {
-//        if (userCRM != null)
-//        {
-//            StringBuilder str = new StringBuilder();
-//            List<String> tags = userCRM.getClientsList().get(position).getTags();
-//            for(String s: tags){
-//                str.append(s + "; ");
-//            }
-//
-//            holder.setTitle(userCRM.getClientsList().get(position).getName(),
-//                    userCRM.getClientsList().get(position).getContact(),
-//                    str.toString());
-//        }
-        Contact tempC = tempContactList.get(position);
-        holder.setTitle(tempC.getName(),null,null);
-    }
 
-    public int getRepoCount() {
-
-        return tempContactList == null ? 0 : tempContactList.size();
-
-    }
-
-    public void onItemClick(int adapterPosition) {
-       Timber.d("Position clicked  %s", adapterPosition);
-       getViewState().openProfile(tempContactList.get(adapterPosition));
-    }
-
-
-    @SuppressLint("CheckResult")
-    private void getClientList() {
-//        userData.getClients(userCRM.getId())
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(scheduler)
-//                .subscribe(clients -> {
-//                    userCRM.setClientsList(clients);
-//                    getViewState().updateClientsList();
-//                });
-    }
-
-    public void setContactList(List<Contact> contactList) {
-        tempContactList = new ArrayList<>();
-        tempContactList.addAll(contactList);
-        getViewState().updateClientsList();
-    }
 }
