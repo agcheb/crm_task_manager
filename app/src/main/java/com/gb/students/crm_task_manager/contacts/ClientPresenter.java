@@ -4,12 +4,16 @@ import android.annotation.SuppressLint;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
+import com.gb.students.crm_task_manager.model.cache.paper.PaperContactsRepo;
 import com.gb.students.crm_task_manager.model.entity.contact.Contact;
+import com.gb.students.crm_task_manager.model.repos.ContactsRepo;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Scheduler;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
 @InjectViewState
@@ -18,6 +22,8 @@ public class ClientPresenter extends MvpPresenter<FragmentClientView> {
     private Scheduler scheduler;
 
     private List<Contact> tempContactList;
+
+    private ContactsRepo contactsRepo = new PaperContactsRepo();
 
     public ClientPresenter(Scheduler scheduler) {
         this.scheduler = scheduler;
@@ -36,7 +42,15 @@ public class ClientPresenter extends MvpPresenter<FragmentClientView> {
     @SuppressLint("CheckResult")
     public void loadData(){
 
-        getViewState().getContacts();
+        contactsRepo.getContacts()
+                .subscribeOn(Schedulers.io())
+                .observeOn(scheduler)
+                .subscribe(contacts -> {
+                    tempContactList = new ArrayList<>();
+                    tempContactList.addAll(contacts);
+                    getViewState().updateClientsList();
+                });
+
 
 //          dataManager.getContactsFromPhone()
 //                  .subscribeOn(Schedulers.io())

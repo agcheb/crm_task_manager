@@ -100,7 +100,8 @@ public class MoreContactsActivity extends MvpAppCompatActivity implements Activi
                case android.R.id.home:
                     finish();
                case R.id.action_done:
-                  finish();
+                    contactMorePresenter.addContactToDB();
+                    finish();
         }
         return super.onOptionsItemSelected(item);
     }

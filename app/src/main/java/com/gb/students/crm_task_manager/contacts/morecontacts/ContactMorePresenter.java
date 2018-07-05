@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Scheduler;
+import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
 @InjectViewState
@@ -171,5 +172,14 @@ public class ContactMorePresenter extends MvpPresenter<ActivityContactMoreView> 
         tempContactList = new ArrayList<>();
         tempContactList.addAll(forAddingContactList);
         getViewState().updateClientsList();
+    }
+
+    public void addContactToDB() {
+
+        contactsRepo.addContacts(forAddingContactList)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(scheduler)
+                    .subscribe();
+
     }
 }
