@@ -1,11 +1,15 @@
 package com.gb.students.crm_task_manager.view;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentTransaction;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -61,12 +65,33 @@ public class MainActivity extends MvpAppCompatActivity implements MainView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        getSupportFragmentManager().beginTransaction().add(R.id.fragment_container_main,new FragmentClients()).commit();
+        showContacts();
 
         ButterKnife.bind(this);
         bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
 
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if(requestCode == 100) {
+            showContacts();
+        }
+        else {
+            Toast.makeText(this, "Until you grant permission we cannot show your contacts", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void showContacts(){
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED){
+            requestPermissions(new String[]{Manifest.permission.READ_CONTACTS}, 100);
+        }
+        else {
+            getSupportFragmentManager().beginTransaction().add(R.id.fragment_container_main, new FragmentClients()).commit();
+
+        }
     }
 
     @ProvidePresenter
