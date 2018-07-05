@@ -23,10 +23,10 @@ public class PaperContactsRepo implements ContactsRepo{
     @Override
     public Observable<Boolean> addContact(Contact contact) {
         return Observable.fromCallable(() -> {
-            List<Contact> savedTasks = readFromPaper();
-            savedTasks.add(contact);
+            List<Contact> savedContacts = readFromPaper();
+            savedContacts.add(contact);
             Timber.d("New contact was written to memory");
-            Paper.book("contacts").write("all", savedTasks);
+            Paper.book("contacts").write("all", savedContacts);
             return true;
         });
     }
@@ -40,6 +40,7 @@ public class PaperContactsRepo implements ContactsRepo{
                     contactList.remove(c);
                 }
             }
+            Paper.book("contacts").write("all", contactList);
             return true;
         });
     }

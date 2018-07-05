@@ -40,7 +40,7 @@ public class PaperTaskRepo implements TaskRepo {
                 if (t.getTitle().equals(task.getTitle()))
                     savedTasks.remove(t);
             }
-
+            Paper.book("tasks").write("all", savedTasks);
             return true;
         });
     }
