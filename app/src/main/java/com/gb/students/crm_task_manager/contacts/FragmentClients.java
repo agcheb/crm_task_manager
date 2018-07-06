@@ -26,6 +26,7 @@ import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.gb.students.crm_task_manager.R;
+import com.gb.students.crm_task_manager.contacts.addcontact.AddContactActivity;
 import com.gb.students.crm_task_manager.contacts.data.TempDataManager;
 import com.gb.students.crm_task_manager.contacts.morecontacts.MoreContactsActivity;
 import com.gb.students.crm_task_manager.contacts.profile.ProfileActivity;
@@ -100,6 +101,10 @@ public class FragmentClients extends MvpAppCompatFragment implements FragmentCli
             if (which == 1) {
                  Intent intent = new Intent(getContext(), MoreContactsActivity.class);
                  startActivityForResult(intent,REQUEST_CODE_CLIENT);
+            } else
+            if (which == 0) {
+                Intent intent = new Intent(getContext(), AddContactActivity.class);
+                startActivityForResult(intent,REQUEST_CODE_CLIENT);
             }
         });
         builder.show();

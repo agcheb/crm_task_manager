@@ -4,6 +4,10 @@
 
     <uses-permission android:name="android.permission.READ_CONTACTS" />
 
+    <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+
     <application
         android:name=".App"
         android:allowBackup="true"
@@ -38,6 +42,9 @@
             android:name=".contacts.profile.TestActivity"
             android:label="@string/title_activity_test"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".contacts.addcontact.AddContactActivity"
+            android:label="@string/title_activity_add_contact"></activity>
     </application>
 
 </manifest>
