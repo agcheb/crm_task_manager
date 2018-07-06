@@ -2,10 +2,12 @@ package com.gb.students.crm_task_manager.contacts;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,6 +22,9 @@ import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.gb.students.crm_task_manager.R;
 import com.gb.students.crm_task_manager.contacts.data.TempDataManager;
 import com.gb.students.crm_task_manager.contacts.morecontacts.MoreContactsActivity;
+import com.gb.students.crm_task_manager.contacts.profile.ProfileActivity;
+import com.gb.students.crm_task_manager.contacts.profile.ProfileView;
+import com.gb.students.crm_task_manager.model.entity.contact.Contact;
 import com.gb.students.crm_task_manager.view.MainActivity;
 
 import butterknife.BindView;
@@ -64,7 +69,7 @@ public class FragmentClients extends MvpAppCompatFragment implements FragmentCli
     @Override
     public void init() {
 
-        toolbar.setTitle("Clients");
+        toolbar.setTitle("My Contacts");
         toolbar.setTitleTextColor(Color.WHITE);
 
         ((MainActivity) getActivity()).setSupportActionBar(toolbar);
@@ -79,7 +84,7 @@ public class FragmentClients extends MvpAppCompatFragment implements FragmentCli
 //        });
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
+        //recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
         adapter = new ClientRVAdapter(clientPresenter);
         recyclerView.setAdapter(adapter);
 
@@ -89,12 +94,31 @@ public class FragmentClients extends MvpAppCompatFragment implements FragmentCli
             @Override
             public void onClick(View view) {
 
-                Intent intent = new Intent(getContext(), MoreContactsActivity.class);
+                showDial();
+               // Intent intent = new Intent(getContext(), MoreContactsActivity.class);
 
-                startActivityForResult(intent,REQUEST_CODE_CLIENT);
+               // startActivityForResult(intent,REQUEST_CODE_CLIENT);
             }
         });
     }
+
+
+    private void showDial(){
+
+        CharSequence options[] = new CharSequence[] {"New one", "Phone contacts"};
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("Add contact");
+        builder.setItems(options, (dialog, which) -> {
+            if (which == 1) {
+                 Intent intent = new Intent(getContext(), MoreContactsActivity.class);
+                 startActivityForResult(intent,REQUEST_CODE_CLIENT);
+            }
+        });
+        builder.show();
+
+    }
+
 
     @Override
     public void updateClientsList() {
@@ -136,4 +160,12 @@ public class FragmentClients extends MvpAppCompatFragment implements FragmentCli
 
     }
 
+
+    @Override
+    public void openProfile(Contact contact) {
+
+        Intent intent = new Intent(getActivity(),ProfileActivity.class);
+        intent.putExtra("name", contact.getName());
+        startActivity(intent);
+    }
 }
