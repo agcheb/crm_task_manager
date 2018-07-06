@@ -4,13 +4,16 @@ import android.annotation.SuppressLint;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
-import com.gb.students.crm_task_manager.contacts.data.TempContact;
-import com.gb.students.crm_task_manager.contacts.data.TempDataManager;
+import com.gb.students.crm_task_manager.model.cache.paper.PaperContactsRepo;
+import com.gb.students.crm_task_manager.model.entity.contact.Contact;
+import com.gb.students.crm_task_manager.model.repos.ContactsRepo;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Scheduler;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
 @InjectViewState
@@ -18,9 +21,9 @@ public class ClientPresenter extends MvpPresenter<FragmentClientView> {
 
     private Scheduler scheduler;
 
-    private TempDataManager dataManager = new TempDataManager();
-    private List<TempContact> tempContactList;
-    private List<TempContact> contactList;
+    private List<Contact> tempContactList;
+
+    private ContactsRepo contactsRepo = new PaperContactsRepo();
 
     public ClientPresenter(Scheduler scheduler) {
         this.scheduler = scheduler;
@@ -39,7 +42,15 @@ public class ClientPresenter extends MvpPresenter<FragmentClientView> {
     @SuppressLint("CheckResult")
     public void loadData(){
 
-        getViewState().getContacts();
+        contactsRepo.getContacts()
+                .subscribeOn(Schedulers.io())
+                .observeOn(scheduler)
+                .subscribe(contacts -> {
+                    tempContactList = new ArrayList<>();
+                    tempContactList.addAll(contacts);
+                    getViewState().updateClientsList();
+                });
+
 
 //          dataManager.getContactsFromPhone()
 //                  .subscribeOn(Schedulers.io())
@@ -98,8 +109,8 @@ public class ClientPresenter extends MvpPresenter<FragmentClientView> {
 //                    userCRM.getClientsList().get(position).getContact(),
 //                    str.toString());
 //        }
-        TempContact tempC = tempContactList.get(position);
-        holder.setTitle(tempC.getName(),tempC.getNumber(),null);
+        Contact tempC = tempContactList.get(position);
+        holder.setTitle(tempC.getName(),null,null);
     }
 
     public int getRepoCount() {
@@ -110,19 +121,9 @@ public class ClientPresenter extends MvpPresenter<FragmentClientView> {
 
     public void onItemClick(int adapterPosition) {
        Timber.d("Position clicked  %s", adapterPosition);
-       //getViewState().openNewEditClientA(userCRM.getClientsList().get(adapterPosition));
+       getViewState().openProfile(tempContactList.get(adapterPosition));
     }
 
-//    @SuppressLint("CheckResult")
-//    public void addEditClient(Client newEditClient) {
-//
-////        userData.putClient(newEditClient,userCRM.getId())
-////                //.subscribeOn(Schedulers.io())
-////                .observeOn(scheduler)
-////                .subscribe(aLong -> {
-////                    if (aLong > 0) getClientList();
-////                });
-//    }
 
     @SuppressLint("CheckResult")
     private void getClientList() {
@@ -135,7 +136,7 @@ public class ClientPresenter extends MvpPresenter<FragmentClientView> {
 //                });
     }
 
-    public void setContactList(List<TempContact> contactList) {
+    public void setContactList(List<Contact> contactList) {
         tempContactList = new ArrayList<>();
         tempContactList.addAll(contactList);
         getViewState().updateClientsList();

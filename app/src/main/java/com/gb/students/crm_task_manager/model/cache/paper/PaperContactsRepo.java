@@ -32,6 +32,17 @@ public class PaperContactsRepo implements ContactsRepo{
     }
 
     @Override
+    public Observable<Boolean> addContacts(List<Contact> contacts) {
+        return Observable.fromCallable(() -> {
+            List<Contact> savedTasks = readFromPaper();
+            savedTasks.addAll(contacts);
+            Timber.d("New contacts was written to memory");
+            Paper.book("contacts").write("all", savedTasks);
+            return true;
+        });
+    }
+
+    @Override
     public Observable<Boolean> removeContact(Contact contact) {
         return Observable.fromCallable(() -> {
             List<Contact> contactList = readFromPaper();

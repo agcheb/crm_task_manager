@@ -1,9 +1,13 @@
 package com.gb.students.crm_task_manager.contacts;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,6 +21,11 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.gb.students.crm_task_manager.R;
 import com.gb.students.crm_task_manager.contacts.data.TempDataManager;
+import com.gb.students.crm_task_manager.contacts.morecontacts.MoreContactsActivity;
+import com.gb.students.crm_task_manager.contacts.profile.ProfileActivity;
+import com.gb.students.crm_task_manager.contacts.profile.ProfileView;
+import com.gb.students.crm_task_manager.model.entity.contact.Contact;
+import com.gb.students.crm_task_manager.view.MainActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -27,8 +36,8 @@ import timber.log.Timber;
 
 public class FragmentClients extends MvpAppCompatFragment implements FragmentClientView {
 
-//    @BindView(R.id.toolbar_clients)
-//    Toolbar toolbar;
+    @BindView(R.id.toolbar_clients)
+    Toolbar toolbar;
     @BindView(R.id.fab_clients)
     FloatingActionButton fab;
     @BindView(R.id.recycler_clients)
@@ -60,10 +69,11 @@ public class FragmentClients extends MvpAppCompatFragment implements FragmentCli
     @Override
     public void init() {
 
-//        toolbar.setTitle("Clients");
-//        toolbar.setTitleTextColor(Color.WHITE);
-//        ((MainAppActivity)getActivity()).setToolbarOnActivity(toolbar);
-//
+        toolbar.setTitle("My Contacts");
+        toolbar.setTitleTextColor(Color.WHITE);
+
+        ((MainActivity) getActivity()).setSupportActionBar(toolbar);
+
 //        fab.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
@@ -74,12 +84,41 @@ public class FragmentClients extends MvpAppCompatFragment implements FragmentCli
 //        });
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
+        //recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
         adapter = new ClientRVAdapter(clientPresenter);
         recyclerView.setAdapter(adapter);
 
         clientPresenter.loadData();
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                showDial();
+               // Intent intent = new Intent(getContext(), MoreContactsActivity.class);
+
+               // startActivityForResult(intent,REQUEST_CODE_CLIENT);
+            }
+        });
     }
+
+
+    private void showDial(){
+
+        CharSequence options[] = new CharSequence[] {"New one", "Phone contacts"};
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("Add contact");
+        builder.setItems(options, (dialog, which) -> {
+            if (which == 1) {
+                 Intent intent = new Intent(getContext(), MoreContactsActivity.class);
+                 startActivityForResult(intent,REQUEST_CODE_CLIENT);
+            }
+        });
+        builder.show();
+
+    }
+
 
     @Override
     public void updateClientsList() {
@@ -109,18 +148,24 @@ public class FragmentClients extends MvpAppCompatFragment implements FragmentCli
                   .subscribe(clientPresenter::setContactList);
     }
 
+    private static Integer REQUEST_CODE_CLIENT = 101;
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-//        if ((requestCode == REQUEST_CODE_CLIENT) && (resultCode == Activity.RESULT_OK)) {
-//            //
-//            Client newEditClient = data.getParcelableExtra(ExtraFields.PARCELABLE_CLIENT);
-//            Timber.d("RESULT %s  %s",newEditClient.getName(),newEditClient.getContact());
-//            clientPresenter.addEditClient(newEditClient);
-//        }
-
+        if ((requestCode == REQUEST_CODE_CLIENT) && (resultCode == Activity.RESULT_OK)) {
+             clientPresenter.loadData();
+        }
 
     }
 
+
+    @Override
+    public void openProfile(Contact contact) {
+
+        Intent intent = new Intent(getActivity(),ProfileActivity.class);
+        intent.putExtra("name", contact.getName());
+        startActivity(intent);
+    }
 }
