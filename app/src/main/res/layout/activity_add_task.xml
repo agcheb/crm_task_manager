@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -41,6 +42,7 @@
         app:srcCompat="@drawable/ic_add_black_24dp" />
 
 
+
     <!--<ImageView-->
     <!--android:id="@+id/btnSubTask"-->
     <!--android:layout_width="wrap_content"-->
@@ -57,18 +59,26 @@
         android:layout_below="@id/etTaskLabel"
         android:layout_alignTop="@+id/btnSubTask"
         android:layout_marginLeft="@dimen/lil_margin"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="@dimen/lil_margin"
         android:layout_toRightOf="@id/btnSubTask"
         android:text="@string/add_subtask"
         android:textColor="@color/colorBlack"
         android:textSize="12sp" />
 
+    <ListView
+        android:id="@+id/subtastsList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btnSubTask"
+        android:layout_marginTop="@dimen/lil_margin">
+
+    </ListView>
 
     <EditText
         android:id="@+id/etDatePicker"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tvAddSubtask"
+        android:layout_below="@id/subtastsList"
         android:layout_marginTop="@dimen/big_margin"
         android:cursorVisible="false"
         android:drawableRight="@drawable/ic_date_range_black_24dp"
@@ -133,5 +143,4 @@
 
 
 </RelativeLayout>
-
 

@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -22,8 +23,10 @@ import com.gb.students.crm_task_manager.model.entity.types.TaskTypes;
 import com.gb.students.crm_task_manager.presenter.AddTaskPresenter;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Locale;
 
 import butterknife.BindView;
@@ -51,11 +54,14 @@ public class AddTaskActivity extends MvpAppCompatActivity implements AddTaskView
     ImageView addSubtask;
     @BindView(R.id.etContact)
     EditText addContact;
+    @BindView(R.id.subtastsList)
+    ListView subtaskListView;
 
+    ArrayAdapter<String> adapter;
     @BindView(R.id.spinnerTaskTypes)
     Spinner spinnerTaskTypes;
     SimpleDateFormat dateFormat;
-
+    List<String> subtasks;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,6 +76,10 @@ public class AddTaskActivity extends MvpAppCompatActivity implements AddTaskView
         addContact.setOnClickListener(this);
         timePickerTv.setOnClickListener(this);
         dateFormat=new SimpleDateFormat("dd MMMM yyyy", Locale.getDefault());
+        subtasks=new ArrayList<>();
+        adapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_list_item_1, subtasks);
+        subtaskListView.setAdapter(adapter);
     }
 
     @Override
@@ -150,7 +160,10 @@ public class AddTaskActivity extends MvpAppCompatActivity implements AddTaskView
         builder.setPositiveButton(getResources().getString(R.string.ok),
                 (dialog, which) -> {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                        presenter.addSubtask(editText.getText().toString());
+                        String sbtLbl= editText.getText().toString();
+                        presenter.addSubtask(sbtLbl);
+                        subtasks.add(sbtLbl);
+                        adapter.notifyDataSetChanged();
                     }
                 }
         );
