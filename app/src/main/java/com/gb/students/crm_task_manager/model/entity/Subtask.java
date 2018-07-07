@@ -4,6 +4,10 @@ class Subtask {
     private String title;
     private Boolean isComplete;
 
+    public Subtask(String title) {
+        this.title = title;
+    }
+
     public String getTitle() {
         return title;
     }

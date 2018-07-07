@@ -1,9 +1,10 @@
 package com.gb.students.crm_task_manager.model.entity.types;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AbstractTypes {
-    private List<String> types;
+    private List<String> types = new ArrayList<>();
 
     public List<String> getAll() {
         return types;
