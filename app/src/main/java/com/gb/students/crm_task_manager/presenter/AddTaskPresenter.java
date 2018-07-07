@@ -26,6 +26,7 @@ public class AddTaskPresenter extends MvpPresenter<AddTaskView> {
     private Scheduler scheduler;
 
 
+
     public AddTaskPresenter(Scheduler scheduler) {
         this.scheduler = scheduler;
     }
@@ -35,7 +36,7 @@ public class AddTaskPresenter extends MvpPresenter<AddTaskView> {
     PaperTypesRepo typesRepo;
 
     Task task;
-
+    List<String> types;
     @Override
     protected void onFirstViewAttach() {
         super.onFirstViewAttach();
@@ -50,6 +51,7 @@ public class AddTaskPresenter extends MvpPresenter<AddTaskView> {
         single.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(types -> {
+                    this.types=types.getTaskTypes().getAll();
                     getViewState().init();
                     getViewState().fillTaskTypesSpinner(types.getTaskTypes());
                 });
@@ -95,5 +97,10 @@ public class AddTaskPresenter extends MvpPresenter<AddTaskView> {
     public void addSubtask(String s) {
         task.addSubtask(s);
         getViewState().toast("Subtask "+s+" added");
+    }
+
+    public void setTaskType(int pos) {
+        task.setType(this.types.get(pos));
+        getViewState().toast(this.types.get(pos)+" is selected");
     }
 }

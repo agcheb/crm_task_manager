@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -96,11 +97,22 @@ public class AddTaskActivity extends MvpAppCompatActivity implements AddTaskView
     @Override
     public void fillTaskTypesSpinner(TaskTypes taskTypes) {
         //todo реализовать добавление нового эелемента
-        String[] array = taskTypes.getAll().toArray(new String[0]);
-        ArrayAdapter<String> adapter =
-                new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, array);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerTaskTypes.setAdapter(adapter);
+        String[] taskTypesArr = taskTypes.getAll().toArray(new String[0]);
+        ArrayAdapter<String> spinnerAdapter =
+                new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, taskTypesArr);
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerTaskTypes.setAdapter(spinnerAdapter);
+        spinnerTaskTypes.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> parent,
+                                       View itemSelected, int selectedItemPosition, long selectedId) {
+                    presenter.setTaskType(selectedItemPosition);
+                }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
     @Override
