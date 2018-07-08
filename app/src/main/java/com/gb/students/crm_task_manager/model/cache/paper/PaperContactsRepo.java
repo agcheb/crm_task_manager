@@ -5,6 +5,7 @@ import com.gb.students.crm_task_manager.model.repos.ContactsRepo;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import io.paperdb.Paper;
 import io.reactivex.Observable;
@@ -24,6 +25,7 @@ public class PaperContactsRepo implements ContactsRepo{
     public Observable<Boolean> addContact(Contact contact) {
         return Observable.fromCallable(() -> {
             List<Contact> savedTasks = readFromPaper();
+            contact.setId(UUID.randomUUID().toString());
             savedTasks.add(contact);
             Timber.d("New contact was written to memory");
             Paper.book("contacts").write("all", savedTasks);
@@ -35,7 +37,10 @@ public class PaperContactsRepo implements ContactsRepo{
     public Observable<Boolean> addContacts(List<Contact> contacts) {
         return Observable.fromCallable(() -> {
             List<Contact> savedTasks = readFromPaper();
-            savedTasks.addAll(contacts);
+            for(Contact c: contacts){
+                c.setId(UUID.randomUUID().toString());
+                savedTasks.add(c);
+            }
             Timber.d("New contacts was written to memory");
             Paper.book("contacts").write("all", savedTasks);
             return true;
@@ -51,6 +56,7 @@ public class PaperContactsRepo implements ContactsRepo{
                     contactList.remove(c);
                 }
             }
+            Paper.book("contacts").write("all", contactList);
             return true;
         });
     }

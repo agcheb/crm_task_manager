@@ -1,11 +1,13 @@
 package com.gb.students.crm_task_manager.contacts.addcontact;
 
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.text.format.DateUtils;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -14,12 +16,12 @@ import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.gb.students.crm_task_manager.R;
+import com.jakewharton.rxbinding2.widget.RxTextView;
 
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.DateTimeException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -32,11 +34,15 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 public class AddContactActivity extends MvpAppCompatActivity implements AddContactView, DatePickerDialog.OnDateSetListener {
 
 
-    @BindView(R.id.addcontact_toolbar)
-    Toolbar toolbar;
+    @BindView(R.id.addcontact_toolbar)    Toolbar toolbar;
+    @BindView(R.id.date_contact)    EditText datePicked;
+    @BindView(R.id.title_contact) EditText titleContact;
+    @BindView(R.id.number_contact) EditText number;
+    @BindView(R.id.email_contact) EditText email;
+    @BindView(R.id.note_contact) EditText note;
+    @BindView(R.id.category_contact) EditText category;
 
-    @BindView(R.id.date_contact)
-    EditText datePicked;
+
 
 
     @InjectPresenter
@@ -58,6 +64,7 @@ public class AddContactActivity extends MvpAppCompatActivity implements AddConta
     }
 
 
+    @SuppressLint("CheckResult")
     @Override
     public void init() {
 
@@ -70,16 +77,28 @@ public class AddContactActivity extends MvpAppCompatActivity implements AddConta
             onCreateDialog(null).show();
         });
 
+        RxTextView.textChanges(titleContact).subscribe(charSequence ->
+                addContactPresenter.setContactName(charSequence.toString()));
+
+        RxTextView.textChanges(number).subscribe(charSequence ->
+                addContactPresenter.setNumber(charSequence.toString()));
+
+        RxTextView.textChanges(email).subscribe(charSequence ->
+                addContactPresenter.setEmail(charSequence.toString()));
+
+        RxTextView.textChanges(note).subscribe(charSequence ->
+                addContactPresenter.setNote(charSequence.toString()));
+
+        RxTextView.textChanges(category).subscribe(charSequence ->
+                addContactPresenter.setCategory(charSequence.toString()));
+
     }
 
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        // Use the current date as the default date in the picker
         final Calendar c = Calendar.getInstance();
         int year = c.get(Calendar.YEAR);
         int month = c.get(Calendar.MONTH);
         int day = c.get(Calendar.DAY_OF_MONTH);
-
-        // Create a new instance of DatePickerDialog and return it
         return new DatePickerDialog(this, this, year, month, day);
     }
 
@@ -95,10 +114,10 @@ public class AddContactActivity extends MvpAppCompatActivity implements AddConta
         String day1 = String.valueOf(day);
 
         if (day >= 1 && day <= 9) {
-            day1 = "0" + day;
+            day1 = "0" + day1;
         }
         if (month >= 0 && month <= 8) {
-            month1 = "0" + month;
+            month1 = "0" + month1;
         }
 
         String pickedDate = day1 + "/" + month1 + "/" + year;
@@ -110,8 +129,8 @@ public class AddContactActivity extends MvpAppCompatActivity implements AddConta
         }
 
         datePicked.setText(sdf.format(today));
+        addContactPresenter.setDate(today);
 
-        //datePicked.setText(pickedDate);
     }
 
 
@@ -120,8 +139,20 @@ public class AddContactActivity extends MvpAppCompatActivity implements AddConta
         switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
+            case R.id.action_done:
+                addContactPresenter.addNewContactToDB();
+                setResult(Activity.RESULT_OK);
+                finish();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.contact_more_actions, menu);
+        return true;
     }
 }
 

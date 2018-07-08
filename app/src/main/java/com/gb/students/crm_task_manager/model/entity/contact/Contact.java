@@ -5,17 +5,68 @@ import java.util.List;
 import java.util.Objects;
 
 public class Contact {
+
+    private String id;
     private String name;
     private Date birth;
+    private String number;
+    private String email;
+    private String note;
+    private String category;
+
+
     private List<Relation> relations;
+    private List<Notification> notifications;
     private List<Pet> pets;
+
     private List<ContactInfo> contactInfos;
     private List<Address> adresses;
     private Acquaintance aqt;
     private Work work;
     private List<Leisure> leisures;
-    private List<Notification> notifications;
+
     private List<Gift> gifts;
+
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getNumber() {
+        return number;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -119,6 +170,8 @@ public class Contact {
         this.name = name;
     }
 
+    public Contact(){}
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -127,4 +180,16 @@ public class Contact {
         return ((Contact) o).getName().equals(this.getName());
     }
 
+    @Override
+    public String toString() {
+        return "Contact{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", birth=" + birth +
+                ", number='" + number + '\'' +
+                ", email='" + email + '\'' +
+                ", note='" + note + '\'' +
+                ", category='" + category + '\'' +
+                '}';
+    }
 }
