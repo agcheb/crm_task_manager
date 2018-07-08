@@ -1,11 +1,15 @@
 package com.gb.students.crm_task_manager.contacts.profile.tab_fragments.view;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,6 +40,10 @@ public class FragmentTabInfo extends MvpAppCompatFragment implements ProfileInfo
     TextView phoneNumberTv;
     @BindView(R.id.tv_phone_type)
     TextView phoneTypeTv;
+    @BindView(R.id.iv_profile_mail)
+    ImageButton profileMailIV;
+    @BindView(R.id.iv_profile_phone)
+    ImageButton profilePhoneIV;
     @BindView(R.id.tv_mail)
     TextView mailTv;
     @BindView(R.id.tv_mail_type)
@@ -68,6 +76,10 @@ public class FragmentTabInfo extends MvpAppCompatFragment implements ProfileInfo
     public void init() {
         addRelativeBtn.setOnClickListener(this);
         addPetBtn.setOnClickListener(this);
+        profileMailIV.setOnClickListener(this);
+        profilePhoneIV.setOnClickListener(this);
+        mailTv.setOnClickListener(this);
+        phoneNumberTv.setOnClickListener(this);
     }
 
     @Override
@@ -82,12 +94,35 @@ public class FragmentTabInfo extends MvpAppCompatFragment implements ProfileInfo
                 addRelative();
                 break;
             case R.id.btn_add_pet:
-            addPet();
+                addPet();
+                break;
+            case R.id.iv_profile_phone:
+            case R.id.tv_phone_number:
+                callContact();
+                break;
+            case R.id.tv_mail:
+            case R.id.iv_profile_mail:
+                mailContact();
                 break;
             default:
                 break;
 
         }
+    }
+
+    private void mailContact() {
+        toast("mail contact clicked");
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("text/plain");
+        intent.putExtra(android.content.Intent.EXTRA_EMAIL,new String[] {mailTv.getText().toString() });
+        startActivity(intent);
+    }
+
+    private void callContact() {
+        toast("call contact clicked");
+        Intent dialIntent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + phoneNumberTv.getText().toString()));
+        startActivity(dialIntent);
+
     }
 
     private void addPet() {

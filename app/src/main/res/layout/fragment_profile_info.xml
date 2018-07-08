@@ -32,12 +32,13 @@
             android:layout_below="@id/note_lbl"
             android:text="Шпана хулиганская" />
 
-        <ImageView
+        <ImageButton
             android:id="@+id/iv_profile_phone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@id/note_lbl"
             android:layout_below="@id/info_profile_note"
+            android:background="?android:attr/selectableItemBackground"
             android:layout_marginTop="@dimen/big_margin"
             app:srcCompat="@drawable/ic_phone_black_24dp" />
 
@@ -75,11 +76,12 @@
                 app:layout_constraintEnd_toEndOf="parent" />
         </FrameLayout>
 
-        <ImageView
+        <ImageButton
             android:id="@+id/iv_profile_mail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@id/note_lbl"
+            android:background="?android:attr/selectableItemBackground"
             android:layout_below="@id/border1"
             app:srcCompat="@drawable/ic_email_black_24dp" />
 
@@ -118,18 +120,11 @@
             android:layout_marginLeft="@dimen/big_margin"
 
             android:text="@string/relatives" />
-        <!--<ListView-->
-        <!--android:id="@+id/list_view_relatives"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_below="@+id/tv_relatives_header"-->
-        <!--android:layout_height="wrap_content"/> -->
-        <FrameLayout
-            android:id="@+id/list_view_relatives"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_relatives_header">
-
-        </FrameLayout>
+        <ListView
+        android:id="@+id/list_view_relatives"
+        android:layout_width="match_parent"
+        android:layout_below="@+id/tv_relatives_header"
+        android:layout_height="wrap_content"/>
 
         <Button
             android:id="@+id/btn_add_relative"
@@ -139,8 +134,6 @@
             android:background="?android:attr/selectableItemBackground"
             android:text="@string/add"
             android:textAllCaps="false" />
-
-
     </RelativeLayout>
 
     <RelativeLayout
@@ -150,22 +143,18 @@
         android:paddingBottom="@dimen/big_margin"
         android:layout_marginBottom="@dimen/lil_margin"
         android:background="@color/white">
-
         <TextView
             android:id="@+id/tv_pets_header"
             style="@style/HeaderText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/big_margin"
-
             android:text="@string/pets" />
         <ListView
         android:id="@+id/list_view_pets"
         android:layout_width="match_parent"
         android:layout_below="@+id/tv_pets_header"
         android:layout_height="wrap_content"/>
-
-
         <Button
             android:id="@+id/btn_add_pet"
             android:layout_width="match_parent"
@@ -174,8 +163,6 @@
             android:background="?android:attr/selectableItemBackground"
             android:text="@string/add"
             android:textAllCaps="false" />
-
-
     </RelativeLayout>
     <FrameLayout
         android:layout_width="match_parent"
