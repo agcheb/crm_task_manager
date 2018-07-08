@@ -44,7 +44,14 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".contacts.addcontact.AddContactActivity"
-            android:label="@string/title_activity_add_contact"></activity>
+            android:label="@string/title_activity_add_contact">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
     </application>
 
 </manifest>

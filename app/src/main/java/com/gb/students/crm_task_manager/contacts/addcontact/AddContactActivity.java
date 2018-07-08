@@ -9,8 +9,14 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.SimpleAdapter;
+import android.widget.TextView;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -22,6 +28,7 @@ import com.jakewharton.rxbinding2.widget.RxTextView;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -42,8 +49,11 @@ public class AddContactActivity extends MvpAppCompatActivity implements AddConta
     @BindView(R.id.note_contact) EditText note;
     @BindView(R.id.category_contact) EditText category;
 
+    @BindView(R.id.add_contact_listView)   ListView listView;
 
 
+    private ListViewCustomAdapter customeAdapter;
+    private ArrayList<AdditionalFields> imageModelArrayList;
 
     @InjectPresenter
     AddContactPresenter addContactPresenter;
@@ -92,6 +102,18 @@ public class AddContactActivity extends MvpAppCompatActivity implements AddConta
         RxTextView.textChanges(category).subscribe(charSequence ->
                 addContactPresenter.setCategory(charSequence.toString()));
 
+        addListViewItems();
+
+        customeAdapter = new ListViewCustomAdapter(this,imageModelArrayList);
+        listView.setAdapter(customeAdapter);
+
+    }
+
+    private void addListViewItems() {
+        imageModelArrayList = new ArrayList<>();
+        imageModelArrayList.add(new AdditionalFields("Notifications",R.drawable.ic_notifications_black_24dp));
+        imageModelArrayList.add(new AdditionalFields("Relatives",R.drawable.ic_group_black_24dp));
+        imageModelArrayList.add(new AdditionalFields("Tasks",R.drawable.ic_playlist_add_check_black_24dp));
     }
 
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -154,5 +176,6 @@ public class AddContactActivity extends MvpAppCompatActivity implements AddConta
         getMenuInflater().inflate(R.menu.contact_more_actions, menu);
         return true;
     }
+
 }
 
