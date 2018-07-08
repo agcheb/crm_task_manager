@@ -9,4 +9,6 @@ import com.arellomobile.mvp.MvpView;
 public interface ProfileInfoView extends MvpView {
     void init();
     void toast(String msg);
+
+    void updateList(FragmentTabInfo.Lists lists);
 }

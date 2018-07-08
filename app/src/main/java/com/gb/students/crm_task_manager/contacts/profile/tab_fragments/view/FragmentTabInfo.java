@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,14 +20,16 @@ import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.gb.students.crm_task_manager.R;
+import com.gb.students.crm_task_manager.contacts.profile.tab_fragments.adapters.RecyclerRelativeAdapter;
 import com.gb.students.crm_task_manager.contacts.profile.tab_fragments.presenter.ProfileInfoPresenter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import timber.log.Timber;
 
 public class FragmentTabInfo extends MvpAppCompatFragment implements ProfileInfoView, View.OnClickListener {
-
+    public enum Lists {RELATIONS, PETS}
     @InjectPresenter
     ProfileInfoPresenter presenter;
 
@@ -33,6 +37,8 @@ public class FragmentTabInfo extends MvpAppCompatFragment implements ProfileInfo
     ProfileInfoPresenter providePresenter() {
         return new ProfileInfoPresenter(AndroidSchedulers.mainThread());
     }
+
+    RecyclerRelativeAdapter relativeAdapter;
 
     @BindView(R.id.info_profile_note)
     TextView infoProfileNote;
@@ -51,7 +57,7 @@ public class FragmentTabInfo extends MvpAppCompatFragment implements ProfileInfo
     @BindView(R.id.list_view_pets)
     ListView petsLV;
     @BindView(R.id.list_view_relatives)
-    ListView relativesLV;
+    RecyclerView relativesRV;
     @BindView(R.id.btn_add_relative)
     Button addRelativeBtn;
     @BindView(R.id.btn_add_pet)
@@ -74,6 +80,10 @@ public class FragmentTabInfo extends MvpAppCompatFragment implements ProfileInfo
 
     @Override
     public void init() {
+        relativesRV.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        relativeAdapter = new RecyclerRelativeAdapter(presenter.getListPresenter());
+        relativesRV.setAdapter(relativeAdapter);
+
         addRelativeBtn.setOnClickListener(this);
         addPetBtn.setOnClickListener(this);
         profileMailIV.setOnClickListener(this);
@@ -85,6 +95,18 @@ public class FragmentTabInfo extends MvpAppCompatFragment implements ProfileInfo
     @Override
     public void toast(String msg) {
         Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void updateList(Lists lists) {
+        switch (lists) {
+            case RELATIONS:
+                relativeAdapter.notifyDataSetChanged() ;
+                break;
+            case PETS:
+                Timber.d("Update pets list");
+                break;
+        }
     }
 
     @Override
@@ -106,7 +128,6 @@ public class FragmentTabInfo extends MvpAppCompatFragment implements ProfileInfo
                 break;
             default:
                 break;
-
         }
     }
 
@@ -114,7 +135,7 @@ public class FragmentTabInfo extends MvpAppCompatFragment implements ProfileInfo
         toast("mail contact clicked");
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");
-        intent.putExtra(android.content.Intent.EXTRA_EMAIL,new String[] {mailTv.getText().toString() });
+        intent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{mailTv.getText().toString()});
         startActivity(intent);
     }
 

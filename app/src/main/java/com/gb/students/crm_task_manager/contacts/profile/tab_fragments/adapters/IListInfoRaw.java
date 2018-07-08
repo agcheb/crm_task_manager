@@ -7,7 +7,7 @@ public interface IListInfoRaw {
 
     int getPos();
 
-    void setWeather(Relation weather);
+    void setRelative(Relation weather);
 
 
 }

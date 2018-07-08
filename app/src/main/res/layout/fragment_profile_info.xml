@@ -120,7 +120,7 @@
             android:layout_marginLeft="@dimen/big_margin"
 
             android:text="@string/relatives" />
-        <ListView
+        <android.support.v7.widget.RecyclerView
         android:id="@+id/list_view_relatives"
         android:layout_width="match_parent"
         android:layout_below="@+id/tv_relatives_header"

@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 
@@ -14,10 +15,6 @@ import com.gb.students.crm_task_manager.model.entity.contact.Relation;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
-/**
- * RecyclerView адаптер для списка просмотренных городов
- */
 
 public class RecyclerRelativeAdapter extends RecyclerView.Adapter<RecyclerRelativeAdapter.ViewHolder> {
     private IListPresenter presenter;
@@ -53,7 +50,7 @@ public class RecyclerRelativeAdapter extends RecyclerView.Adapter<RecyclerRelati
         @BindView(R.id.tv_relative_descrtiption)
         TextView descriptTV;
         @BindView(R.id.iv_relative_remove)
-        Button removeBtn;
+        ImageButton removeBtn;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -68,7 +65,7 @@ public class RecyclerRelativeAdapter extends RecyclerView.Adapter<RecyclerRelati
         }
 
         @Override
-        public void setWeather(Relation relation) {
+        public void setRelative(Relation relation) {
             nameTV.setText(relation.getName());
             typeTV.setText(relation.getType());
             dateTV.setText(Helper.getDateFormat(Helper.Pattern.DOT_NUMERIC).format(relation.getBirth()));
