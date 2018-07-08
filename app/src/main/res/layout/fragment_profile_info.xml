@@ -159,18 +159,12 @@
             android:layout_marginLeft="@dimen/big_margin"
 
             android:text="@string/pets" />
-        <!--<ListView-->
-        <!--android:id="@+id/list_view_relatives"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_below="@+id/tv_relatives_header"-->
-        <!--android:layout_height="wrap_content"/> -->
-        <FrameLayout
-            android:id="@+id/list_view_pets"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_pets_header">
+        <ListView
+        android:id="@+id/list_view_pets"
+        android:layout_width="match_parent"
+        android:layout_below="@+id/tv_pets_header"
+        android:layout_height="wrap_content"/>
 
-        </FrameLayout>
 
         <Button
             android:id="@+id/btn_add_pet"

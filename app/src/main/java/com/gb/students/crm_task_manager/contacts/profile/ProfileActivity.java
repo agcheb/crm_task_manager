@@ -1,31 +1,19 @@
 package com.gb.students.crm_task_manager.contacts.profile;
 
-import android.app.Activity;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.TextView;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.gb.students.crm_task_manager.R;
-import com.gb.students.crm_task_manager.contacts.profile.tab_fragments.FragmentTabInfo;
-import com.gb.students.crm_task_manager.contacts.profile.tab_fragments.FragmentTabMoreInfo;
-import com.gb.students.crm_task_manager.contacts.profile.tab_fragments.FragmentTabNotifications;
-import com.gb.students.crm_task_manager.contacts.profile.tab_fragments.FragmentTabTasks;
+import com.gb.students.crm_task_manager.contacts.profile.tab_fragments.view.FragmentTabInfo;
+import com.gb.students.crm_task_manager.contacts.profile.tab_fragments.view.FragmentTabMoreInfo;
+import com.gb.students.crm_task_manager.contacts.profile.tab_fragments.view.FragmentTabNotifications;
+import com.gb.students.crm_task_manager.contacts.profile.tab_fragments.view.FragmentTabTasks;
 import com.gb.students.crm_task_manager.custom.CustomFragmentPA;
 
 import butterknife.BindView;

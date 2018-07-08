@@ -1,4 +1,4 @@
-package com.gb.students.crm_task_manager.contacts.profile.tab_fragments;
+package com.gb.students.crm_task_manager.contacts.profile.tab_fragments.view;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
