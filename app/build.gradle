@@ -39,6 +39,8 @@ dependencies {
 
     implementation 'com.jakewharton.timber:timber:4.7.0'
 
+//    implementation 'com.getbase:floatingactionbutton:1.10.1'
+    implementation 'com.github.clans:fab:1.6.4'
     implementation 'com.arello-mobile:moxy:1.5.3'
     implementation 'com.arello-mobile:moxy-app-compat:1.5.3'
     annotationProcessor 'com.arello-mobile:moxy-compiler:1.5.3'

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+
+android:padding="@dimen/std_margin">
+
+<ImageView
+
+    android:id="@+id/img_bell"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:src="@drawable/ic_notifications_black_24dp"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent" />
+
+<TextView
+    android:id="@+id/tv_notif_name"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Суперсложная задача"
+    android:layout_marginLeft="@dimen/big_margin"
+    style="@style/ItemElementTitleText"
+
+    app:layout_constraintStart_toEndOf="@+id/img_bell"
+    app:layout_constraintTop_toTopOf="parent" />
+
+<TextView
+    android:id="@+id/tv_notif_exp_date"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+
+    android:text="21.01.2109"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintStart_toStartOf="@+id/tv_notif_name"
+    app:layout_constraintTop_toBottomOf="@+id/tv_notif_name" />
+
+<ImageButton
+    android:id="@+id/btn_notif_del"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:src="@drawable/ic_close_black_24dp"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    android:background="?android:attr/selectableItemBackground"/>
+
+
+</android.support.constraint.ConstraintLayout>

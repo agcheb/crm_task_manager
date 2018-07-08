@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorGrayBG"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/lil_margin"
+        android:background="@color/white"
+        android:paddingTop="@dimen/big_margin"
+        android:paddingBottom="@dimen/big_margin">
+
+        <TextView
+            android:id="@+id/note_lbl"
+            style="@style/HeaderText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/big_margin"
+
+            android:text="Note" />
+
+        <TextView
+            android:id="@+id/info_profile_note"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/note_lbl"
+            android:layout_below="@id/note_lbl"
+            android:text="Шпана хулиганская" />
+
+        <ImageView
+            android:id="@+id/iv_profile_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/note_lbl"
+            android:layout_below="@id/info_profile_note"
+            android:layout_marginTop="@dimen/big_margin"
+            app:srcCompat="@drawable/ic_phone_black_24dp" />
+
+        <TextView
+            android:id="@+id/tv_phone_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/iv_profile_phone"
+            android:layout_marginLeft="@dimen/big_margin"
+            android:layout_toRightOf="@id/iv_profile_phone"
+            android:text="9-900-888-77-77" />
+
+        <TextView
+            android:id="@+id/tv_phone_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_phone_number"
+            android:layout_marginLeft="@dimen/big_margin"
+            android:layout_toRightOf="@id/iv_profile_phone"
+            android:text="Mobile" />
+
+        <FrameLayout
+            android:id="@+id/border1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/tv_phone_type"
+            android:layout_below="@id/tv_phone_type"
+            android:layout_marginBottom="@dimen/std_margin"
+            android:layout_marginTop="@dimen/std_margin">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/slim_border"
+                android:src="@drawable/border"
+                app:layout_constraintEnd_toEndOf="parent" />
+        </FrameLayout>
+
+        <ImageView
+            android:id="@+id/iv_profile_mail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/note_lbl"
+            android:layout_below="@id/border1"
+            app:srcCompat="@drawable/ic_email_black_24dp" />
+
+        <TextView
+            android:id="@+id/tv_mail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/iv_profile_mail"
+            android:layout_marginLeft="@dimen/big_margin"
+            android:layout_toRightOf="@id/iv_profile_phone"
+            android:text="mail@mail.ru" />
+
+        <TextView
+            android:id="@+id/tv_mail_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_mail"
+            android:layout_marginLeft="@dimen/big_margin"
+            android:layout_toRightOf="@id/iv_profile_phone"
+            android:text="Personal" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/big_margin"
+        android:paddingBottom="@dimen/big_margin"
+        android:layout_marginBottom="@dimen/lil_margin"
+        android:background="@color/white">
+
+        <TextView
+            android:id="@+id/tv_relatives_header"
+            style="@style/HeaderText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/big_margin"
+
+            android:text="@string/relatives" />
+        <!--<ListView-->
+        <!--android:id="@+id/list_view_relatives"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_below="@+id/tv_relatives_header"-->
+        <!--android:layout_height="wrap_content"/> -->
+        <FrameLayout
+            android:id="@+id/list_view_relatives"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_relatives_header">
+
+        </FrameLayout>
+
+        <Button
+            android:id="@+id/btn_add_relative"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/list_view_relatives"
+            android:background="?android:attr/selectableItemBackground"
+            android:text="@string/add"
+            android:textAllCaps="false" />
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/big_margin"
+        android:paddingBottom="@dimen/big_margin"
+        android:layout_marginBottom="@dimen/lil_margin"
+        android:background="@color/white">
+
+        <TextView
+            android:id="@+id/tv_pets_header"
+            style="@style/HeaderText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/big_margin"
+
+            android:text="@string/pets" />
+        <!--<ListView-->
+        <!--android:id="@+id/list_view_relatives"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_below="@+id/tv_relatives_header"-->
+        <!--android:layout_height="wrap_content"/> -->
+        <FrameLayout
+            android:id="@+id/list_view_pets"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_pets_header">
+
+        </FrameLayout>
+
+        <Button
+            android:id="@+id/btn_add_pet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/list_view_pets"
+            android:background="?android:attr/selectableItemBackground"
+            android:text="@string/add"
+            android:textAllCaps="false" />
+
+
+    </RelativeLayout>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white" />
+</LinearLayout>
