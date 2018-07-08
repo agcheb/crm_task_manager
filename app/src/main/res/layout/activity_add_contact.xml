@@ -104,10 +104,11 @@
                 android:padding="10dp">
 
                 <EditText
+                    android:focusable="false"
                     android:id="@+id/date_contact"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Birth date"
+                    android:hint="Birth date (dd/mm/yy)"
                     android:inputType="date"
                     android:maxLines="1"
                     android:singleLine="true" />
