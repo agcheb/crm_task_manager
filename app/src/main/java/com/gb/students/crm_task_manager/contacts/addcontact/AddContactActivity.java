@@ -1,6 +1,7 @@
 package com.gb.students.crm_task_manager.contacts.addcontact;
 
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.DatePickerDialog;
@@ -8,10 +9,14 @@ import android.app.Dialog;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -50,6 +55,9 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 public class AddContactActivity extends MvpAppCompatActivity implements AddContactView, DatePickerDialog.OnDateSetListener {
 
 
+    private static final String[] permissons = { Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE };
+    private static final int PERMISSIONS_REQUEST_ID = 0;
+
     private static final int RESULT_LOAD_IMG = 1111;
     @BindView(R.id.addcontact_toolbar)    Toolbar toolbar;
     @BindView(R.id.date_contact)    EditText datePicked;
@@ -83,6 +91,55 @@ public class AddContactActivity extends MvpAppCompatActivity implements AddConta
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_contact);
         ButterKnife.bind(this);
+        checkPermissions();
+    }
+
+
+    private void checkPermissions()
+    {
+        for(String permission : permissons)
+        {
+            if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED)
+            {
+                requestPermissions();
+                return;
+            }
+        }
+
+        onPermissionsGranted();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSIONS_REQUEST_ID: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+                {
+                    onPermissionsGranted();
+                }
+                else
+                {
+                    new AlertDialog.Builder(this)
+                            .setTitle(R.string.permissons_required)
+                            .setMessage(R.string.permissions_required_message)
+                            .setPositiveButton("OK", (dialog, which) -> requestPermissions())
+                            .setOnCancelListener(dialog -> requestPermissions())
+                            .create()
+                            .show();
+                }
+            }
+        }
+    }
+
+
+    private void requestPermissions()
+    {
+        ActivityCompat.requestPermissions(this, permissons, PERMISSIONS_REQUEST_ID);
+    }
+
+    private void onPermissionsGranted()
+    {
+        addContactPresenter.onPermissionsGranted();
     }
 
 

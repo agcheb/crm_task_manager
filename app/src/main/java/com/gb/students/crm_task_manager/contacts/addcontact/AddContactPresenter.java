@@ -48,6 +48,12 @@ public class AddContactPresenter extends MvpPresenter<AddContactView> {
     }
 
 
+    public void onPermissionsGranted()
+    {
+        loadData();
+    }
+
+
     public void setContactName(String contactName) {
         if (contactName!=null) contact.setName(contactName);
     }
