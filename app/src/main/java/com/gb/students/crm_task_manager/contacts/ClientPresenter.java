@@ -1,6 +1,9 @@
 package com.gb.students.crm_task_manager.contacts;
 
 import android.annotation.SuppressLint;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Environment;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
@@ -8,7 +11,9 @@ import com.gb.students.crm_task_manager.model.cache.paper.PaperContactsRepo;
 import com.gb.students.crm_task_manager.model.entity.contact.Contact;
 import com.gb.students.crm_task_manager.model.repos.ContactsRepo;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import io.reactivex.Scheduler;
@@ -22,6 +27,8 @@ public class ClientPresenter extends MvpPresenter<FragmentClientView> {
     private Scheduler scheduler;
 
     private List<Contact> tempContactList;
+
+    private HashMap<String,Bitmap> cashedImages = new HashMap<>();
 
     private ContactsRepo contactsRepo = new PaperContactsRepo();
 
@@ -51,66 +58,24 @@ public class ClientPresenter extends MvpPresenter<FragmentClientView> {
                     getViewState().updateClientsList();
                 });
 
-
-//          dataManager.getContactsFromPhone()
-//                  .subscribeOn(Schedulers.io())
-//                  .observeOn(scheduler)
-//                  .subscribe(tempContacts -> {
-//                      tempContactList = new ArrayList<>();
-//                      tempContactList.addAll(tempContacts);
-//                      getViewState().updateClientsList();
-//                  });
-
-//        userData.putTags(ClientAddEditPresenter.cs);
-//
-//        userData.getUser(userName)
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(scheduler)
-//                .subscribe(user ->
-//                {
-//                    userCRM = user;
-//                    getViewState().updateClientsList();
-//                    //                    this.user = user;
-////                    usersRepo.getUserRepos(user)
-////                            .subscribeOn(Schedulers.io())
-////                            .observeOn(scheduler)
-////                            .subscribe(userRepositories ->
-////                            {
-////                                this.user.setRepos(userRepositories);
-////                                getViewState().hideLoading();
-////                                getViewState().showAvatar(user.getAvatarUrl());
-////                                getViewState().setUsername(user.getLogin());
-////                                getViewState().updateRepoList();
-////                            }, throwable ->
-////                            {
-////                                Timber.e(throwable,"Failed to get user repos");
-////                                getViewState().showError(throwable.getMessage());
-////                                getViewState().hideLoading();
-////                            });
-//                }, throwable ->
-//                {
-//                    Timber.e(throwable, "Failed to get user");
-//                    //getViewState().showError(throwable.getMessage());
-//                    //getViewState().hideLoading();
-//                });
-
     }
 
     public void bindRepoListRow(int position, RepoRowView holder) {
-//        if (userCRM != null)
-//        {
-//            StringBuilder str = new StringBuilder();
-//            List<String> tags = userCRM.getClientsList().get(position).getTags();
-//            for(String s: tags){
-//                str.append(s + "; ");
-//            }
-//
-//            holder.setTitle(userCRM.getClientsList().get(position).getName(),
-//                    userCRM.getClientsList().get(position).getContact(),
-//                    str.toString());
-//        }
+
         Contact tempC = tempContactList.get(position);
-        holder.setTitle(tempC.getName(),null,null);
+
+        Bitmap bitmap = null;
+
+        if (tempC.getImagePath()!=null) {
+            String contactId = tempC.getId();
+            if (cashedImages.containsKey(contactId)) bitmap = cashedImages.get(contactId);
+            else {
+                bitmap = BitmapFactory.decodeFile(tempC.getImagePath());
+                cashedImages.put(contactId,bitmap);
+            }
+        }
+
+        holder.setTitle(tempC.getName(),bitmap);
     }
 
     public int getRepoCount() {

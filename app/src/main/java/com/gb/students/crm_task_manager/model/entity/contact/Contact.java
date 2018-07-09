@@ -26,6 +26,7 @@ public class Contact {
     private List<Leisure> leisures;
 
     private List<Gift> gifts;
+    private String imagePath;
 
 
     public String getCategory() {
@@ -191,5 +192,13 @@ public class Contact {
                 ", note='" + note + '\'' +
                 ", category='" + category + '\'' +
                 '}';
+    }
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
+    }
+
+    public String getImagePath() {
+        return imagePath;
     }
 }

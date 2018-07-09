@@ -8,6 +8,9 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
 
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
     <application
         android:name=".App"
         android:allowBackup="true"
@@ -37,10 +40,6 @@
         <activity
             android:name=".contacts.profile.ProfileActivity"
             android:label="@string/title_activity_profile"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".contacts.profile.TestActivity"
-            android:label="@string/title_activity_test"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".contacts.addcontact.AddContactActivity"

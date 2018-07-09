@@ -5,18 +5,24 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.ContentResolver;
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
+import android.webkit.MimeTypeMap;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
-import android.widget.TextView;
+import android.widget.Toast;
+
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -25,6 +31,9 @@ import com.gb.students.crm_task_manager.R;
 import com.jakewharton.rxbinding2.widget.RxTextView;
 
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -41,6 +50,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 public class AddContactActivity extends MvpAppCompatActivity implements AddContactView, DatePickerDialog.OnDateSetListener {
 
 
+    private static final int RESULT_LOAD_IMG = 1111;
     @BindView(R.id.addcontact_toolbar)    Toolbar toolbar;
     @BindView(R.id.date_contact)    EditText datePicked;
     @BindView(R.id.title_contact) EditText titleContact;
@@ -48,6 +58,8 @@ public class AddContactActivity extends MvpAppCompatActivity implements AddConta
     @BindView(R.id.email_contact) EditText email;
     @BindView(R.id.note_contact) EditText note;
     @BindView(R.id.category_contact) EditText category;
+    @BindView(R.id.imageView2)   ImageButton imageButton;
+
 
     @BindView(R.id.add_contact_listView)   ListView listView;
 
@@ -107,7 +119,57 @@ public class AddContactActivity extends MvpAppCompatActivity implements AddConta
         customeAdapter = new ListViewCustomAdapter(this,imageModelArrayList);
         listView.setAdapter(customeAdapter);
 
+        imageButton.setOnClickListener(v -> pickImage());
+
     }
+
+    private void pickImage(){
+        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+        photoPickerIntent.setType("image/*");
+        startActivityForResult(photoPickerIntent, RESULT_LOAD_IMG);
+    }
+
+    @Override
+    protected void onActivityResult(int reqCode, int resultCode, Intent data) {
+        super.onActivityResult(reqCode, resultCode, data);
+
+        if (resultCode == RESULT_OK) {
+            try {
+                final Uri imageUri = data.getData();
+                final InputStream imageStream = getContentResolver().openInputStream(imageUri);
+                final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
+                imageButton.setImageBitmap(selectedImage);
+                addContactPresenter.setImageBitmap(selectedImage,getMimeType(imageUri));
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+                Toast.makeText(this, "Something went wrong", Toast.LENGTH_LONG).show();
+            }
+
+        }else {
+            Toast.makeText(this, "You haven't picked Image",Toast.LENGTH_LONG).show();
+        }
+    }
+
+
+    public String getMimeType(Uri uri) {
+
+        String extension;
+
+        //Check uri format to avoid null
+        if (uri.getScheme().equals(ContentResolver.SCHEME_CONTENT)) {
+            //If scheme is a content
+            final MimeTypeMap mime = MimeTypeMap.getSingleton();
+            extension = mime.getExtensionFromMimeType(getContentResolver().getType(uri));
+        } else {
+            //If scheme is a File
+            //This will replace white spaces with %20 and also other special characters. This will avoid returning null values on file name with spaces and special characters.
+            extension = MimeTypeMap.getFileExtensionFromUrl(Uri.fromFile(new File(uri.getPath())).toString());
+
+        }
+
+        return extension;
+    }
+
 
     private void addListViewItems() {
         imageModelArrayList = new ArrayList<>();

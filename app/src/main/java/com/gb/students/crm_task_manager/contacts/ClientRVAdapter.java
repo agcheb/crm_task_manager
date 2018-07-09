@@ -1,10 +1,12 @@
 package com.gb.students.crm_task_manager.contacts;
 
+import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 
@@ -46,10 +48,8 @@ public class ClientRVAdapter extends RecyclerView.Adapter<ClientRVAdapter.ViewHo
 
         @BindView(R.id.client_item_title)
         TextView itemTitle;
-//        @BindView(R.id.client_item_number)
-//        TextView itemNumber;
-//        @BindView(R.id.client_item_tags)
-//        TextView itemTags;
+        @BindView(R.id.imageView)  ImageView imageView;
+
 
         public ViewHolder(View itemView)
         {
@@ -64,11 +64,11 @@ public class ClientRVAdapter extends RecyclerView.Adapter<ClientRVAdapter.ViewHo
         }
 
         @Override
-        public void setTitle(String title, String number, String tags)
+        public void setTitle(String title, Bitmap bitmap)
         {
             itemTitle.setText(title);
-            //itemNumber.setText(number);
-            //itemTags.setText(tags);
+            if (bitmap!=null) imageView.setImageBitmap(bitmap);
+            else imageView.setImageResource(R.mipmap.ic_avatar_round);
         }
 
         @Override
