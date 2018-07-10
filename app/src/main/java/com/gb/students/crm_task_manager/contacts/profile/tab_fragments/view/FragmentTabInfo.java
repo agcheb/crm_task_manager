@@ -10,9 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,15 +19,21 @@ import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.gb.students.crm_task_manager.R;
-import com.gb.students.crm_task_manager.contacts.profile.tab_fragments.adapters.RecyclerRelativeAdapter;
+import com.gb.students.crm_task_manager.contacts.profile.tab_fragments.adapters.pet.RecyclerPetAdapter;
+import com.gb.students.crm_task_manager.contacts.profile.tab_fragments.adapters.relative.RecyclerRelativeAdapter;
 import com.gb.students.crm_task_manager.contacts.profile.tab_fragments.presenter.ProfileInfoPresenter;
+import com.gb.students.crm_task_manager.custom.DialogBuilder;
+import com.gb.students.crm_task_manager.custom.DialogListener;
+
+import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import timber.log.Timber;
 
-public class FragmentTabInfo extends MvpAppCompatFragment implements ProfileInfoView, View.OnClickListener {
+public class FragmentTabInfo extends MvpAppCompatFragment implements ProfileInfoView, View.OnClickListener, DialogListener {
+
+
     public enum Lists {RELATIONS, PETS}
     @InjectPresenter
     ProfileInfoPresenter presenter;
@@ -39,6 +44,7 @@ public class FragmentTabInfo extends MvpAppCompatFragment implements ProfileInfo
     }
 
     RecyclerRelativeAdapter relativeAdapter;
+RecyclerPetAdapter petAdapter;
 
     @BindView(R.id.info_profile_note)
     TextView infoProfileNote;
@@ -54,10 +60,11 @@ public class FragmentTabInfo extends MvpAppCompatFragment implements ProfileInfo
     TextView mailTv;
     @BindView(R.id.tv_mail_type)
     TextView mailTypeTv;
-    @BindView(R.id.list_view_pets)
-    ListView petsLV;
+
     @BindView(R.id.list_view_relatives)
     RecyclerView relativesRV;
+    @BindView(R.id.list_view_pets)
+    RecyclerView petsRV;
     @BindView(R.id.btn_add_relative)
     Button addRelativeBtn;
     @BindView(R.id.btn_add_pet)
@@ -81,8 +88,12 @@ public class FragmentTabInfo extends MvpAppCompatFragment implements ProfileInfo
     @Override
     public void init() {
         relativesRV.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-        relativeAdapter = new RecyclerRelativeAdapter(presenter.getListPresenter());
+        relativeAdapter = new RecyclerRelativeAdapter(presenter.getRelativeListPresenter());
+        petsRV.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        petAdapter = new RecyclerPetAdapter(presenter.getPetsListPresenter());
+
         relativesRV.setAdapter(relativeAdapter);
+        petsRV.setAdapter(petAdapter);
 
         addRelativeBtn.setOnClickListener(this);
         addPetBtn.setOnClickListener(this);
@@ -104,7 +115,7 @@ public class FragmentTabInfo extends MvpAppCompatFragment implements ProfileInfo
                 relativeAdapter.notifyDataSetChanged() ;
                 break;
             case PETS:
-                Timber.d("Update pets list");
+                petAdapter.notifyDataSetChanged();
                 break;
         }
     }
@@ -152,6 +163,29 @@ public class FragmentTabInfo extends MvpAppCompatFragment implements ProfileInfo
     }
 
     private void addRelative() {
-        toast("relatives clicked");
+        DialogBuilder dialog = new DialogBuilder(getContext(), this);
+        dialog.initDialog("Добавить родственника");
+        dialog.addEditText("name", "Ведите имя");
+        dialog.addEditText("note", "Заметка");
+        dialog.addOkButton();
+        dialog.show();
+
+    }
+
+
+    @Override
+    public void onSpinnerSelected(int pos) {
+
+    }
+
+    @Override
+    public void onOkClicked(HashMap<String, View> views, String title) {
+            switch (title){
+                case "Добавить родственника": {
+                    EditText etName = (EditText) views.get("name");
+                    EditText etNote = (EditText) views.get("note");
+                    presenter.addRelative(etName.getText().toString(), etNote.getText().toString());
+                }
+            }
     }
 }

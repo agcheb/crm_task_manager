@@ -2,10 +2,13 @@ package com.gb.students.crm_task_manager.contacts.profile.tab_fragments.presente
 
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
-import com.gb.students.crm_task_manager.contacts.profile.tab_fragments.adapters.IListInfoRaw;
-import com.gb.students.crm_task_manager.contacts.profile.tab_fragments.adapters.IListPresenter;
+import com.gb.students.crm_task_manager.contacts.profile.tab_fragments.adapters.pet.IListPetPresenter;
+import com.gb.students.crm_task_manager.contacts.profile.tab_fragments.adapters.pet.IListPetRaw;
+import com.gb.students.crm_task_manager.contacts.profile.tab_fragments.adapters.relative.IListRelativePresenter;
+import com.gb.students.crm_task_manager.contacts.profile.tab_fragments.adapters.relative.IListRelativeRaw;
 import com.gb.students.crm_task_manager.contacts.profile.tab_fragments.view.FragmentTabInfo;
 import com.gb.students.crm_task_manager.contacts.profile.tab_fragments.view.ProfileInfoView;
+import com.gb.students.crm_task_manager.model.entity.contact.Pet;
 import com.gb.students.crm_task_manager.model.entity.contact.Relation;
 
 import java.util.ArrayList;
@@ -23,16 +26,24 @@ public class ProfileInfoPresenter extends MvpPresenter<ProfileInfoView> {
         this.scheduler = scheduler;
     }
 
-    public ListPresenter getListPresenter() {
-        return listPresenter;
+    public RelativeListPresenter getRelativeListPresenter() {
+        return relativeListPresenter;
     }
-    private ListPresenter listPresenter = new ListPresenter();
-    private List<Relation> relations;
+    private RelativeListPresenter relativeListPresenter = new RelativeListPresenter();
 
-    class ListPresenter implements IListPresenter {
+    public PetsListPresenter getPetsListPresenter() {
+        return petsListPresenter;
+    }
+
+    private PetsListPresenter petsListPresenter = new PetsListPresenter();
+    private List<Relation> relations;
+    private List<Pet> pets;
+
+
+    class RelativeListPresenter implements IListRelativePresenter {
         List<Relation> items = new ArrayList<>();
         @Override
-        public void bindView(IListInfoRaw view) {
+        public void bindView(IListRelativeRaw view) {
             view.setRelative(items.get(view.getPos()));
         }
 
@@ -42,7 +53,7 @@ public class ProfileInfoPresenter extends MvpPresenter<ProfileInfoView> {
         }
 
         @Override
-        public void delRelative(int pos) {
+        public void delRow(int pos) {
             Relation rel = items.get(pos);
             items.remove(rel);
             getViewState().toast("Relation "+rel.getName()+" was deleted");
@@ -50,15 +61,37 @@ public class ProfileInfoPresenter extends MvpPresenter<ProfileInfoView> {
         }
     }
 
+    class PetsListPresenter implements IListPetPresenter {
+        List<Pet> items = new ArrayList<>();
 
+        @Override
+        public void bindView(IListPetRaw view) {
+            view.setPet(items.get(view.getPos()));
+        }
+
+        @Override
+        public int getViewCount() {
+            return items.size();
+        }
+
+        @Override
+        public void delRow(int pos) {
+            Pet pet = items.get(pos);
+            items.remove(pet);
+            getViewState().toast("Pet "+pet.getName()+" was deleted");
+            getViewState().updateList(FragmentTabInfo.Lists.PETS);
+        }
+    }
     @Override
     protected void onFirstViewAttach() {
         super.onFirstViewAttach();
         getViewState().init();
 
         initRelations();
-        listPresenter.items=relations;
+        relativeListPresenter.items=relations;
+        petsListPresenter.items=pets;
         getViewState().updateList(FragmentTabInfo.Lists.RELATIONS);
+        getViewState().updateList(FragmentTabInfo.Lists.PETS);
     }
 
     private void initRelations() {
@@ -73,8 +106,21 @@ public class ProfileInfoPresenter extends MvpPresenter<ProfileInfoView> {
         r2.setBirth( new Date());
         r2.setNote("Crazy bitch!");
 
+        Pet pet = new Pet();
+        pet.setType("Cat");
+        pet.setName("Barsik");
+        pet.setNote("Likes to pee everywhere.");
+
         relations=new ArrayList<>();
+        pets = new ArrayList<>();
+        pets.add(pet);
         relations.add(r1);
         relations.add(r2);
     }
+
+
+    public void addRelative(String name, String note) {
+        getViewState().toast("РАБОТАЕТ!"+name+" "+note);
+    }
+
 }

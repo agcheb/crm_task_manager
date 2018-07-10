@@ -1,10 +1,9 @@
-package com.gb.students.crm_task_manager.contacts.profile.tab_fragments.adapters;
+package com.gb.students.crm_task_manager.contacts.profile.tab_fragments.adapters.relative;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -17,9 +16,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class RecyclerRelativeAdapter extends RecyclerView.Adapter<RecyclerRelativeAdapter.ViewHolder> {
-    private IListPresenter presenter;
+    private IListRelativePresenter presenter;
 
-    public RecyclerRelativeAdapter(IListPresenter presenter) {
+    public RecyclerRelativeAdapter(IListRelativePresenter presenter) {
         this.presenter = presenter;
     }
 
@@ -39,7 +38,7 @@ public class RecyclerRelativeAdapter extends RecyclerView.Adapter<RecyclerRelati
         return presenter.getViewCount();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder implements IListInfoRaw, View.OnClickListener {
+    class ViewHolder extends RecyclerView.ViewHolder implements IListRelativeRaw, View.OnClickListener {
         int pos = -1;
         @BindView(R.id.tv_relative_name)
         TextView nameTV;
@@ -76,7 +75,7 @@ public class RecyclerRelativeAdapter extends RecyclerView.Adapter<RecyclerRelati
         @Override
         public void onClick(View view) {
 
-            presenter.delRelative(pos);
+            presenter.delRow(pos);
         }
     }
 
