@@ -27,7 +27,7 @@ public class PaperTaskRepo implements TaskRepo {
             List<Task> savedTasks = readFromPaper();
             savedTasks.add(task);
             Timber.d("New task was written to memory");
-            Paper.book("task").write("all", savedTasks);
+            Paper.book("tasks").write("all", savedTasks);
             return true;
         });
     }
@@ -40,7 +40,7 @@ public class PaperTaskRepo implements TaskRepo {
                 if (t.getTitle().equals(task.getTitle()))
                     savedTasks.remove(t);
             }
-
+            Paper.book("tasks").write("all", savedTasks);
             return true;
         });
     }

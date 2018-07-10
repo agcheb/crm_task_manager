@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/std_margin">
+
+    <ImageView
+        android:id="@+id/ivTask"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="@dimen/std_margin"
+        android:alpha="0.5"
+        android:src="@drawable/ic_circle_black_24dp" />
+
+    <EditText
+        android:id="@+id/etTaskLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_marginRight="@dimen/lil_margin"
+        android:layout_toRightOf="@id/ivTask"
+        android:hint="@string/title" />
+
+    <ImageButton
+        android:id="@+id/btnSubTask"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="@dimen/icon_size"
+        android:layout_height="@dimen/icon_size"
+
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/etTaskLabel"
+        android:alpha="0.5"
+        android:padding="0dp"
+        app:srcCompat="@drawable/ic_add_black_24dp" />
+
+
+
+    <!--<ImageView-->
+    <!--android:id="@+id/btnSubTask"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_below="@id/tvTaskLabel"-->
+    <!--android:alpha="0.5"-->
+    <!--android:src="@drawable/ic_add_black_24dp" />-->
+
+    <TextView
+        android:id="@+id/tvAddSubtask"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/etTaskLabel"
+        android:layout_below="@id/etTaskLabel"
+        android:layout_alignTop="@+id/btnSubTask"
+        android:layout_marginLeft="@dimen/lil_margin"
+        android:layout_marginTop="@dimen/lil_margin"
+        android:layout_toRightOf="@id/btnSubTask"
+        android:text="@string/add_subtask"
+        android:textColor="@color/colorBlack"
+        android:textSize="12sp" />
+
+    <ListView
+        android:id="@+id/subtastsList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btnSubTask"
+        android:layout_marginTop="@dimen/lil_margin">
+
+    </ListView>
+
+    <EditText
+        android:id="@+id/etDatePicker"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/subtastsList"
+        android:layout_marginTop="@dimen/big_margin"
+        android:cursorVisible="false"
+        android:drawableRight="@drawable/ic_date_range_black_24dp"
+        android:focusable="false"
+        android:hint="Date"
+        android:longClickable="false" />
+
+    <EditText
+        android:id="@+id/etTimePicker"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/etDatePicker"
+        android:layout_alignParentRight="true"
+        android:cursorVisible="false"
+        android:enabled="false"
+        android:drawableRight="@drawable/ic_access_time_black_24dp"
+        android:focusable="false"
+        android:hint="Time"
+        android:longClickable="false" />
+
+    <Spinner
+        android:id="@+id/spinnerTaskTypes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/etDatePicker"
+        android:layout_marginTop="@dimen/std_margin"
+
+        />
+
+    <EditText
+        android:id="@+id/etContact"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/spinnerTaskTypes"
+        android:layout_marginTop="20dp"
+        android:cursorVisible="false"
+        android:focusable="false"
+        android:hint="@string/contact"
+        android:inputType="none"
+        android:longClickable="false" />
+
+    <TextView
+        android:id="@+id/tvNote"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/etContact"
+        android:layout_below="@id/etContact"
+        android:layout_marginLeft="@dimen/lil_margin"
+        android:layout_marginTop="@dimen/big_margin"
+        android:text="@string/add_note"
+        android:textColor="@color/colorBlack" />
+
+    <EditText
+        android:id="@+id/etNote"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvNote"
+        android:inputType="textMultiLine"
+        android:lines="5" />
+
+
+</RelativeLayout>
+
