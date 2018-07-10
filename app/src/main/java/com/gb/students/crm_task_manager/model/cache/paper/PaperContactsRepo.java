@@ -56,7 +56,6 @@ public class PaperContactsRepo implements ContactsRepo{
                     contactList.remove(c);
                 }
             }
-            Paper.book("contacts").write("all", contactList);
             return true;
         });
     }
