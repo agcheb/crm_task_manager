@@ -7,7 +7,7 @@ import java.util.Locale;
  * Created by avetc on 08.07.2018.
  */
 
-public class Helper {
+public class StringHelper {
     public enum Pattern {DOT_NUMERIC, LITERAL}
 
     public static SimpleDateFormat getDateFormat(Pattern p){

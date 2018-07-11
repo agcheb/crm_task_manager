@@ -23,9 +23,6 @@ import com.gb.students.crm_task_manager.contacts.profile.tab_fragments.adapters.
 import com.gb.students.crm_task_manager.contacts.profile.tab_fragments.adapters.relative.RecyclerRelativeAdapter;
 import com.gb.students.crm_task_manager.contacts.profile.tab_fragments.presenter.ProfileInfoPresenter;
 import com.gb.students.crm_task_manager.custom.DialogBuilder;
-import com.gb.students.crm_task_manager.custom.DialogListener;
-
-import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -35,6 +32,7 @@ public class FragmentTabInfo extends MvpAppCompatFragment implements ProfileInfo
 
 
     public enum Lists {RELATIONS, PETS}
+
     @InjectPresenter
     ProfileInfoPresenter presenter;
 
@@ -44,7 +42,7 @@ public class FragmentTabInfo extends MvpAppCompatFragment implements ProfileInfo
     }
 
     RecyclerRelativeAdapter relativeAdapter;
-RecyclerPetAdapter petAdapter;
+    RecyclerPetAdapter petAdapter;
 
     @BindView(R.id.info_profile_note)
     TextView infoProfileNote;
@@ -112,7 +110,7 @@ RecyclerPetAdapter petAdapter;
     public void updateList(Lists lists) {
         switch (lists) {
             case RELATIONS:
-                relativeAdapter.notifyDataSetChanged() ;
+                relativeAdapter.notifyDataSetChanged();
                 break;
             case PETS:
                 petAdapter.notifyDataSetChanged();

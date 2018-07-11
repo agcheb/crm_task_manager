@@ -49,7 +49,7 @@ public class DialogBuilder {
         return this;
     }
 
-    public DialogBuilder addSpinner(String name, List<String> vals) {
+    public DialogBuilder addSpinner(String name, List<String> vals, OnSpinnerSelected spinnerListener) {
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, vals.toArray(new String[0]));
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
@@ -58,7 +58,7 @@ public class DialogBuilder {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
+                spinnerListener.select(position);
             }
 
             @Override
@@ -89,8 +89,12 @@ public class DialogBuilder {
         linearLayout.addView(view);
     }
 
-   public interface OnButtonListener {
+    public interface OnButtonListener {
         void click(HashMap<String, View> views);
+    }
+
+    public interface OnSpinnerSelected {
+        void select(int pos);
     }
 
 }

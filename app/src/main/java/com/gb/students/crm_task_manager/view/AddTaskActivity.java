@@ -20,6 +20,7 @@ import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.gb.students.crm_task_manager.R;
+import com.gb.students.crm_task_manager.custom.DialogBuilder;
 import com.gb.students.crm_task_manager.model.entity.types.TaskTypes;
 import com.gb.students.crm_task_manager.presenter.AddTaskPresenter;
 
@@ -163,23 +164,18 @@ public class AddTaskActivity extends MvpAppCompatActivity implements AddTaskView
     }
 
     private void addNewSubtask() {
-        //todo определиться с тем, как будут отображатсья новые сабтаски на текущем экране
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
-        builder.setTitle(getString(R.string.add_subtask));
-        final EditText editText = new EditText(this);
-        builder.setView(editText);
-        builder.setPositiveButton(getResources().getString(R.string.ok),
-                (dialog, which) -> {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                        String sbtLbl= editText.getText().toString();
-                        presenter.addSubtask(sbtLbl);
-                        subtasks.add(sbtLbl);
-                        adapter.notifyDataSetChanged();
-                    }
-                }
-        );
-        builder.show();
+        DialogBuilder dialog = new DialogBuilder(this);
+        dialog.initDialog(getString(R.string.add_subtask));
+        dialog.addEditText("subatask", "Ведите название");
+        dialog.addOkButton(views -> {
+            EditText etName = (EditText) views.get("name");
+            String sbtLbl= etName.getText().toString();
+            presenter.addSubtask(sbtLbl);
+            subtasks.add(sbtLbl);
+            adapter.notifyDataSetChanged();
+        }).show();
+
     }
 
     private void showTimeDialog() {
