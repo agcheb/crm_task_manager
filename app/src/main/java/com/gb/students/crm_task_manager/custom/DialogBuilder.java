@@ -21,11 +21,10 @@ public class DialogBuilder {
     private LinearLayout linearLayout;
     private LinearLayout.LayoutParams params;
     private ArrayAdapter<String> spinnerAdapter;
-    private DialogListener listener;
     private String title;
-    public DialogBuilder(Context context, DialogListener listener) {
+
+    public DialogBuilder(Context context) {
         this.context = context;
-        this.listener = listener;
         views = new HashMap<>();
         linearLayout = new LinearLayout(context);
         linearLayout.setOrientation(LinearLayout.VERTICAL);
@@ -36,7 +35,7 @@ public class DialogBuilder {
     }
 
     public DialogBuilder initDialog(String title) {
-        this.title=title;
+        this.title = title;
         builder = new AlertDialog.Builder(context);
         builder.setTitle(title);
         return this;
@@ -59,7 +58,7 @@ public class DialogBuilder {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                listener.onSpinnerSelected(position);
+
             }
 
             @Override
@@ -71,10 +70,11 @@ public class DialogBuilder {
         return this;
     }
 
-    public DialogBuilder addOkButton() {
+    public DialogBuilder addOkButton(OnButtonListener buttonListener) {
         builder.setPositiveButton(context.getResources().getString(R.string.ok),
                 (dialog, which) -> {
-                  listener.onOkClicked(views, title);
+                    buttonListener.click(this.views);
+
                 });
         return this;
     }
@@ -84,9 +84,13 @@ public class DialogBuilder {
         builder.show();
     }
 
-    private void acceptView(View view, String name){
+    private void acceptView(View view, String name) {
         views.put(name, view);
         linearLayout.addView(view);
+    }
+
+   public interface OnButtonListener {
+        void click(HashMap<String, View> views);
     }
 
 }

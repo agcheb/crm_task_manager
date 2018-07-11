@@ -31,7 +31,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 
-public class FragmentTabInfo extends MvpAppCompatFragment implements ProfileInfoView, View.OnClickListener, DialogListener {
+public class FragmentTabInfo extends MvpAppCompatFragment implements ProfileInfoView, View.OnClickListener {
 
 
     public enum Lists {RELATIONS, PETS}
@@ -163,29 +163,17 @@ RecyclerPetAdapter petAdapter;
     }
 
     private void addRelative() {
-        DialogBuilder dialog = new DialogBuilder(getContext(), this);
+        DialogBuilder dialog = new DialogBuilder(getContext());
         dialog.initDialog("Добавить родственника");
         dialog.addEditText("name", "Ведите имя");
         dialog.addEditText("note", "Заметка");
-        dialog.addOkButton();
+        dialog.addOkButton(views -> {
+            EditText etName = (EditText) views.get("name");
+            EditText etNote = (EditText) views.get("note");
+            presenter.addRelative(etName.getText().toString(), etNote.getText().toString());
+        });
         dialog.show();
 
     }
 
-
-    @Override
-    public void onSpinnerSelected(int pos) {
-
-    }
-
-    @Override
-    public void onOkClicked(HashMap<String, View> views, String title) {
-            switch (title){
-                case "Добавить родственника": {
-                    EditText etName = (EditText) views.get("name");
-                    EditText etNote = (EditText) views.get("note");
-                    presenter.addRelative(etName.getText().toString(), etNote.getText().toString());
-                }
-            }
-    }
 }
