@@ -25,6 +25,8 @@ import com.gb.students.crm_task_manager.contacts.profile.tab_fragments.adapters.
 import com.gb.students.crm_task_manager.contacts.profile.tab_fragments.adapters.relative.RecyclerRelativeAdapter;
 import com.gb.students.crm_task_manager.contacts.profile.tab_fragments.presenter.ProfileInfoPresenter;
 import com.gb.students.crm_task_manager.custom.DialogBuilder;
+import com.gb.students.crm_task_manager.custom.StringHelper;
+import com.gb.students.crm_task_manager.model.entity.contact.Relation;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -172,6 +174,7 @@ public class FragmentTabInfo extends MvpAppCompatFragment implements ProfileInfo
         types.add("Тип1");
         types.add("Тип2");
         types.add("Тип3");
+        Relation rel = new Relation();
 
         DialogBuilder dialog = new DialogBuilder(getContext());
         dialog.initDialog("Добавить родственника")
@@ -180,7 +183,7 @@ public class FragmentTabInfo extends MvpAppCompatFragment implements ProfileInfo
                 .addSpinner("type", types, pos -> {
                 })
 
-                .addDateText("date", v -> {
+                .addDateText("date", text -> {
                     DialogBuilder dialogDate = new DialogBuilder(getContext());
                     dialogDate.initDialog("ВЫбирите дату")
                             .addDatePicker("date")
@@ -189,7 +192,8 @@ public class FragmentTabInfo extends MvpAppCompatFragment implements ProfileInfo
                                 GregorianCalendar calendarBeg = new GregorianCalendar(datePicker.getYear(),
                                         datePicker.getMonth(), datePicker.getDayOfMonth());
                                 Date date = calendarBeg.getTime();
-                                toast(date.toString());
+                                rel.setBirth(calendarBeg.getTime());
+                                text.setText(StringHelper.getDateFormat(StringHelper.Pattern.DOT_NUMERIC).format(date));
                             })
                             .show();
                 })
@@ -197,9 +201,13 @@ public class FragmentTabInfo extends MvpAppCompatFragment implements ProfileInfo
                     EditText etName = (EditText) views.get("name");
                     EditText etNote = (EditText) views.get("note");
                     Spinner spinner = (Spinner) views.get("type");
-                    int i = spinner.getSelectedItemPosition();
-                    toast(types.get(i));
-                    presenter.addRelative(etName.getText().toString(), etNote.getText().toString());
+
+                    rel.setName(etName.getText().toString());
+                    rel.setNote(etNote.getText().toString());
+                    rel.setType(types.get(spinner.getSelectedItemPosition()));
+
+                    presenter.addRelation(rel);
+
                 });
         dialog.show();
 

@@ -3,10 +3,6 @@ package com.gb.students.crm_task_manager.custom;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
-/**
- * Created by avetc on 08.07.2018.
- */
-
 public class StringHelper {
     public enum Pattern {DOT_NUMERIC, LITERAL}
 

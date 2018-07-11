@@ -22,7 +22,6 @@ public class DialogBuilder {
     private Context context;
     private LinearLayout linearLayout;
     private LinearLayout.LayoutParams params;
-    private ArrayAdapter<String> spinnerAdapter;
     private String title;
 
     public DialogBuilder(Context context) {
@@ -30,9 +29,10 @@ public class DialogBuilder {
         views = new HashMap<>();
         linearLayout = new LinearLayout(context);
         linearLayout.setOrientation(LinearLayout.VERTICAL);
+        linearLayout.setPadding(20,10,20,10);
         params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
-        params.setMargins(10, 10, 10, 10);
+        params.setMargins(10, 10, 10, 30);
 
     }
 
@@ -75,14 +75,14 @@ public class DialogBuilder {
         return this;
     }
 
-    public DialogBuilder addDateText(String name, View.OnClickListener listener){
+    public DialogBuilder addDateText(String name, OnTextDateSelected listener){
         EditText editText = new EditText(this.context);
         editText.setLayoutParams(params);
         Drawable drawable = context.getResources().getDrawable(R.drawable.ic_date_range_black_24dp);
         editText.setCompoundDrawablesWithIntrinsicBounds(null, null, drawable, null);
         editText.setFocusable(false);
         editText.setLongClickable(false);
-        editText.setOnClickListener(listener);
+        editText.setOnClickListener(v-> listener.select(editText));
         editText.setHint("Выбирите дату");
         acceptView(editText, name);
         return this;
@@ -122,5 +122,7 @@ public class DialogBuilder {
     public interface OnSpinnerSelected {
         void select(int pos);
     }
-
+    public interface OnTextDateSelected {
+        void select(EditText text);
+    }
 }

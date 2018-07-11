@@ -119,8 +119,11 @@ public class ProfileInfoPresenter extends MvpPresenter<ProfileInfoView> {
     }
 
 
-    public void addRelative(String name, String note) {
-        getViewState().toast("РАБОТАЕТ!"+name+" "+note);
+    public void addRelation(Relation relation) {
+        getViewState().toast(relation.toString());
+        relations.add(relation);
+        getViewState().updateList(FragmentTabInfo.Lists.RELATIONS);
+
     }
 
 }
