@@ -45,65 +45,12 @@ public class ContactMorePresenter extends MvpPresenter<ActivityContactMoreView> 
 
         getViewState().getContacts();
 
-//          dataManager.getContactsFromPhone()
-//                  .subscribeOn(Schedulers.io())
-//                  .observeOn(scheduler)
-//                  .subscribe(tempContacts -> {
-//                      tempContactList = new ArrayList<>();
-//                      tempContactList.addAll(tempContacts);
-//                      getViewState().updateClientsList();
-//                  });
-
-//        userData.putTags(ClientAddEditPresenter.cs);
-//
-//        userData.getUser(userName)
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(scheduler)
-//                .subscribe(user ->
-//                {
-//                    userCRM = user;
-//                    getViewState().updateClientsList();
-//                    //                    this.user = user;
-////                    usersRepo.getUserRepos(user)
-////                            .subscribeOn(Schedulers.io())
-////                            .observeOn(scheduler)
-////                            .subscribe(userRepositories ->
-////                            {
-////                                this.user.setRepos(userRepositories);
-////                                getViewState().hideLoading();
-////                                getViewState().showAvatar(user.getAvatarUrl());
-////                                getViewState().setUsername(user.getLogin());
-////                                getViewState().updateRepoList();
-////                            }, throwable ->
-////                            {
-////                                Timber.e(throwable,"Failed to get user repos");
-////                                getViewState().showError(throwable.getMessage());
-////                                getViewState().hideLoading();
-////                            });
-//                }, throwable ->
-//                {
-//                    Timber.e(throwable, "Failed to get user");
-//                    //getViewState().showError(throwable.getMessage());
-//                    //getViewState().hideLoading();
-//                });
-
     }
 
     public void bindRepoListRow(int position, RepoRowView holder) {
-//        if (userCRM != null)
-//        {
-//            StringBuilder str = new StringBuilder();
-//            List<String> tags = userCRM.getClientsList().get(position).getTags();
-//            for(String s: tags){
-//                str.append(s + "; ");
-//            }
-//
-//            holder.setTitle(userCRM.getClientsList().get(position).getName(),
-//                    userCRM.getClientsList().get(position).getContact(),
-//                    str.toString());
-//        }
+
         Contact tempC = tempContactList.get(position);
-        holder.setTitle(tempC.getName(),null,null);
+        holder.setTitle(tempC.getName(),null);
         //holder.setCheckboxInHolder(doWithContact(position));
 
         if (forAddingContactList.contains(tempC)) {
@@ -146,26 +93,8 @@ public class ContactMorePresenter extends MvpPresenter<ActivityContactMoreView> 
 
 
 
-//    @SuppressLint("CheckResult")
-//    public void addEditClient(Client newEditClient) {
-//
-////        userData.putClient(newEditClient,userCRM.getId())
-////                //.subscribeOn(Schedulers.io())
-////                .observeOn(scheduler)
-////                .subscribe(aLong -> {
-////                    if (aLong > 0) getClientList();
-////                });
-//    }
-
     @SuppressLint("CheckResult")
     private void getClientList() {
-//        userData.getClients(userCRM.getId())
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(scheduler)
-//                .subscribe(clients -> {
-//                    userCRM.setClientsList(clients);
-//                    getViewState().updateClientsList();
-//                });
     }
 
     public void setForAddingContactList(List<Contact> forAddingContactList) {

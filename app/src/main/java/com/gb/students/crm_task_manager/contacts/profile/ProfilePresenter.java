@@ -42,49 +42,6 @@ public class ProfilePresenter extends MvpPresenter<ProfileView> {
     @SuppressLint("CheckResult")
     public void loadData(){
 
-        //getViewState().getContacts();
-
-//          dataManager.getContactsFromPhone()
-//                  .subscribeOn(Schedulers.io())
-//                  .observeOn(scheduler)
-//                  .subscribe(tempContacts -> {
-//                      tempContactList = new ArrayList<>();
-//                      tempContactList.addAll(tempContacts);
-//                      getViewState().updateClientsList();
-//                  });
-
-//        userData.putTags(ClientAddEditPresenter.cs);
-//
-//        userData.getUser(userName)
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(scheduler)
-//                .subscribe(user ->
-//                {
-//                    userCRM = user;
-//                    getViewState().updateClientsList();
-//                    //                    this.user = user;
-////                    usersRepo.getUserRepos(user)
-////                            .subscribeOn(Schedulers.io())
-////                            .observeOn(scheduler)
-////                            .subscribe(userRepositories ->
-////                            {
-////                                this.user.setRepos(userRepositories);
-////                                getViewState().hideLoading();
-////                                getViewState().showAvatar(user.getAvatarUrl());
-////                                getViewState().setUsername(user.getLogin());
-////                                getViewState().updateRepoList();
-////                            }, throwable ->
-////                            {
-////                                Timber.e(throwable,"Failed to get user repos");
-////                                getViewState().showError(throwable.getMessage());
-////                                getViewState().hideLoading();
-////                            });
-//                }, throwable ->
-//                {
-//                    Timber.e(throwable, "Failed to get user");
-//                    //getViewState().showError(throwable.getMessage());
-//                    //getViewState().hideLoading();
-//                });
 
     }
 
