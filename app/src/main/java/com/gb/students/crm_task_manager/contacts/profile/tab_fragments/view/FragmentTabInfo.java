@@ -10,8 +10,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +25,11 @@ import com.gb.students.crm_task_manager.contacts.profile.tab_fragments.adapters.
 import com.gb.students.crm_task_manager.contacts.profile.tab_fragments.adapters.relative.RecyclerRelativeAdapter;
 import com.gb.students.crm_task_manager.contacts.profile.tab_fragments.presenter.ProfileInfoPresenter;
 import com.gb.students.crm_task_manager.custom.DialogBuilder;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -161,15 +168,39 @@ public class FragmentTabInfo extends MvpAppCompatFragment implements ProfileInfo
     }
 
     private void addRelative() {
+        List<String> types = new ArrayList<>();
+        types.add("Тип1");
+        types.add("Тип2");
+        types.add("Тип3");
+
         DialogBuilder dialog = new DialogBuilder(getContext());
-        dialog.initDialog("Добавить родственника");
-        dialog.addEditText("name", "Ведите имя");
-        dialog.addEditText("note", "Заметка");
-        dialog.addOkButton(views -> {
-            EditText etName = (EditText) views.get("name");
-            EditText etNote = (EditText) views.get("note");
-            presenter.addRelative(etName.getText().toString(), etNote.getText().toString());
-        });
+        dialog.initDialog("Добавить родственника")
+                .addEditText("name", "Ведите имя")
+                .addEditText("note", "Заметка")
+                .addSpinner("type", types, pos -> {
+                })
+
+                .addDateText("date", v -> {
+                    DialogBuilder dialogDate = new DialogBuilder(getContext());
+                    dialogDate.initDialog("ВЫбирите дату")
+                            .addDatePicker("date")
+                            .addOkButton(views -> {
+                                DatePicker datePicker = (DatePicker) views.get("date");
+                                GregorianCalendar calendarBeg = new GregorianCalendar(datePicker.getYear(),
+                                        datePicker.getMonth(), datePicker.getDayOfMonth());
+                                Date date = calendarBeg.getTime();
+                                toast(date.toString());
+                            })
+                            .show();
+                })
+                .addOkButton(views -> {
+                    EditText etName = (EditText) views.get("name");
+                    EditText etNote = (EditText) views.get("note");
+                    Spinner spinner = (Spinner) views.get("type");
+                    int i = spinner.getSelectedItemPosition();
+                    toast(types.get(i));
+                    presenter.addRelative(etName.getText().toString(), etNote.getText().toString());
+                });
         dialog.show();
 
     }

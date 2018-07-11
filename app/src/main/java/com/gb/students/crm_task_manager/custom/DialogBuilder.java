@@ -2,9 +2,11 @@ package com.gb.students.crm_task_manager.custom;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -30,7 +32,7 @@ public class DialogBuilder {
         linearLayout.setOrientation(LinearLayout.VERTICAL);
         params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
-        params.setMargins(5, 5, 5, 5);
+        params.setMargins(10, 10, 10, 10);
 
     }
 
@@ -50,10 +52,12 @@ public class DialogBuilder {
     }
 
     public DialogBuilder addSpinner(String name, List<String> vals, OnSpinnerSelected spinnerListener) {
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, vals.toArray(new String[0]));
+        String[] typesArr = vals.toArray(new String[0]);
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, typesArr);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         Spinner spinner = new Spinner(this.context);
+        spinner.setAdapter(spinnerAdapter);
         spinner.setLayoutParams(params);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -66,7 +70,29 @@ public class DialogBuilder {
 
             }
         });
-        views.put(name, spinner);
+        acceptView(spinner, name);
+
+        return this;
+    }
+
+    public DialogBuilder addDateText(String name, View.OnClickListener listener){
+        EditText editText = new EditText(this.context);
+        editText.setLayoutParams(params);
+        Drawable drawable = context.getResources().getDrawable(R.drawable.ic_date_range_black_24dp);
+        editText.setCompoundDrawablesWithIntrinsicBounds(null, null, drawable, null);
+        editText.setFocusable(false);
+        editText.setLongClickable(false);
+        editText.setOnClickListener(listener);
+        editText.setHint("Выбирите дату");
+        acceptView(editText, name);
+        return this;
+    }
+
+    public DialogBuilder addDatePicker(String name){
+        final DatePicker datePicker = new DatePicker(this.context);
+        datePicker.setLayoutParams(params);
+
+        acceptView(datePicker, name);
         return this;
     }
 
