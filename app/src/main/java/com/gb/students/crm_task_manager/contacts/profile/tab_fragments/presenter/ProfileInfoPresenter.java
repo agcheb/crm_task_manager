@@ -126,4 +126,10 @@ public class ProfileInfoPresenter extends MvpPresenter<ProfileInfoView> {
 
     }
 
+    public void addPet(Pet pet) {
+        pets.add(pet);
+        getViewState().updateList(FragmentTabInfo.Lists.PETS);
+        getViewState().toast(pet.toString());
+    }
+
 }

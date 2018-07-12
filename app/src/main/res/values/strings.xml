@@ -124,4 +124,7 @@
     <string name="pets">Pets</string>
     <string name="active">Active</string>
     <string name="history">History</string>
+    <string name="add_relative">Add relative</string>
+    <string name="add_pet">Add pet</string>
+    <string name="type_name">Type name</string>
 </resources>

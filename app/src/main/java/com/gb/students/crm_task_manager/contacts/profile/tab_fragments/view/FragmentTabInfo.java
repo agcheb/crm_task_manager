@@ -26,6 +26,7 @@ import com.gb.students.crm_task_manager.contacts.profile.tab_fragments.adapters.
 import com.gb.students.crm_task_manager.contacts.profile.tab_fragments.presenter.ProfileInfoPresenter;
 import com.gb.students.crm_task_manager.custom.DialogBuilder;
 import com.gb.students.crm_task_manager.custom.StringHelper;
+import com.gb.students.crm_task_manager.model.entity.contact.Pet;
 import com.gb.students.crm_task_manager.model.entity.contact.Relation;
 
 import java.util.ArrayList;
@@ -165,8 +166,23 @@ public class FragmentTabInfo extends MvpAppCompatFragment implements ProfileInfo
     }
 
     private void addPet() {
-        //todo даоговое окно нового животного
-        toast("pet clicked");
+        List<String> types = new ArrayList<>();
+        types.add("Тип1");
+        types.add("Тип2");
+        types.add("Тип3");
+        Pet pet = new Pet();
+        DialogBuilder dialog = new DialogBuilder(getContext());
+        dialog.initDialog(getResources().getString(R.string.add_relative))
+                .addEditText("name", getResources().getString(R.string.type_name))
+        .addSpinner("spinner", types, pos -> {})
+        .addOkButton(views -> {
+            EditText etName = (EditText) views.get("name");
+            Spinner spinner = (Spinner) views.get("type");
+            pet.setName(etName.getText().toString());
+            pet.setType(types.get(spinner.getSelectedItemPosition()));
+            presenter.addPet(pet);
+        });
+
     }
 
     private void addRelative() {
@@ -177,15 +193,15 @@ public class FragmentTabInfo extends MvpAppCompatFragment implements ProfileInfo
         Relation rel = new Relation();
 
         DialogBuilder dialog = new DialogBuilder(getContext());
-        dialog.initDialog("Добавить родственника")
-                .addEditText("name", "Ведите имя")
+        dialog.initDialog(getResources().getString(R.string.add_relative))
+                .addEditText("name", getResources().getString(R.string.type_name))
                 .addEditText("note", "Заметка")
                 .addSpinner("type", types, pos -> {
                 })
 
                 .addDateText("date", text -> {
                     DialogBuilder dialogDate = new DialogBuilder(getContext());
-                    dialogDate.initDialog("ВЫбирите дату")
+                    dialogDate.initDialog("Выбирите дату")
                             .addDatePicker("date")
                             .addOkButton(views -> {
                                 DatePicker datePicker = (DatePicker) views.get("date");
