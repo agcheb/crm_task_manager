@@ -15,13 +15,17 @@ import com.gb.students.crm_task_manager.contacts.profile.tab_fragments.view.Frag
 import com.gb.students.crm_task_manager.contacts.profile.tab_fragments.view.FragmentTabNotifications;
 import com.gb.students.crm_task_manager.contacts.profile.tab_fragments.view.FragmentTabTasks;
 import com.gb.students.crm_task_manager.custom.CustomFragmentPA;
+import com.gb.students.crm_task_manager.model.entity.Task;
+import com.gb.students.crm_task_manager.model.entity.types.Types;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import timber.log.Timber;
 
-public class ProfileActivity extends MvpAppCompatActivity implements ProfileView {
+public class ProfileActivity extends MvpAppCompatActivity implements ProfileView, ProfileActivityHelper {
 
     @BindView(R.id.profile_toolbar)
     Toolbar toolbar;
@@ -55,8 +59,12 @@ public class ProfileActivity extends MvpAppCompatActivity implements ProfileView
     }
 
 
+
     @Override
     public void init() {
+
+
+
 
         String name = "Ivan Ivanov";
 
@@ -74,6 +82,7 @@ public class ProfileActivity extends MvpAppCompatActivity implements ProfileView
         ViewPager mViewPager = findViewById(R.id.container_tabs);
         mViewPager.setAdapter(customFragmentPA);
 
+
         TabLayout tabLayout = findViewById(R.id.tabs_profile);
         tabLayout.setupWithViewPager(mViewPager);
 
@@ -82,32 +91,31 @@ public class ProfileActivity extends MvpAppCompatActivity implements ProfileView
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                Timber.d( "onTabSelected: " + tab.getText());
+                Timber.d("onTabSelected: " + tab.getText());
             }
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-                Timber.d(  "onTabUnselected: " + tab.getText());
+                Timber.d("onTabUnselected: " + tab.getText());
             }
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-                Timber.d( "onTabReselected: " + tab.getText());
+                Timber.d("onTabReselected: " + tab.getText());
             }
         });
-
-
-
 
 
 //        fab.setOnClickListener(view -> Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
 //                .setAction("Action", null).show());
 
-        profilePresenter.loadData();
+      //  profilePresenter.loadData();
     }
 
     @RequiresApi
     private void initTabFragments() {
+
+
         fragmentTabInfo = FragmentTabInfo.newInstance(null);
         fragmentTabTasks = FragmentTabTasks.newInstance(null);
         fragmentTabNotifications = FragmentTabNotifications.newInstance(null);
@@ -120,4 +128,23 @@ public class ProfileActivity extends MvpAppCompatActivity implements ProfileView
     }
 
 
+    @Override
+    public List<Task> getTask() {
+        return profilePresenter.getTasks();
+    }
+
+    @Override
+    public Types getTypes() {
+        return profilePresenter.getTypes();
+    }
+
+    @Override
+    public void saveTypes(Types types) {
+
+    }
+
+    @Override
+    public void saveTasks(List<Task> tasks) {
+
+    }
 }

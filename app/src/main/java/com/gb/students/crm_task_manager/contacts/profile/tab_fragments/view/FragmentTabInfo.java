@@ -1,5 +1,6 @@
 package com.gb.students.crm_task_manager.contacts.profile.tab_fragments.view;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -21,6 +22,7 @@ import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.gb.students.crm_task_manager.R;
+import com.gb.students.crm_task_manager.contacts.profile.ProfileActivityHelper;
 import com.gb.students.crm_task_manager.contacts.profile.tab_fragments.adapters.pet.RecyclerPetAdapter;
 import com.gb.students.crm_task_manager.contacts.profile.tab_fragments.adapters.relative.RecyclerRelativeAdapter;
 import com.gb.students.crm_task_manager.contacts.profile.tab_fragments.presenter.ProfileInfoPresenter;
@@ -37,6 +39,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import timber.log.Timber;
 
 public class FragmentTabInfo extends MvpAppCompatFragment implements ProfileInfoView, View.OnClickListener {
 
@@ -78,12 +81,22 @@ public class FragmentTabInfo extends MvpAppCompatFragment implements ProfileInfo
     @BindView(R.id.btn_add_pet)
     Button addPetBtn;
 
+
     public static FragmentTabInfo newInstance(Bundle bundle) {
         FragmentTabInfo currentFragment = new FragmentTabInfo();
         Bundle args = new Bundle();
         args.putBundle("gettedArgs", bundle);
         currentFragment.setArguments(args);
         return currentFragment;
+    }
+
+    ProfileActivityHelper activity;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        activity = (ProfileActivityHelper) context;
+        Timber.d("FragmentTabInfo successfully created");
     }
 
     @Override
@@ -166,38 +179,32 @@ public class FragmentTabInfo extends MvpAppCompatFragment implements ProfileInfo
     }
 
     private void addPet() {
-        List<String> types = new ArrayList<>();
-        types.add("Тип1");
-        types.add("Тип2");
-        types.add("Тип3");
+
         Pet pet = new Pet();
         DialogBuilder dialog = new DialogBuilder(getContext());
         dialog.initDialog(getResources().getString(R.string.add_relative))
                 .addEditText("name", getResources().getString(R.string.type_name))
-        .addSpinner("spinner", types, pos -> {})
-        .addOkButton(views -> {
-            EditText etName = (EditText) views.get("name");
-            Spinner spinner = (Spinner) views.get("type");
-            pet.setName(etName.getText().toString());
-            pet.setType(types.get(spinner.getSelectedItemPosition()));
-            presenter.addPet(pet);
-        });
+                .addSpinner("spinner", activity.getTypes().getPetTypes().getAll(), pos -> {
+                })
+                .addOkButton(views -> {
+                    EditText etName = (EditText) views.get("name");
+                    Spinner spinner = (Spinner) views.get("type");
+                    pet.setName(etName.getText().toString());
+                    pet.setType( activity.getTypes().getPetTypes().getAll().get(spinner.getSelectedItemPosition()));
+                    presenter.addPet(pet);
+                }).show();
 
     }
 
     private void addRelative() {
-        List<String> types = new ArrayList<>();
-        types.add("Тип1");
-        types.add("Тип2");
-        types.add("Тип3");
+
         Relation rel = new Relation();
 
         DialogBuilder dialog = new DialogBuilder(getContext());
         dialog.initDialog(getResources().getString(R.string.add_relative))
                 .addEditText("name", getResources().getString(R.string.type_name))
-                .addEditText("note", "Заметка")
-                .addSpinner("type", types, pos -> {
-                })
+                .addEditText("note",  getResources().getString(R.string.add_note))
+                .addSpinner("type", activity.getTypes().getRelationTypes().getAll(), pos -> { })
 
                 .addDateText("date", text -> {
                     DialogBuilder dialogDate = new DialogBuilder(getContext());
@@ -220,7 +227,7 @@ public class FragmentTabInfo extends MvpAppCompatFragment implements ProfileInfo
 
                     rel.setName(etName.getText().toString());
                     rel.setNote(etNote.getText().toString());
-                    rel.setType(types.get(spinner.getSelectedItemPosition()));
+                    rel.setType(activity.getTypes().getRelationTypes().getAll().get(spinner.getSelectedItemPosition()));
 
                     presenter.addRelation(rel);
 
