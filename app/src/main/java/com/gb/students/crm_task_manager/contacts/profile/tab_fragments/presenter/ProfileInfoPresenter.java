@@ -40,7 +40,9 @@ public class ProfileInfoPresenter extends BasePresenter<ProfileInfoView> {
     public PetsListPresenter getPetsListPresenter() {
         return petsListPresenter;
     }
+
     private PetsListPresenter petsListPresenter = new PetsListPresenter();
+
     private List<Relation> relations;
     private List<Pet> pets;
     private Types types;
@@ -90,17 +92,12 @@ public class ProfileInfoPresenter extends BasePresenter<ProfileInfoView> {
         }
     }
 
+    TypesRepo typesRepo;
     @Override
     protected void onFirstViewAttach() {
-        TypesRepo typesRepo = new PaperTypesRepo();
-        Observable<Types> typesObservable = typesRepo.loadTypes();
-        typesObservable.subscribeOn(Schedulers.io())
-                .observeOn(scheduler)
-                .subscribe(types -> {
-                    this.types = types;
-                });
-
+      new PaperTypesRepo();
         super.onFirstViewAttach();
+        typesRepo = new PaperTypesRepo();
         relativeListPresenter.items = relations;
         petsListPresenter.items = pets;
         getViewState().updateList(FragmentTabInfo.Lists.RELATIONS);
@@ -114,6 +111,13 @@ public class ProfileInfoPresenter extends BasePresenter<ProfileInfoView> {
 
     @Override
     protected void loadData() {
+        Observable<Types> typesObservable = typesRepo.loadTypes();
+        typesObservable.subscribeOn(Schedulers.io())
+                .observeOn(scheduler)
+                .subscribe(types -> {
+                    this.types = types;
+                });
+
         // todo аменить на реальных
         Relation r1 = new Relation();
         r1.setName("Petr Petrov");

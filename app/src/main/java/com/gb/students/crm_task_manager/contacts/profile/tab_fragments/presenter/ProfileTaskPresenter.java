@@ -3,7 +3,7 @@ package com.gb.students.crm_task_manager.contacts.profile.tab_fragments.presente
 import com.arellomobile.mvp.InjectViewState;
 import com.gb.students.crm_task_manager.contacts.profile.tab_fragments.adapters.tasks.IListTasksPresenter;
 import com.gb.students.crm_task_manager.contacts.profile.tab_fragments.adapters.tasks.IListTasksRaw;
-import com.gb.students.crm_task_manager.contacts.profile.tab_fragments.view.ProfileTasksView;
+import com.gb.students.crm_task_manager.contacts.profile.tab_fragments.view.UpdatableView;
 import com.gb.students.crm_task_manager.model.cache.paper.PaperTaskRepo;
 import com.gb.students.crm_task_manager.model.entity.Task;
 import com.gb.students.crm_task_manager.model.repos.TaskRepo;
@@ -18,7 +18,7 @@ import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 
 @InjectViewState
-public class ProfileTaskPresenter extends BasePresenter<ProfileTasksView>{
+public class ProfileTaskPresenter extends BasePresenter<UpdatableView>{
 
     private List<Task> tasks;
     private TaskListPresenter taskListPresenter;

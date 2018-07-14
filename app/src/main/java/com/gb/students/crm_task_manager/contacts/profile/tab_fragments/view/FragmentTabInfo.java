@@ -90,12 +90,10 @@ public class FragmentTabInfo extends MvpAppCompatFragment implements ProfileInfo
         return currentFragment;
     }
 
-    ProfileActivityHelper activity;
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        activity = (ProfileActivityHelper) context;
+
         Timber.d("FragmentTabInfo successfully created");
     }
 
@@ -204,7 +202,7 @@ public class FragmentTabInfo extends MvpAppCompatFragment implements ProfileInfo
         dialog.initDialog(getResources().getString(R.string.add_relative))
                 .addEditText("name", getResources().getString(R.string.type_name))
                 .addEditText("note",  getResources().getString(R.string.add_note))
-                .addSpinner("type", activity.getTypes().getRelationTypes().getAll(), pos -> { })
+                .addSpinner("type", presenter.getTypes().getRelationTypes().getAll(), pos -> { })
 
                 .addDateText("date", text -> {
                     DialogBuilder dialogDate = new DialogBuilder(getContext());
@@ -227,7 +225,7 @@ public class FragmentTabInfo extends MvpAppCompatFragment implements ProfileInfo
 
                     rel.setName(etName.getText().toString());
                     rel.setNote(etNote.getText().toString());
-                    rel.setType(activity.getTypes().getRelationTypes().getAll().get(spinner.getSelectedItemPosition()));
+                    rel.setType(presenter.getTypes().getRelationTypes().getAll().get(spinner.getSelectedItemPosition()));
 
                     presenter.addRelation(rel);
 

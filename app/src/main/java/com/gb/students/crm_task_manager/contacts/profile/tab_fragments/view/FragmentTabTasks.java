@@ -19,7 +19,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 
-public class FragmentTabTasks extends BaseAbstractFragment implements ProfileTasksView {
+public class FragmentTabTasks extends BaseAbstractFragment implements UpdatableView {
 
     @InjectPresenter
     ProfileTaskPresenter presenter;

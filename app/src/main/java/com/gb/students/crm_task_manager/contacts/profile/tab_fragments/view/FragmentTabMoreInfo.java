@@ -3,7 +3,6 @@ package com.gb.students.crm_task_manager.contacts.profile.tab_fragments.view;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +10,7 @@ import android.view.ViewGroup;
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.gb.students.crm_task_manager.R;
 
-public class FragmentTabMoreInfo extends MvpAppCompatFragment implements ProfileTasksView {
+public class FragmentTabMoreInfo extends MvpAppCompatFragment implements UpdatableView {
 
 
     public static FragmentTabMoreInfo newInstance(Bundle bundle) {
