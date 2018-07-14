@@ -8,9 +8,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.gb.students.crm_task_manager.R;
 
-public class FragmentTabMoreInfo extends Fragment {
+public class FragmentTabMoreInfo extends MvpAppCompatFragment implements ProfileTasksView {
 
 
     public static FragmentTabMoreInfo newInstance(Bundle bundle) {
@@ -24,5 +25,21 @@ public class FragmentTabMoreInfo extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile_more_info, container, false);
         return view;
+    }
+
+    @Override
+    public void updateList() {
+
+
+    }
+
+    @Override
+    public void toast(String msg) {
+
+    }
+
+    @Override
+    public void init() {
+
     }
 }

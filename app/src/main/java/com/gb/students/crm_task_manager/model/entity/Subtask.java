@@ -1,6 +1,6 @@
 package com.gb.students.crm_task_manager.model.entity;
 
-class Subtask {
+public class Subtask {
     private String title;
     private Boolean isComplete;
 

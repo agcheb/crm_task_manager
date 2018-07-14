@@ -184,13 +184,13 @@ public class FragmentTabInfo extends MvpAppCompatFragment implements ProfileInfo
         DialogBuilder dialog = new DialogBuilder(getContext());
         dialog.initDialog(getResources().getString(R.string.add_relative))
                 .addEditText("name", getResources().getString(R.string.type_name))
-                .addSpinner("spinner", activity.getTypes().getPetTypes().getAll(), pos -> {
+                .addSpinner("spinner", presenter.getTypes().getPetTypes().getAll(), pos -> {
                 })
                 .addOkButton(views -> {
                     EditText etName = (EditText) views.get("name");
                     Spinner spinner = (Spinner) views.get("type");
                     pet.setName(etName.getText().toString());
-                    pet.setType( activity.getTypes().getPetTypes().getAll().get(spinner.getSelectedItemPosition()));
+                    pet.setType( presenter.getTypes().getPetTypes().getAll().get(spinner.getSelectedItemPosition()));
                     presenter.addPet(pet);
                 }).show();
 

@@ -44,6 +44,7 @@ public class AddTaskActivity extends MvpAppCompatActivity implements AddTaskView
     public AddTaskPresenter provide() {
         return new AddTaskPresenter(AndroidSchedulers.mainThread());
     }
+
     @BindView(R.id.etTaskLabel)
     EditText taskTitle;
     @BindView(R.id.etNote)
@@ -62,8 +63,10 @@ public class AddTaskActivity extends MvpAppCompatActivity implements AddTaskView
     ArrayAdapter<String> adapter;
     @BindView(R.id.spinnerTaskTypes)
     Spinner spinnerTaskTypes;
-    SimpleDateFormat dateFormat;
-    List<String> subtasks;
+
+    private SimpleDateFormat dateFormat;
+    private List<String> subtasks;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,8 +80,8 @@ public class AddTaskActivity extends MvpAppCompatActivity implements AddTaskView
         addSubtask.setOnClickListener(this);
         addContact.setOnClickListener(this);
         timePickerTv.setOnClickListener(this);
-        dateFormat=new SimpleDateFormat("dd MMMM yyyy", Locale.getDefault());
-        subtasks=new ArrayList<>();
+        dateFormat = new SimpleDateFormat("dd MMMM yyyy", Locale.getDefault());
+        subtasks = new ArrayList<>();
         adapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_1, subtasks);
         subtaskListView.setAdapter(adapter);
@@ -106,8 +109,8 @@ public class AddTaskActivity extends MvpAppCompatActivity implements AddTaskView
         spinnerTaskTypes.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent,
                                        View itemSelected, int selectedItemPosition, long selectedId) {
-                    presenter.setTaskType(selectedItemPosition);
-                }
+                presenter.setTaskType(selectedItemPosition);
+            }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
@@ -125,9 +128,9 @@ public class AddTaskActivity extends MvpAppCompatActivity implements AddTaskView
         builder.setView(datePicker);
         builder.setPositiveButton(getResources().getString(R.string.ok),
                 (dialog, which) -> {
-                    GregorianCalendar calendarBeg=new GregorianCalendar(datePicker.getYear(),
-                            datePicker.getMonth(),datePicker.getDayOfMonth());
-                    Date date=calendarBeg.getTime();
+                    GregorianCalendar calendarBeg = new GregorianCalendar(datePicker.getYear(),
+                            datePicker.getMonth(), datePicker.getDayOfMonth());
+                    Date date = calendarBeg.getTime();
 
                     timePickerTv.setEnabled(true);
                     datePickerTv.setText(dateFormat.format(date));
@@ -170,7 +173,7 @@ public class AddTaskActivity extends MvpAppCompatActivity implements AddTaskView
         dialog.addEditText("subatask", "Ведите название");
         dialog.addOkButton(views -> {
             EditText etName = (EditText) views.get("name");
-            String sbtLbl= etName.getText().toString();
+            String sbtLbl = etName.getText().toString();
             presenter.addSubtask(sbtLbl);
             subtasks.add(sbtLbl);
             adapter.notifyDataSetChanged();
@@ -187,7 +190,7 @@ public class AddTaskActivity extends MvpAppCompatActivity implements AddTaskView
         builder.setPositiveButton(getResources().getString(R.string.ok),
                 (dialog, which) -> {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                        timePickerTv.setText(picker.getHour()+":"+picker.getMinute());
+                        timePickerTv.setText(picker.getHour() + ":" + picker.getMinute());
                         presenter.setTime(picker.getHour(), picker.getMinute());
                     }
                 }
@@ -196,7 +199,7 @@ public class AddTaskActivity extends MvpAppCompatActivity implements AddTaskView
     }
 
     public void showRegistrationActivity(MenuItem item) {
-        presenter.applyNewTask(taskTitle.getText().toString(),etNote.getText().toString(), spinnerTaskTypes.getSelectedItem().toString());
+        presenter.applyNewTask(taskTitle.getText().toString(), etNote.getText().toString(), spinnerTaskTypes.getSelectedItem().toString());
 
     }
 }

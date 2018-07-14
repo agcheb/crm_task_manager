@@ -62,10 +62,6 @@ public class ProfileActivity extends MvpAppCompatActivity implements ProfileView
 
     @Override
     public void init() {
-
-
-
-
         String name = "Ivan Ivanov";
 
 //        if (getIntent()!=null) {
