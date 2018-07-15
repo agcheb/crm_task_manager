@@ -3,12 +3,11 @@ package com.gb.students.crm_task_manager.contacts.profile.tab_fragments.presente
 import com.arellomobile.mvp.InjectViewState;
 import com.gb.students.crm_task_manager.contacts.profile.tab_fragments.adapters.pet.IListPetPresenter;
 import com.gb.students.crm_task_manager.contacts.profile.tab_fragments.adapters.pet.IListPetRaw;
-import com.gb.students.crm_task_manager.contacts.profile.tab_fragments.adapters.relative.IListRelativePresenter;
-import com.gb.students.crm_task_manager.contacts.profile.tab_fragments.adapters.relative.IListRelativeRaw;
+import com.gb.students.crm_task_manager.contacts.profile.tab_fragments.adapters.relations.IListRelativePresenter;
+import com.gb.students.crm_task_manager.contacts.profile.tab_fragments.adapters.relations.IListRelativeRaw;
 import com.gb.students.crm_task_manager.contacts.profile.tab_fragments.view.FragmentTabInfo;
-import com.gb.students.crm_task_manager.contacts.profile.tab_fragments.view.ProfileInfoView;
+import com.gb.students.crm_task_manager.contacts.profile.tab_fragments.view.abstractions.ProfileInfoView;
 import com.gb.students.crm_task_manager.model.cache.paper.PaperContactsRepo;
-import com.gb.students.crm_task_manager.model.cache.paper.PaperTaskRepo;
 import com.gb.students.crm_task_manager.model.cache.paper.PaperTypesRepo;
 import com.gb.students.crm_task_manager.model.entity.contact.Pet;
 import com.gb.students.crm_task_manager.model.entity.contact.Relation;

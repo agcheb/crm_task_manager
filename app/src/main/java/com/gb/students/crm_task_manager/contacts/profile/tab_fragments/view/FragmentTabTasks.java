@@ -13,16 +13,17 @@ import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.gb.students.crm_task_manager.R;
 import com.gb.students.crm_task_manager.contacts.profile.tab_fragments.adapters.tasks.RecyclerTasksAdapter;
 import com.gb.students.crm_task_manager.contacts.profile.tab_fragments.presenter.ProfileTaskPresenter;
+import com.gb.students.crm_task_manager.contacts.profile.tab_fragments.view.abstractions.ProfileTasksView;
 import com.gb.students.crm_task_manager.view.base_views.BaseAbstractFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 
-public class FragmentTabTasks extends BaseAbstractFragment implements UpdatableView {
-
+public class FragmentTabTasks extends BaseAbstractFragment implements ProfileTasksView {
+//<ProfileTaskPresenter>
     @InjectPresenter
-    ProfileTaskPresenter presenter;
+    public ProfileTaskPresenter presenter;
 
     @ProvidePresenter
     ProfileTaskPresenter providePresenter() {

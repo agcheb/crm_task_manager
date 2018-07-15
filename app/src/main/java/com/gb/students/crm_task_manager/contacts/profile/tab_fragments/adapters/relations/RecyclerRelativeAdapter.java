@@ -1,4 +1,4 @@
-package com.gb.students.crm_task_manager.contacts.profile.tab_fragments.adapters.relative;
+package com.gb.students.crm_task_manager.contacts.profile.tab_fragments.adapters.relations;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;

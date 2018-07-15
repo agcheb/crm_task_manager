@@ -2,6 +2,8 @@ package com.gb.students.crm_task_manager.contacts.profile.tab_fragments.view;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,20 +13,26 @@ import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.gb.students.crm_task_manager.R;
 import com.gb.students.crm_task_manager.contacts.profile.tab_fragments.adapters.notifications.RecyclerNotificationAdapter;
 import com.gb.students.crm_task_manager.contacts.profile.tab_fragments.presenter.ProfileNotificationPresenter;
+import com.gb.students.crm_task_manager.contacts.profile.tab_fragments.view.abstractions.ProfieNotificationView;
 import com.gb.students.crm_task_manager.view.base_views.BaseAbstractFragment;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 
-public class FragmentTabNotifications extends BaseAbstractFragment implements UpdatableView {
+public class FragmentTabNotifications extends BaseAbstractFragment implements ProfieNotificationView {
 
     @InjectPresenter
-    ProfileNotificationPresenter presenter;
-
+    public ProfileNotificationPresenter presenter;
     @ProvidePresenter
     ProfileNotificationPresenter providePresenter() {
         return new ProfileNotificationPresenter(AndroidSchedulers.mainThread());
     }
+
+
+
+    @BindView(R.id.recycler_profile_notifications)
+    RecyclerView recyclerView;
 
     RecyclerNotificationAdapter adapter;
 
@@ -44,12 +52,14 @@ public class FragmentTabNotifications extends BaseAbstractFragment implements Up
     }
 
     @Override
-    public void updateList() {
-
+    public void init() {
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        adapter = new RecyclerNotificationAdapter(presenter.getNotificationListPresenter());
+        recyclerView.setAdapter(adapter);
     }
 
     @Override
-    public void init() {
-
+    public void update() {
+        adapter.notifyDataSetChanged();
     }
 }

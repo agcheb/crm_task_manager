@@ -24,17 +24,16 @@ import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.gb.students.crm_task_manager.R;
 import com.gb.students.crm_task_manager.contacts.profile.ProfileActivityHelper;
 import com.gb.students.crm_task_manager.contacts.profile.tab_fragments.adapters.pet.RecyclerPetAdapter;
-import com.gb.students.crm_task_manager.contacts.profile.tab_fragments.adapters.relative.RecyclerRelativeAdapter;
+import com.gb.students.crm_task_manager.contacts.profile.tab_fragments.adapters.relations.RecyclerRelativeAdapter;
 import com.gb.students.crm_task_manager.contacts.profile.tab_fragments.presenter.ProfileInfoPresenter;
+import com.gb.students.crm_task_manager.contacts.profile.tab_fragments.view.abstractions.ProfileInfoView;
 import com.gb.students.crm_task_manager.custom.DialogBuilder;
 import com.gb.students.crm_task_manager.custom.StringHelper;
 import com.gb.students.crm_task_manager.model.entity.contact.Pet;
 import com.gb.students.crm_task_manager.model.entity.contact.Relation;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

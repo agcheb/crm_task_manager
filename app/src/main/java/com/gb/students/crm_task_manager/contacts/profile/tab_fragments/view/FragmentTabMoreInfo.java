@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.gb.students.crm_task_manager.R;
+import com.gb.students.crm_task_manager.contacts.profile.tab_fragments.view.abstractions.ProfileTasksView;
 
 public class FragmentTabMoreInfo extends MvpAppCompatFragment implements UpdatableView {
 
