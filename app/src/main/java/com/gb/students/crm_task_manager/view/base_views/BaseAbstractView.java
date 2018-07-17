@@ -11,4 +11,5 @@ public abstract class BaseAbstractView extends MvpAppCompatActivity implements B
                 Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
         }
 
+        public abstract void init();
 }

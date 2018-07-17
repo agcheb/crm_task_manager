@@ -11,6 +11,8 @@ import io.reactivex.Observable;
 import timber.log.Timber;
 
 public class PaperContactsRepo implements ContactsRepo{
+
+
     @Override
     public Observable<List<Contact>> getContacts() {
         return Observable.fromCallable(() -> {
@@ -19,6 +21,7 @@ public class PaperContactsRepo implements ContactsRepo{
             return types;
         });
     }
+
 
     @Override
     public Observable<Boolean> addContact(Contact contact) {
@@ -38,6 +41,24 @@ public class PaperContactsRepo implements ContactsRepo{
             savedTasks.addAll(contacts);
             Timber.d("New contacts was written to memory");
             Paper.book("contacts").write("all", savedTasks);
+            return true;
+        });
+    }
+
+    @Override
+    public Observable<Contact> getCurrentContact() {
+        return Observable.fromCallable(() -> {
+            Contact  current= Paper.book("contacts").read("current");
+            Timber.d("Current contact loaded from memory");
+            return current;
+        });
+    }
+
+    @Override
+    public Observable<Boolean> setCurrentContact(Contact contact) {
+        return Observable.fromCallable(() -> {
+            Paper.book("contacts").write("current", contact);
+            Timber.d("Current contacts was written to memory");
             return true;
         });
     }

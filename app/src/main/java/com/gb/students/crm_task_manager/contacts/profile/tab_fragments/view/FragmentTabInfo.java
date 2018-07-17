@@ -23,14 +23,17 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.gb.students.crm_task_manager.R;
 import com.gb.students.crm_task_manager.contacts.profile.ProfileActivityHelper;
+import com.gb.students.crm_task_manager.contacts.profile.tab_fragments.ContactDataMapper;
 import com.gb.students.crm_task_manager.contacts.profile.tab_fragments.adapters.pet.RecyclerPetAdapter;
 import com.gb.students.crm_task_manager.contacts.profile.tab_fragments.adapters.relations.RecyclerRelativeAdapter;
 import com.gb.students.crm_task_manager.contacts.profile.tab_fragments.presenter.ProfileInfoPresenter;
 import com.gb.students.crm_task_manager.contacts.profile.tab_fragments.view.abstractions.ProfileInfoView;
 import com.gb.students.crm_task_manager.custom.DialogBuilder;
 import com.gb.students.crm_task_manager.custom.StringHelper;
+import com.gb.students.crm_task_manager.model.entity.contact.Contact;
 import com.gb.students.crm_task_manager.model.entity.contact.Pet;
 import com.gb.students.crm_task_manager.model.entity.contact.Relation;
+import com.gb.students.crm_task_manager.view.base_views.BaseAbstractFragment;
 
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -40,7 +43,7 @@ import butterknife.ButterKnife;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import timber.log.Timber;
 
-public class FragmentTabInfo extends MvpAppCompatFragment implements ProfileInfoView, View.OnClickListener {
+public class FragmentTabInfo extends BaseAbstractFragment implements ProfileInfoView, View.OnClickListener {
 
 
     public enum Lists {RELATIONS, PETS}
@@ -50,7 +53,7 @@ public class FragmentTabInfo extends MvpAppCompatFragment implements ProfileInfo
 
     @ProvidePresenter
     ProfileInfoPresenter providePresenter() {
-        return new ProfileInfoPresenter(AndroidSchedulers.mainThread());
+        return new ProfileInfoPresenter(AndroidSchedulers.mainThread(), dataMapper.getContact());
     }
 
     RecyclerRelativeAdapter relativeAdapter;
@@ -89,10 +92,12 @@ public class FragmentTabInfo extends MvpAppCompatFragment implements ProfileInfo
         return currentFragment;
     }
 
+    ContactDataMapper dataMapper;
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-
+        dataMapper = (ContactDataMapper) context;
         Timber.d("FragmentTabInfo successfully created");
     }
 
@@ -121,10 +126,6 @@ public class FragmentTabInfo extends MvpAppCompatFragment implements ProfileInfo
         phoneNumberTv.setOnClickListener(this);
     }
 
-    @Override
-    public void toast(String msg) {
-        Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
-    }
 
     @Override
     public void updateList(Lists lists) {
@@ -136,6 +137,20 @@ public class FragmentTabInfo extends MvpAppCompatFragment implements ProfileInfo
                 petAdapter.notifyDataSetChanged();
                 break;
         }
+    }
+
+    @Override
+    public void addRelation(Relation relation) {
+        Contact c = dataMapper.getContact();
+        c.getRelations().add(relation);
+        dataMapper.setCcntact(c);
+    }
+
+    @Override
+    public void addPet(Pet pet) {
+        Contact c = dataMapper.getContact();
+        dataMapper.getContact().getPets().add(pet);
+        dataMapper.setCcntact(c);
     }
 
     @Override
@@ -187,7 +202,7 @@ public class FragmentTabInfo extends MvpAppCompatFragment implements ProfileInfo
                     EditText etName = (EditText) views.get("name");
                     Spinner spinner = (Spinner) views.get("type");
                     pet.setName(etName.getText().toString());
-                    pet.setType( presenter.getTypes().getPetTypes().getAll().get(spinner.getSelectedItemPosition()));
+                    pet.setType(presenter.getTypes().getPetTypes().getAll().get(spinner.getSelectedItemPosition()));
                     presenter.addPet(pet);
                 }).show();
 
@@ -200,8 +215,9 @@ public class FragmentTabInfo extends MvpAppCompatFragment implements ProfileInfo
         DialogBuilder dialog = new DialogBuilder(getContext());
         dialog.initDialog(getResources().getString(R.string.add_relative))
                 .addEditText("name", getResources().getString(R.string.type_name))
-                .addEditText("note",  getResources().getString(R.string.add_note))
-                .addSpinner("type", presenter.getTypes().getRelationTypes().getAll(), pos -> { })
+                .addEditText("note", getResources().getString(R.string.add_note))
+                .addSpinner("type", presenter.getTypes().getRelationTypes().getAll(), pos -> {
+                })
 
                 .addDateText("date", text -> {
                     DialogBuilder dialogDate = new DialogBuilder(getContext());
@@ -227,7 +243,6 @@ public class FragmentTabInfo extends MvpAppCompatFragment implements ProfileInfo
                     rel.setType(presenter.getTypes().getRelationTypes().getAll().get(spinner.getSelectedItemPosition()));
 
                     presenter.addRelation(rel);
-
                 });
         dialog.show();
 

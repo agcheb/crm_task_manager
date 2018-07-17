@@ -8,8 +8,11 @@ import java.util.List;
 import io.reactivex.Observable;
 
 public interface ContactsRepo {
+
     Observable<List<Contact>> getContacts();
     Observable<Boolean> addContact(Contact contact);
     Observable<Boolean> removeContact(Contact contact);
     Observable<Boolean> addContacts(List<Contact> contacts);
+    Observable<Contact> getCurrentContact();
+    Observable<Boolean> setCurrentContact(Contact contact);
 }

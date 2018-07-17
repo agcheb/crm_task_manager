@@ -21,6 +21,7 @@ import com.gb.students.crm_task_manager.model.entity.types.Types;
 import com.gb.students.crm_task_manager.model.repos.ContactsRepo;
 import com.gb.students.crm_task_manager.model.repos.TaskRepo;
 import com.gb.students.crm_task_manager.model.repos.TypesRepo;
+import com.gb.students.crm_task_manager.view.BasePresenter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,43 +33,53 @@ import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
 @InjectViewState
-public class ProfilePresenter extends MvpPresenter<ProfileView> {
+public class ProfilePresenter extends BasePresenter<ProfileView> {
 
-    private Scheduler scheduler;
     private List<Task> tasks;
     private Types types;
     private TaskRepo taskRepo;
     private TypesRepo typesRepo;
+    private ContactsRepo contactsRepo;
+
+    private Contact contact;
+
+    public Contact getContact() {
+        return contact;
+    }
 
     public ProfilePresenter(Scheduler scheduler) {
-        this.scheduler = scheduler;
+        super(scheduler);
     }
 
 
     @Override
-    protected void onFirstViewAttach()
-    {
+    protected void onFirstViewAttach() {
         super.onFirstViewAttach();
-        taskRepo = new PaperTaskRepo();
-        typesRepo= new PaperTypesRepo();
-        loadData();
-        getViewState().init();
+
     }
 
-    @SuppressLint("CheckResult")
-    public void loadData(){
-        Observable<Types> typesObservable = typesRepo.loadTypes();
-        typesObservable.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(types -> {
-                    this.types=types;
-                });
 
-        Observable<List<Task>> tasksObservable = taskRepo.getTasks();
-        tasksObservable.subscribeOn(Schedulers.io())
+    public void loadData() {
+//        Observable<Types> typesObservable = typesRepo.loadTypes();
+//        typesObservable.subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(types -> {
+//                    this.types = types;
+//                });
+//
+//        Observable<List<Task>> tasksObservable = taskRepo.getTasks();
+//        tasksObservable.subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(tasks -> {
+//                    this.tasks = tasks;
+//                });
+
+        Observable<Contact> contactObservable = contactsRepo.getCurrentContact();
+        contactObservable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(tasks -> {
-                    this.tasks=tasks;
+                .subscribe(contact -> {
+                    this.contact = contact;
+                    getViewState().initTabFragments();
                 });
 
         //getViewState().getContacts();
@@ -117,10 +128,18 @@ public class ProfilePresenter extends MvpPresenter<ProfileView> {
 
     }
 
-    PetTypes getPetTypes(){
+    @Override
+    protected void init() {
+        contactsRepo = new PaperContactsRepo();
+        taskRepo = new PaperTaskRepo();
+        typesRepo = new PaperTypesRepo();
+    }
+
+    PetTypes getPetTypes() {
         return types.getPetTypes();
     }
-    PetTypes getTaskTypes(){
+
+    PetTypes getTaskTypes() {
         return types.getPetTypes();
     }
 
@@ -131,5 +150,15 @@ public class ProfilePresenter extends MvpPresenter<ProfileView> {
 
     public Types getTypes() {
         return types;
+    }
+
+    public void saveContact(Contact contact) {
+        Observable<Boolean> contactObservable = contactsRepo.setCurrentContact(contact);
+        contactObservable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(boo -> {
+                     getViewState().toast("Contant information saved");
+                });
+
     }
 }

@@ -56,7 +56,7 @@ public class ProfileTaskPresenter extends BasePresenter<ProfileTasksView>{
     protected void onFirstViewAttach() {
         super.onFirstViewAttach();
         this.taskListPresenter.items=tasks;
-        getViewState().updateList();
+
     }
 
     @Override
@@ -72,16 +72,16 @@ public class ProfileTaskPresenter extends BasePresenter<ProfileTasksView>{
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(tasks -> {
                     this.tasks=tasks;
+
+                    tasks=new ArrayList<>();
+                    Task task = new Task();
+                    task.setExpDate(new Date());
+                    task.setTitle("Expanse the worlsd");
+                    task.setNote("As fast as I can");
+
+                    tasks.add(task);
+                    getViewState().updateList();
                 });
-        //todo заменить на реальные
-        tasks=new ArrayList<>();
-        Task task = new Task();
-        task.setExpDate(new Date());
-        task.setTitle("Expanse the worlsd");
-        task.setNote("As fast as I can");
-
-        tasks.add(task);
-
     }
 
   public List<Task> getTasks()

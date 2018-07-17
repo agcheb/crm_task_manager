@@ -10,13 +10,16 @@ import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.gb.students.crm_task_manager.R;
+import com.gb.students.crm_task_manager.contacts.profile.tab_fragments.ContactDataMapper;
 import com.gb.students.crm_task_manager.contacts.profile.tab_fragments.view.FragmentTabInfo;
 import com.gb.students.crm_task_manager.contacts.profile.tab_fragments.view.FragmentTabMoreInfo;
 import com.gb.students.crm_task_manager.contacts.profile.tab_fragments.view.FragmentTabNotifications;
 import com.gb.students.crm_task_manager.contacts.profile.tab_fragments.view.FragmentTabTasks;
 import com.gb.students.crm_task_manager.custom.CustomFragmentPA;
 import com.gb.students.crm_task_manager.model.entity.Task;
+import com.gb.students.crm_task_manager.model.entity.contact.Contact;
 import com.gb.students.crm_task_manager.model.entity.types.Types;
+import com.gb.students.crm_task_manager.view.base_views.BaseAbstractView;
 
 import java.util.List;
 
@@ -25,7 +28,7 @@ import butterknife.ButterKnife;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import timber.log.Timber;
 
-public class ProfileActivity extends MvpAppCompatActivity implements ProfileView, ProfileActivityHelper {
+public class ProfileActivity extends BaseAbstractView implements ProfileView, ContactDataMapper {
 
     @BindView(R.id.profile_toolbar)
     Toolbar toolbar;
@@ -45,8 +48,6 @@ public class ProfileActivity extends MvpAppCompatActivity implements ProfileView
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         ButterKnife.bind(this);
-
-
     }
 
     @InjectPresenter
@@ -59,21 +60,36 @@ public class ProfileActivity extends MvpAppCompatActivity implements ProfileView
     }
 
 
-
     @Override
     public void init() {
-        String name = "Ivan Ivanov";
 
-//        if (getIntent()!=null) {
-//            name = getIntent().getExtras().getString("name");
-//        }
-        toolbar.setTitle(name);
+
 //        title.setText(name);
         setSupportActionBar(toolbar);
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+
+
+
+
+//        fab.setOnClickListener(view -> Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                .setAction("Action", null).show());
+
+        //  profilePresenter.loadData();
+    }
+
+    @Override
+    public void initTabFragments() {
         customFragmentPA = new CustomFragmentPA(getSupportFragmentManager());
-        initTabFragments();
+
+        fragmentTabInfo = FragmentTabInfo.newInstance(null);
+        fragmentTabTasks = FragmentTabTasks.newInstance(null);
+        fragmentTabNotifications = FragmentTabNotifications.newInstance(null);
+        fragmentTabMoreInfo = FragmentTabMoreInfo.newInstance(null);
+        customFragmentPA.addFragment(fragmentTabInfo, getString(R.string.info));
+        customFragmentPA.addFragment(fragmentTabTasks, getString(R.string.tasks));
+        customFragmentPA.addFragment(fragmentTabNotifications, getString(R.string.notifications));
+//        customFragmentPA.addFragment(fragmentTabMoreInfo, getString(R.string.more_info));
 
         ViewPager mViewPager = findViewById(R.id.container_tabs);
         mViewPager.setAdapter(customFragmentPA);
@@ -101,46 +117,18 @@ public class ProfileActivity extends MvpAppCompatActivity implements ProfileView
             }
         });
 
-
-//        fab.setOnClickListener(view -> Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                .setAction("Action", null).show());
-
-      //  profilePresenter.loadData();
-    }
-
-    @RequiresApi
-    private void initTabFragments() {
-
-
-        fragmentTabInfo = FragmentTabInfo.newInstance(null);
-        fragmentTabTasks = FragmentTabTasks.newInstance(null);
-        fragmentTabNotifications = FragmentTabNotifications.newInstance(null);
-        fragmentTabMoreInfo = FragmentTabMoreInfo.newInstance(null);
-        customFragmentPA.addFragment(fragmentTabInfo, getString(R.string.info));
-        customFragmentPA.addFragment(fragmentTabTasks, getString(R.string.tasks));
-        customFragmentPA.addFragment(fragmentTabNotifications, getString(R.string.notifications));
-//        customFragmentPA.addFragment(fragmentTabMoreInfo, getString(R.string.more_info));
+        toolbar.setTitle(profilePresenter.getContact().getName());
 
     }
 
 
     @Override
-    public List<Task> getTask() {
-        return profilePresenter.getTasks();
+    public Contact getContact() {
+        return profilePresenter.getContact();
     }
 
     @Override
-    public Types getTypes() {
-        return profilePresenter.getTypes();
-    }
-
-    @Override
-    public void saveTypes(Types types) {
-
-    }
-
-    @Override
-    public void saveTasks(List<Task> tasks) {
-
+    public void setCcntact(Contact contact) {
+        profilePresenter.saveContact(contact);
     }
 }
