@@ -3,7 +3,7 @@ package com.gb.students.crm_task_manager.model.entity.contact;
 import java.util.Date;
 
 // долги, сколько должен, когда взял
-class Credit {
+public class Credit {
    private String label;
     private Float amount;
     private Date date;

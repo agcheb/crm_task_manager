@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 // совместный досуг. с кем, что делали, когда
-class Leisure {
+public class Leisure {
     private List<Contact> band;
     private String description;
     private Date date;

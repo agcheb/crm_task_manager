@@ -1,27 +1,20 @@
 package com.gb.students.crm_task_manager.contacts.profile;
 
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 
-import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.gb.students.crm_task_manager.R;
 import com.gb.students.crm_task_manager.contacts.profile.tab_fragments.ContactDataMapper;
 import com.gb.students.crm_task_manager.contacts.profile.tab_fragments.view.FragmentTabInfo;
-import com.gb.students.crm_task_manager.contacts.profile.tab_fragments.view.FragmentTabMoreInfo;
 import com.gb.students.crm_task_manager.contacts.profile.tab_fragments.view.FragmentTabNotifications;
 import com.gb.students.crm_task_manager.contacts.profile.tab_fragments.view.FragmentTabTasks;
 import com.gb.students.crm_task_manager.custom.CustomFragmentPA;
-import com.gb.students.crm_task_manager.model.entity.Task;
 import com.gb.students.crm_task_manager.model.entity.contact.Contact;
-import com.gb.students.crm_task_manager.model.entity.types.Types;
 import com.gb.students.crm_task_manager.view.base_views.BaseAbstractView;
-
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -41,7 +34,7 @@ public class ProfileActivity extends BaseAbstractView implements ProfileView, Co
     private FragmentTabInfo fragmentTabInfo;
     private FragmentTabTasks fragmentTabTasks;
     private FragmentTabNotifications fragmentTabNotifications;
-    private FragmentTabMoreInfo fragmentTabMoreInfo;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,11 +78,11 @@ public class ProfileActivity extends BaseAbstractView implements ProfileView, Co
         fragmentTabInfo = FragmentTabInfo.newInstance(null);
         fragmentTabTasks = FragmentTabTasks.newInstance(null);
         fragmentTabNotifications = FragmentTabNotifications.newInstance(null);
-        fragmentTabMoreInfo = FragmentTabMoreInfo.newInstance(null);
+
         customFragmentPA.addFragment(fragmentTabInfo, getString(R.string.info));
         customFragmentPA.addFragment(fragmentTabTasks, getString(R.string.tasks));
         customFragmentPA.addFragment(fragmentTabNotifications, getString(R.string.notifications));
-//        customFragmentPA.addFragment(fragmentTabMoreInfo, getString(R.string.more_info));
+
 
         ViewPager mViewPager = findViewById(R.id.container_tabs);
         mViewPager.setAdapter(customFragmentPA);

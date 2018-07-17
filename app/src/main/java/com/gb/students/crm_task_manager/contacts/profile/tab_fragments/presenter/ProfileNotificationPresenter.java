@@ -1,10 +1,12 @@
 package com.gb.students.crm_task_manager.contacts.profile.tab_fragments.presenter;
 
 import com.arellomobile.mvp.InjectViewState;
+import com.gb.students.crm_task_manager.contacts.profile.tab_fragments.ContactDataMapper;
 import com.gb.students.crm_task_manager.contacts.profile.tab_fragments.adapters.notifications.IListNotificationPresenter;
 import com.gb.students.crm_task_manager.contacts.profile.tab_fragments.adapters.notifications.IListNotificationsRow;
 import com.gb.students.crm_task_manager.contacts.profile.tab_fragments.view.abstractions.ProfieNotificationView;
 import com.gb.students.crm_task_manager.model.cache.paper.PaperNotificationRepo;
+import com.gb.students.crm_task_manager.model.entity.contact.Contact;
 import com.gb.students.crm_task_manager.model.entity.contact.Notification;
 import com.gb.students.crm_task_manager.model.repos.NotificationsRepo;
 import com.gb.students.crm_task_manager.view.BasePresenter;
@@ -19,9 +21,11 @@ import io.reactivex.Scheduler;
 @InjectViewState
 public class ProfileNotificationPresenter extends BasePresenter<ProfieNotificationView> {
 
+    private final Contact contact;
     private List<Notification> notifications;
-    public ProfileNotificationPresenter(Scheduler scheduler) {
+    public ProfileNotificationPresenter(Scheduler scheduler, Contact contact) {
         super(scheduler);
+        this.contact = contact;
     }
     NotificationListPresenter notificationListPresenter;
 
@@ -49,6 +53,7 @@ public class ProfileNotificationPresenter extends BasePresenter<ProfieNotificati
             Notification notification = items.get(pos);
             items.remove(notification);
             getViewState().toast("Notification " + notification.getLabel() + " was deleted");
+            getViewState().completeNotification(notification);
             getViewState().update();
         }
     }
@@ -61,19 +66,7 @@ public class ProfileNotificationPresenter extends BasePresenter<ProfieNotificati
 
     @Override
     protected void loadData() {
-        Observable<List<Notification>> tasksObservable = notificationsRepo.getNotifications();
-        tasksObservable.subscribeOn(scheduler)
-                .observeOn(scheduler)
-                .subscribe(notifications -> {
-                    this.notifications=notifications;
-                    Notification nt= new Notification();
-                    nt.setLabel("Important notification");
-                    nt.setDate(new Date());
-                    notifications.add(nt);
-                    this.notificationListPresenter.items = notifications;
-                    getViewState().update();
-                });
-
+        notifications = contact.getNotifications();
     }
 
 

@@ -1,5 +1,6 @@
 package com.gb.students.crm_task_manager.contacts.profile.tab_fragments.view;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,10 +12,15 @@ import android.view.ViewGroup;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.gb.students.crm_task_manager.R;
+import com.gb.students.crm_task_manager.contacts.profile.tab_fragments.ContactDataMapper;
 import com.gb.students.crm_task_manager.contacts.profile.tab_fragments.adapters.notifications.RecyclerNotificationAdapter;
 import com.gb.students.crm_task_manager.contacts.profile.tab_fragments.presenter.ProfileNotificationPresenter;
 import com.gb.students.crm_task_manager.contacts.profile.tab_fragments.view.abstractions.ProfieNotificationView;
+import com.gb.students.crm_task_manager.model.entity.contact.Contact;
+import com.gb.students.crm_task_manager.model.entity.contact.Notification;
 import com.gb.students.crm_task_manager.view.base_views.BaseAbstractFragment;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -24,13 +30,20 @@ public class FragmentTabNotifications extends BaseAbstractFragment implements Pr
 
     @InjectPresenter
     public ProfileNotificationPresenter presenter;
+
     @ProvidePresenter
     ProfileNotificationPresenter providePresenter() {
-        return new ProfileNotificationPresenter(AndroidSchedulers.mainThread());
+        return new ProfileNotificationPresenter(AndroidSchedulers.mainThread(), dataMapper.getContact());
     }
 
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        dataMapper = (ContactDataMapper) context;
+    }
 
+    private ContactDataMapper dataMapper;
     @BindView(R.id.recycler_profile_notifications)
     RecyclerView recyclerView;
 
@@ -61,5 +74,13 @@ public class FragmentTabNotifications extends BaseAbstractFragment implements Pr
     @Override
     public void update() {
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void completeNotification(Notification notification) {
+        Contact c = dataMapper.getContact();
+        List<Notification> notifications = c.getNotifications();
+        notifications.remove(notification);
+        dataMapper.setCcntact(c);
     }
 }
