@@ -23,4 +23,6 @@ public abstract class BasePresenter<T extends BaseView>  extends MvpPresenter<T>
 
     protected abstract void loadData();
     protected abstract void init();
+
+
 }

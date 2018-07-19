@@ -208,11 +208,9 @@ public class FragmentTabInfo extends BaseAbstractFragment implements ProfileInfo
     private void addPet() {
 
         Pet pet = new Pet();
-        DialogBuilder dialog = new DialogBuilder(getContext());
-        dialog.initDialog(getResources().getString(R.string.add_relative))
+        showDialog(getResources().getString(R.string.add_relative))
                 .addEditText("name", getResources().getString(R.string.type_name))
-                .addSpinner("spinner", presenter.getTypes().getPetTypes().getAll(), pos -> {
-                })
+                .addSpinner("spinner", presenter.getTypes().getPetTypes().getAll(),null)
                 .addOkButton(views -> {
                     EditText etName = (EditText) views.get("name");
                     Spinner spinner = (Spinner) views.get("type");
@@ -228,31 +226,31 @@ public class FragmentTabInfo extends BaseAbstractFragment implements ProfileInfo
         switch (v.getId()) {
             case R.id.iv_profile_mail:
             case R.id.tv_mail:
-                DialogBuilder mailBuilder = new DialogBuilder(getContext());
-                mailBuilder.addEditText("mail", "Редактирование почты")
-                        .initDialog("Введите адрес почты")
+                showDialog(getResources().getString(R.string.edit))
+                        .addEditText("mail", getResources().getString(R.string.type_mail))
                         .addOkButton(views -> {
-                            EditText etPhone = (EditText) views.get("mail");
-                            dataMapper.getContact().setMail(etPhone.getText().toString());
+                            EditText etMail = (EditText) views.get("mail");
+                            dataMapper.getContact().setMail(etMail.getText().toString());
+                            mailTv.setText(etMail.getText().toString());
                             dataMapper.saveContact(dataMapper.getContact());
-                        });
+                        }).show();
                 break;
             case R.id.iv_profile_phone:
             case R.id.tv_phone_number:
-                DialogBuilder phoneBuilder = new DialogBuilder(getContext());
-                phoneBuilder.addEditText("phone", "Редактирование номера")
-                        .initDialog("Введите номер")
+                showDialog(getResources().getString(R.string.edit))
+                        .addEditText("phone", getResources().getString(R.string.type_phone))
                         .addOkButton(views -> {
                             EditText etPhone = (EditText) views.get("phone");
                             dataMapper.getContact().setPhone(etPhone.getText().toString());
+                            phoneNumberTv.setText(etPhone.getText().toString());
                             dataMapper.saveContact(dataMapper.getContact());
-                        });
+                        }).show();
                 break;
             default:
                 break;
 
         }
-        return false;
+        return true;
     }
 
 

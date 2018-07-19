@@ -127,4 +127,7 @@
     <string name="add_relative">Add relative</string>
     <string name="add_pet">Add pet</string>
     <string name="type_name">Type name</string>
+    <string name="edit">Edit</string>
+    <string name="type_phone">Type phone</string>
+    <string name="type_mail">Type mail</string>
 </resources>
