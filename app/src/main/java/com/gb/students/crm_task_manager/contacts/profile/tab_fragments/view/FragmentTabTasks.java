@@ -25,7 +25,7 @@ import butterknife.ButterKnife;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 
 public class FragmentTabTasks extends BaseAbstractFragment implements ProfileTasksView {
-//<ProfileTaskPresenter>
+
     @InjectPresenter
     public ProfileTaskPresenter presenter;
 
@@ -34,12 +34,12 @@ public class FragmentTabTasks extends BaseAbstractFragment implements ProfileTas
         return new ProfileTaskPresenter(AndroidSchedulers.mainThread(), dataMapper.getContact());
     }
 
-    RecyclerTasksAdapter recyclerTasksAdapter;
+    private RecyclerTasksAdapter recyclerTasksAdapter;
 
     @BindView(R.id.recycler_profile_task)
     RecyclerView recyclerView;
 
-    ContactDataMapper dataMapper;
+    private ContactDataMapper dataMapper;
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -77,6 +77,6 @@ public class FragmentTabTasks extends BaseAbstractFragment implements ProfileTas
     public void completeTask(Task task) {
         Contact c = dataMapper.getContact();
         c.getTasks().remove(task);
-        dataMapper.setCcntact(c);
+        dataMapper.saveContact(c);
     }
 }

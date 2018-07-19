@@ -81,6 +81,6 @@ public class FragmentTabNotifications extends BaseAbstractFragment implements Pr
         Contact c = dataMapper.getContact();
         List<Notification> notifications = c.getNotifications();
         notifications.remove(notification);
-        dataMapper.setCcntact(c);
+        dataMapper.saveContact(c);
     }
 }

@@ -16,13 +16,10 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.gb.students.crm_task_manager.R;
-import com.gb.students.crm_task_manager.contacts.profile.ProfileActivityHelper;
 import com.gb.students.crm_task_manager.contacts.profile.tab_fragments.ContactDataMapper;
 import com.gb.students.crm_task_manager.contacts.profile.tab_fragments.adapters.pet.RecyclerPetAdapter;
 import com.gb.students.crm_task_manager.contacts.profile.tab_fragments.adapters.relations.RecyclerRelativeAdapter;
@@ -43,7 +40,7 @@ import butterknife.ButterKnife;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import timber.log.Timber;
 
-public class FragmentTabInfo extends BaseAbstractFragment implements ProfileInfoView, View.OnClickListener {
+public class FragmentTabInfo extends BaseAbstractFragment implements ProfileInfoView, View.OnClickListener, View.OnLongClickListener {
 
 
     public enum Lists {RELATIONS, PETS}
@@ -122,7 +119,11 @@ public class FragmentTabInfo extends BaseAbstractFragment implements ProfileInfo
         addPetBtn.setOnClickListener(this);
         profileMailIV.setOnClickListener(this);
         profilePhoneIV.setOnClickListener(this);
+        profileMailIV.setOnLongClickListener(this);
+        profilePhoneIV.setOnLongClickListener(this);
         mailTv.setOnClickListener(this);
+        mailTv.setOnLongClickListener(this);
+        phoneNumberTv.setOnLongClickListener(this);
         phoneNumberTv.setOnClickListener(this);
     }
 
@@ -143,14 +144,28 @@ public class FragmentTabInfo extends BaseAbstractFragment implements ProfileInfo
     public void addRelation(Relation relation) {
         Contact c = dataMapper.getContact();
         c.getRelations().add(relation);
-        dataMapper.setCcntact(c);
+        dataMapper.saveContact(c);
     }
 
     @Override
     public void addPet(Pet pet) {
         Contact c = dataMapper.getContact();
         dataMapper.getContact().getPets().add(pet);
-        dataMapper.setCcntact(c);
+        dataMapper.saveContact(c);
+    }
+
+    @Override
+    public void removeRelation(Relation rel) {
+        Contact c = dataMapper.getContact();
+        c.getRelations().remove(rel);
+        dataMapper.saveContact(c);
+    }
+
+    @Override
+    public void removePet(Pet pet) {
+        Contact c = dataMapper.getContact();
+        c.getPets().remove(pet);
+        dataMapper.saveContact(c);
     }
 
     @Override
@@ -207,6 +222,39 @@ public class FragmentTabInfo extends BaseAbstractFragment implements ProfileInfo
                 }).show();
 
     }
+
+    @Override
+    public boolean onLongClick(View v) {
+        switch (v.getId()) {
+            case R.id.iv_profile_mail:
+            case R.id.tv_mail:
+                DialogBuilder mailBuilder = new DialogBuilder(getContext());
+                mailBuilder.addEditText("mail", "Редактирование почты")
+                        .initDialog("Введите адрес почты")
+                        .addOkButton(views -> {
+                            EditText etPhone = (EditText) views.get("mail");
+                            dataMapper.getContact().setMail(etPhone.getText().toString());
+                            dataMapper.saveContact(dataMapper.getContact());
+                        });
+                break;
+            case R.id.iv_profile_phone:
+            case R.id.tv_phone_number:
+                DialogBuilder phoneBuilder = new DialogBuilder(getContext());
+                phoneBuilder.addEditText("phone", "Редактирование номера")
+                        .initDialog("Введите номер")
+                        .addOkButton(views -> {
+                            EditText etPhone = (EditText) views.get("phone");
+                            dataMapper.getContact().setPhone(etPhone.getText().toString());
+                            dataMapper.saveContact(dataMapper.getContact());
+                        });
+                break;
+            default:
+                break;
+
+        }
+        return false;
+    }
+
 
     private void addRelative() {
 

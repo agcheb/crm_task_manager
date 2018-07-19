@@ -69,7 +69,7 @@ public class RecyclerNotificationAdapter extends RecyclerView.Adapter<RecyclerNo
 
         @Override
         public int getPos() {
-            return 0;
+            return pos;
         }
 
         @Override

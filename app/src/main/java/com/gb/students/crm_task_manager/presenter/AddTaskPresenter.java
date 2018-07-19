@@ -73,7 +73,7 @@ public class AddTaskPresenter extends MvpPresenter<AddTaskView> {
                         getViewState().toast("Task saved");
                     });
         } else {
-            getViewState().showError("Task is empty or has no title");
+            getViewState().showError("Task is empty or has no label");
         }
 
     }

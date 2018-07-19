@@ -11,4 +11,8 @@ public interface ProfileInfoView extends BaseView {
     void addRelation(Relation relation);
 
     void addPet(Pet pet);
+
+    void removeRelation(Relation rel);
+
+    void removePet(Pet pet);
 }

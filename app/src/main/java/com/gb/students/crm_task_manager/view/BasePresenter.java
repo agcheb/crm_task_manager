@@ -1,6 +1,5 @@
 package com.gb.students.crm_task_manager.view;
 
-import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 import com.gb.students.crm_task_manager.view.base_views.BaseView;
 
@@ -18,9 +17,8 @@ public abstract class BasePresenter<T extends BaseView>  extends MvpPresenter<T>
     @Override
     protected void onFirstViewAttach() {
         super.onFirstViewAttach();
+        init();
         loadData();
-        getViewState().init();
-
     }
 
     protected abstract void loadData();

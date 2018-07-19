@@ -34,7 +34,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignLeft="@id/note_lbl"
                 android:layout_below="@id/note_lbl"
-                android:text="Шпана хулиганская" />
+               />
 
             <ImageButton
                 android:id="@+id/iv_profile_phone"

@@ -64,11 +64,13 @@ public class ProfileTaskPresenter extends BasePresenter<ProfileTasksView>{
     protected void init() {
         taskRepo = new PaperTaskRepo();
         taskListPresenter=new TaskListPresenter();
+        getViewState().init();
     }
 
     @Override
     protected void loadData() {
          tasks=contact.getTasks();
+         getViewState().updateList();
     }
 
   public List<Task> getTasks()

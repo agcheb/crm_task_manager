@@ -27,13 +27,6 @@ public class ProfileActivity extends BaseAbstractView implements ProfileView, Co
     Toolbar toolbar;
 //    @BindView(R.id.profile_fab)
 //    FloatingActionButton fab;
-//@BindView(R.id.content_title)
-//TextView title;
-
-    private CustomFragmentPA customFragmentPA;
-    private FragmentTabInfo fragmentTabInfo;
-    private FragmentTabTasks fragmentTabTasks;
-    private FragmentTabNotifications fragmentTabNotifications;
 
 
     @Override
@@ -55,15 +48,9 @@ public class ProfileActivity extends BaseAbstractView implements ProfileView, Co
 
     @Override
     public void init() {
-
-
-//        title.setText(name);
+//        label.setText(name);
         setSupportActionBar(toolbar);
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-
-
-
 
 //        fab.setOnClickListener(view -> Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
 //                .setAction("Action", null).show());
@@ -73,11 +60,11 @@ public class ProfileActivity extends BaseAbstractView implements ProfileView, Co
 
     @Override
     public void initTabFragments() {
-        customFragmentPA = new CustomFragmentPA(getSupportFragmentManager());
+        CustomFragmentPA customFragmentPA = new CustomFragmentPA(getSupportFragmentManager());
 
-        fragmentTabInfo = FragmentTabInfo.newInstance(null);
-        fragmentTabTasks = FragmentTabTasks.newInstance(null);
-        fragmentTabNotifications = FragmentTabNotifications.newInstance(null);
+        FragmentTabInfo fragmentTabInfo = FragmentTabInfo.newInstance(null);
+        FragmentTabTasks fragmentTabTasks = FragmentTabTasks.newInstance(null);
+        FragmentTabNotifications fragmentTabNotifications = FragmentTabNotifications.newInstance(null);
 
         customFragmentPA.addFragment(fragmentTabInfo, getString(R.string.info));
         customFragmentPA.addFragment(fragmentTabTasks, getString(R.string.tasks));
@@ -121,7 +108,7 @@ public class ProfileActivity extends BaseAbstractView implements ProfileView, Co
     }
 
     @Override
-    public void setCcntact(Contact contact) {
+    public void saveContact(Contact contact) {
         profilePresenter.saveContact(contact);
     }
 }

@@ -105,7 +105,7 @@ public class ClientPresenter extends MvpPresenter<FragmentClientView> {
 //                str.append(s + "; ");
 //            }
 //
-//            holder.setTitle(userCRM.getClientsList().get(position).getName(),
+//            holder.setLabel(userCRM.getClientsList().get(position).getName(),
 //                    userCRM.getClientsList().get(position).getContact(),
 //                    str.toString());
 //        }

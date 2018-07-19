@@ -5,20 +5,21 @@ import java.util.*
 
 class Contact(var name: String?) {
     var birth: Date? = null
-    var relations: List<Relation>? = null
-    var pets: List<Pet>? = null
-    var contactInfos: List<ContactInfo>? = null
-    var adresses: List<Address>? = null
+    var relations: List<Relation>? = mutableListOf()
+    var pets: List<Pet> = mutableListOf()
+    var contactInfos: List<ContactInfo> = mutableListOf()
+    var adresses: List<Address> = mutableListOf()
+    var phone: String?=null
+    var mail: String?=null
 
-
-    val tasks: List<Task>? = null
+     var tasks: List<Task> = mutableListOf()
     var aqt: Acquaintance? = null
     var work: Work? = null
-    var leisures: List<Leisure>? = null
-    var notifications: List<Notification>? = null
+    var leisures: List<Leisure>? = mutableListOf()
+    var notifications: List<Notification>? = mutableListOf()
     var gifts: List<Gift>? = null
 
-    var credits: List<Credit>? = null
+    var credits: List<Credit>? = mutableListOf()
 
     override fun equals(o: Any?): Boolean {
         if (this === o) return true
