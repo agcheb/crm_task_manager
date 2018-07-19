@@ -1,5 +1,6 @@
 package com.gb.students.crm_task_manager.contacts.morecontacts;
 
+import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -67,11 +68,9 @@ public class ContactMoreRVAdapter extends RecyclerView.Adapter<ContactMoreRVAdap
         }
 
         @Override
-        public void setTitle(String title, String number, String tags)
+        public void setTitle(String title, Bitmap bitmap)
         {
             itemTitle.setText(title);
-            //itemNumber.setText(number);
-            //itemTags.setText(tags);
         }
 
         @Override

@@ -27,6 +27,8 @@ import butterknife.ButterKnife;
 
 public class MainActivity extends MvpAppCompatActivity implements MainView {
 
+
+
     @InjectPresenter
     MainPresenter mainPresenter;
 
@@ -90,7 +92,7 @@ public class MainActivity extends MvpAppCompatActivity implements MainView {
     private void showContacts(){
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED){
-            requestPermissions(new String[]{Manifest.permission.READ_CONTACTS}, 100);
+            requestPermissions(new String[]{Manifest.permission.READ_CONTACTS,Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 100);
         }
         else {
             getSupportFragmentManager().beginTransaction().add(R.id.fragment_container_main, new FragmentClients()).commit();

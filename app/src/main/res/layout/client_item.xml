@@ -7,22 +7,6 @@
     android:orientation="vertical"
     android:padding="10dp">
 
-    <!--<TextView-->
-        <!--android:id="@+id/client_item_number"-->
-        <!--android:layout_width="0dp"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginBottom="8dp"-->
-        <!--android:layout_marginLeft="16dp"-->
-        <!--android:layout_marginStart="16dp"-->
-        <!--android:layout_marginTop="8dp"-->
-        <!--android:text="A"-->
-        <!--android:textColor="@android:color/holo_orange_dark"-->
-        <!--android:textSize="22sp"-->
-        <!--android:textStyle="bold"-->
-        <!--app:layout_constraintBottom_toBottomOf="parent"-->
-        <!--app:layout_constraintStart_toStartOf="parent"-->
-        <!--app:layout_constraintTop_toTopOf="parent" />-->
-
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="50dp"
