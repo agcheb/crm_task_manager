@@ -14,14 +14,14 @@ import com.gb.students.crm_task_manager.contacts.profile.tab_fragments.view.Frag
 import com.gb.students.crm_task_manager.contacts.profile.tab_fragments.view.FragmentTabTasks;
 import com.gb.students.crm_task_manager.custom.CustomFragmentPA;
 import com.gb.students.crm_task_manager.model.entity.contact.Contact;
-import com.gb.students.crm_task_manager.view.base_views.BaseAbstractView;
+import com.gb.students.crm_task_manager.view.base_views.BaseAbstractActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import timber.log.Timber;
 
-public class ProfileActivity extends BaseAbstractView implements ProfileView, ContactDataMapper {
+public class ProfileActivity extends BaseAbstractActivity implements ProfileView, ContactDataMapper {
 
     @BindView(R.id.profile_toolbar)
     Toolbar toolbar;

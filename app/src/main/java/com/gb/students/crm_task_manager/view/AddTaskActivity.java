@@ -1,6 +1,5 @@
 package com.gb.students.crm_task_manager.view;
 
-import android.app.AlertDialog;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
@@ -16,13 +15,12 @@ import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.gb.students.crm_task_manager.R;
-import com.gb.students.crm_task_manager.custom.DialogBuilder;
 import com.gb.students.crm_task_manager.model.entity.types.TaskTypes;
 import com.gb.students.crm_task_manager.presenter.AddTaskPresenter;
+import com.gb.students.crm_task_manager.view.base_views.BaseAbstractActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -35,7 +33,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 
-public class AddTaskActivity extends MvpAppCompatActivity implements AddTaskView, View.OnClickListener {
+import static com.gb.students.crm_task_manager.custom.DialogBuilder.checkViewForNotNull;
+
+public class AddTaskActivity extends BaseAbstractActivity implements AddTaskView, View.OnClickListener {
 
     @InjectPresenter
     AddTaskPresenter presenter;
@@ -121,23 +121,25 @@ public class AddTaskActivity extends MvpAppCompatActivity implements AddTaskView
 
     @Override
     public void showDateDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
-        builder.setTitle(getString(R.string.select_date));
-        final DatePicker datePicker = new DatePicker(this);
-        builder.setView(datePicker);
-        builder.setPositiveButton(getResources().getString(R.string.ok),
-                (dialog, which) -> {
-                    GregorianCalendar calendarBeg = new GregorianCalendar(datePicker.getYear(),
-                            datePicker.getMonth(), datePicker.getDayOfMonth());
-                    Date date = calendarBeg.getTime();
+        showDialog(getString(R.string.select_date))
+                .addDatePicker("date")
+                .onOkClick((views, isClosable, dialog) -> {
+                    final DatePicker datePicker = (DatePicker) views.get("date");
+                    if (checkViewForNotNull(datePicker)) {
 
-                    timePickerTv.setEnabled(true);
-                    datePickerTv.setText(dateFormat.format(date));
-                    presenter.setDate(date);
-                }
-        );
-        builder.show();
+                        GregorianCalendar calendarBeg = new GregorianCalendar(datePicker.getYear(),
+                                datePicker.getMonth(), datePicker.getDayOfMonth());
+                        Date date = calendarBeg.getTime();
+
+                        timePickerTv.setEnabled(true);
+                        datePickerTv.setText(dateFormat.format(date));
+                        presenter.setDate(date);
+                        dialog.dismiss();
+                    }
+
+                }) ;
+
     }
 
     @Override
@@ -168,34 +170,34 @@ public class AddTaskActivity extends MvpAppCompatActivity implements AddTaskView
 
     private void addNewSubtask() {
 
-        DialogBuilder dialog = new DialogBuilder(this);
-        dialog.initDialog(getString(R.string.add_subtask));
-        dialog.addEditText("subatask", "Ведите название");
-        dialog.addOkButton(views -> {
-            EditText etName = (EditText) views.get("name");
-            String sbtLbl = etName.getText().toString();
-            presenter.addSubtask(sbtLbl);
-            subtasks.add(sbtLbl);
-            adapter.notifyDataSetChanged();
-        }).show();
+        showDialog(getString(R.string.add_subtask))
+                .addEditText("subatask", "Ведите название")
+                .onOkClick((views, isTrue, dialog) -> {
+                    EditText etName = (EditText) views.get("subatask");
+                    if (checkViewForNotNull())
+                        if (checkViewForNotNull(etName)) {
+                            String sbtLbl = etName.getText().toString();
+                            presenter.addSubtask(sbtLbl);
+                            subtasks.add(sbtLbl);
+                            adapter.notifyDataSetChanged();
+                            dialog.dismiss();
+                        }
+                });
 
     }
 
     private void showTimeDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-        builder.setTitle(getString(R.string.select_time));
-        final TimePicker picker = new TimePicker(this);
-        builder.setView(picker);
-        builder.setPositiveButton(getResources().getString(R.string.ok),
-                (dialog, which) -> {
+        showDialog(getString(R.string.select_time))
+                .addTimePicker("time")
+                .onOkClick((views, isTrue, dialog) -> {
+                    TimePicker picker = (TimePicker) views.get("time");
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                         timePickerTv.setText(picker.getHour() + ":" + picker.getMinute());
                         presenter.setTime(picker.getHour(), picker.getMinute());
+                        dialog.dismiss();
                     }
-                }
-        );
-        builder.show();
+                });
+
     }
 
     public void showRegistrationActivity(MenuItem item) {

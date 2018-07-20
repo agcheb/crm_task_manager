@@ -40,6 +40,9 @@ import butterknife.ButterKnife;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import timber.log.Timber;
 
+import static com.gb.students.crm_task_manager.custom.DialogBuilder.checkEmptyEditableText;
+import static com.gb.students.crm_task_manager.custom.DialogBuilder.checkViewForNotNull;
+
 public class FragmentTabInfo extends BaseAbstractFragment implements ProfileInfoView, View.OnClickListener, View.OnLongClickListener {
 
 
@@ -210,14 +213,18 @@ public class FragmentTabInfo extends BaseAbstractFragment implements ProfileInfo
         Pet pet = new Pet();
         showDialog(getResources().getString(R.string.add_relative))
                 .addEditText("name", getResources().getString(R.string.type_name))
-                .addSpinner("spinner", presenter.getTypes().getPetTypes().getAll(),null)
-                .addOkButton(views -> {
+                .addSpinner("spinner", presenter.getTypes().getPetTypes().getAll(), null)
+
+                .onOkClick((views, isClosable, dialog) -> {
                     EditText etName = (EditText) views.get("name");
                     Spinner spinner = (Spinner) views.get("type");
                     pet.setName(etName.getText().toString());
                     pet.setType(presenter.getTypes().getPetTypes().getAll().get(spinner.getSelectedItemPosition()));
-                    presenter.addPet(pet);
-                }).show();
+                    if (checkEmptyEditableText(etName)) {
+                        presenter.addPet(pet);
+                        dialog.dismiss();
+                    }
+                }) ;
 
     }
 
@@ -228,23 +235,29 @@ public class FragmentTabInfo extends BaseAbstractFragment implements ProfileInfo
             case R.id.tv_mail:
                 showDialog(getResources().getString(R.string.edit))
                         .addEditText("mail", getResources().getString(R.string.type_mail))
-                        .addOkButton(views -> {
+                        .onOkClick((views, isClosable, dialog) -> {
                             EditText etMail = (EditText) views.get("mail");
-                            dataMapper.getContact().setMail(etMail.getText().toString());
-                            mailTv.setText(etMail.getText().toString());
-                            dataMapper.saveContact(dataMapper.getContact());
-                        }).show();
+                            if (checkEmptyEditableText(etMail)) {
+                                dataMapper.getContact().setEmail(etMail.getText().toString());
+                                mailTv.setText(etMail.getText().toString());
+                                dataMapper.saveContact(dataMapper.getContact());
+                                dialog.dismiss();
+                            }
+                        }) ;
                 break;
             case R.id.iv_profile_phone:
             case R.id.tv_phone_number:
                 showDialog(getResources().getString(R.string.edit))
                         .addEditText("phone", getResources().getString(R.string.type_phone))
-                        .addOkButton(views -> {
+                        .onOkClick((views, isClosable, dialog) -> {
                             EditText etPhone = (EditText) views.get("phone");
-                            dataMapper.getContact().setPhone(etPhone.getText().toString());
-                            phoneNumberTv.setText(etPhone.getText().toString());
-                            dataMapper.saveContact(dataMapper.getContact());
-                        }).show();
+                            if (checkEmptyEditableText(etPhone)) {
+                                dataMapper.getContact().setNumber(etPhone.getText().toString());
+                                phoneNumberTv.setText(etPhone.getText().toString());
+                                dataMapper.saveContact(dataMapper.getContact());
+                                dialog.dismiss();
+                            }
+                        }) ;
                 break;
             default:
                 break;
@@ -258,39 +271,45 @@ public class FragmentTabInfo extends BaseAbstractFragment implements ProfileInfo
 
         Relation rel = new Relation();
 
-        DialogBuilder dialog = new DialogBuilder(getContext());
-        dialog.initDialog(getResources().getString(R.string.add_relative))
+
+        showDialog(getResources().getString(R.string.add_relative))
                 .addEditText("name", getResources().getString(R.string.type_name))
                 .addEditText("note", getResources().getString(R.string.add_note))
                 .addSpinner("type", presenter.getTypes().getRelationTypes().getAll(), pos -> {
                 })
 
                 .addDateText("date", text -> {
-                    DialogBuilder dialogDate = new DialogBuilder(getContext());
-                    dialogDate.initDialog("Выбирите дату")
+
+                    showDialog("Выбирите дату")
                             .addDatePicker("date")
-                            .addOkButton(views -> {
+                            .onOkClick((views, isClosable, dialog) -> {
                                 DatePicker datePicker = (DatePicker) views.get("date");
-                                GregorianCalendar calendarBeg = new GregorianCalendar(datePicker.getYear(),
-                                        datePicker.getMonth(), datePicker.getDayOfMonth());
-                                Date date = calendarBeg.getTime();
-                                rel.setBirth(calendarBeg.getTime());
-                                text.setText(StringHelper.getDateFormat(StringHelper.Pattern.DOT_NUMERIC).format(date));
+                                if (checkViewForNotNull(datePicker)) {
+                                    GregorianCalendar calendarBeg = new GregorianCalendar(datePicker.getYear(),
+                                            datePicker.getMonth(), datePicker.getDayOfMonth());
+                                    Date date = calendarBeg.getTime();
+                                    rel.setBirth(calendarBeg.getTime());
+                                    text.setText(StringHelper.getDateFormat(StringHelper.Pattern.DOT_NUMERIC).format(date));
+                                    dialog.dismiss();
+                                }
                             })
-                            .show();
+                            ;
                 })
-                .addOkButton(views -> {
+                .onOkClick((views, isClosable, dialog) -> {
+
                     EditText etName = (EditText) views.get("name");
                     EditText etNote = (EditText) views.get("note");
                     Spinner spinner = (Spinner) views.get("type");
+                    if (checkViewForNotNull(etName, etNote, spinner))
+                        if (checkEmptyEditableText(etName, etNote)) {
+                            rel.setName(etName.getText().toString());
+                            rel.setNote(etNote.getText().toString());
+                            rel.setType(presenter.getTypes().getRelationTypes().getAll().get(spinner.getSelectedItemPosition()));
+                            presenter.addRelation(rel);
+                            dialog.dismiss();
+                        }
+                }) ;
 
-                    rel.setName(etName.getText().toString());
-                    rel.setNote(etNote.getText().toString());
-                    rel.setType(presenter.getTypes().getRelationTypes().getAll().get(spinner.getSelectedItemPosition()));
-
-                    presenter.addRelation(rel);
-                });
-        dialog.show();
 
     }
 

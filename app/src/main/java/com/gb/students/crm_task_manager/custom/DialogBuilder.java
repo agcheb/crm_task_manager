@@ -2,6 +2,7 @@ package com.gb.students.crm_task_manager.custom;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.AdapterView;
@@ -10,6 +11,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TimePicker;
 
 import com.gb.students.crm_task_manager.R;
 
@@ -19,7 +21,7 @@ import java.util.List;
 public class DialogBuilder {
 
     public interface OnButtonListener {
-        void click(HashMap<String, View> views);
+        void click(HashMap<String, View> views, Boolean isClosable, AlertDialog dialog);
     }
 
     public interface OnSpinnerSelected {
@@ -107,23 +109,49 @@ public class DialogBuilder {
         acceptView(datePicker, name);
         return this;
     }
-
-    public DialogBuilder addOkButton(OnButtonListener buttonListener) {
-        builder.setPositiveButton(context.getResources().getString(R.string.ok),
-                (dialog, which) -> {
-                    buttonListener.click(views);
-                });
+    public DialogBuilder addTimePicker(String name){
+        final TimePicker picker = new TimePicker(this.context);
+        picker.setLayoutParams(params);
+        acceptView(picker, name);
         return this;
     }
 
-    public void show() {
+
+    public DialogBuilder onOkClick(OnButtonListener buttonListener) {
         builder.setView(linearLayout);
-        builder.show();
+        builder.setPositiveButton(context.getResources().getString(R.string.ok), (dialog, which) -> {});
+        final AlertDialog dialog = builder.create();
+        dialog.show();
+
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Boolean isClosable = false;
+                buttonListener.click(views, isClosable, dialog);
+            }
+        });
+        return this;
     }
 
     private void acceptView(View view, String name) {
         views.put(name, view);
         linearLayout.addView(view);
+    }
+
+    public static Boolean checkEmptyEditableText(EditText... editTexts) {
+        for (EditText et : editTexts)
+            if (et.getText() == null || et.getText().toString().equals(""))
+                return false;
+
+        return true;
+    }
+
+    public static Boolean checkViewForNotNull(View... views) {
+        for (View view : views)
+            if (view  == null )
+                return false;
+
+        return true;
     }
 
 

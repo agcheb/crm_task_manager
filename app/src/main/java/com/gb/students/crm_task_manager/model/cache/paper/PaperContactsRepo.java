@@ -71,8 +71,8 @@ public class PaperContactsRepo implements ContactsRepo{
 
     Contact dummy() {
         Contact c = new Contact("John Smith");
-        c.setPhone("88003009999");
-        c.setMail("sas@saa.ru");
+        c.setNumber("88003009999");
+        c.setEmail("sas@saa.ru");
         List<Task> tasks = new ArrayList<>();
         Task task = new Task();
         task.setExpDate(new Date());
