@@ -124,7 +124,7 @@ public class AddTaskActivity extends BaseAbstractActivity implements AddTaskView
 
         showDialog(getString(R.string.select_date))
                 .addDatePicker("date")
-                .onOkClick((views, isClosable, dialog) -> {
+                .onOkClick((views, window, dialog) -> {
                     final DatePicker datePicker = (DatePicker) views.get("date");
                     if (checkViewForNotNull(datePicker)) {
 
@@ -135,7 +135,7 @@ public class AddTaskActivity extends BaseAbstractActivity implements AddTaskView
                         timePickerTv.setEnabled(true);
                         datePickerTv.setText(dateFormat.format(date));
                         presenter.setDate(date);
-                        dialog.dismiss();
+                        window.setClosable();
                     }
 
                 }) ;
@@ -172,7 +172,7 @@ public class AddTaskActivity extends BaseAbstractActivity implements AddTaskView
 
         showDialog(getString(R.string.add_subtask))
                 .addEditText("subatask", "Ведите название")
-                .onOkClick((views, isTrue, dialog) -> {
+                .onOkClick((views, window, dialog) -> {
                     EditText etName = (EditText) views.get("subatask");
                     if (checkViewForNotNull())
                         if (checkViewForNotNull(etName)) {
@@ -180,7 +180,7 @@ public class AddTaskActivity extends BaseAbstractActivity implements AddTaskView
                             presenter.addSubtask(sbtLbl);
                             subtasks.add(sbtLbl);
                             adapter.notifyDataSetChanged();
-                            dialog.dismiss();
+                            window.setClosable();
                         }
                 });
 
@@ -189,12 +189,12 @@ public class AddTaskActivity extends BaseAbstractActivity implements AddTaskView
     private void showTimeDialog() {
         showDialog(getString(R.string.select_time))
                 .addTimePicker("time")
-                .onOkClick((views, isTrue, dialog) -> {
+                .onOkClick((views, window, dialog) -> {
                     TimePicker picker = (TimePicker) views.get("time");
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                         timePickerTv.setText(picker.getHour() + ":" + picker.getMinute());
                         presenter.setTime(picker.getHour(), picker.getMinute());
-                        dialog.dismiss();
+                       window.setClosable();
                     }
                 });
 

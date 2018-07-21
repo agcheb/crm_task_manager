@@ -2,7 +2,6 @@ package com.gb.students.crm_task_manager.custom;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.AdapterView;
@@ -12,6 +11,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.gb.students.crm_task_manager.R;
 
@@ -21,7 +21,7 @@ import java.util.List;
 public class DialogBuilder {
 
     public interface OnButtonListener {
-        void click(HashMap<String, View> views, Boolean isClosable, AlertDialog dialog);
+        void click(HashMap<String, View> views, Window isClosable, AlertDialog dialog);
     }
 
     public interface OnSpinnerSelected {
@@ -109,7 +109,8 @@ public class DialogBuilder {
         acceptView(datePicker, name);
         return this;
     }
-    public DialogBuilder addTimePicker(String name){
+
+    public DialogBuilder addTimePicker(String name) {
         final TimePicker picker = new TimePicker(this.context);
         picker.setLayoutParams(params);
         acceptView(picker, name);
@@ -119,15 +120,21 @@ public class DialogBuilder {
 
     public DialogBuilder onOkClick(OnButtonListener buttonListener) {
         builder.setView(linearLayout);
-        builder.setPositiveButton(context.getResources().getString(R.string.ok), (dialog, which) -> {});
+        builder.setPositiveButton(context.getResources().getString(R.string.ok), (dialog, which) -> {
+        });
+        Window resultAction = new Window();
         final AlertDialog dialog = builder.create();
         dialog.show();
 
         dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Boolean isClosable = false;
-                buttonListener.click(views, isClosable, dialog);
+
+                buttonListener.click(views, resultAction, dialog);
+                if (resultAction.isClosable)
+                    dialog.dismiss();
+                else
+                    Toast.makeText(context, context.getResources().getString(R.string.fill_all_fields), Toast.LENGTH_SHORT).show();
             }
         });
         return this;
@@ -148,11 +155,26 @@ public class DialogBuilder {
 
     public static Boolean checkViewForNotNull(View... views) {
         for (View view : views)
-            if (view  == null )
+            if (view == null)
                 return false;
 
         return true;
     }
 
+   public  class Window {
+        public Boolean isClosable() {
+            return isClosable;
+        }
 
+        private Boolean isClosable = false;
+
+        public void setClosable(){
+            isClosable=true;
+        }
+
+        public void setNotClosable(){
+            isClosable=false;
+        }
+
+    }
 }

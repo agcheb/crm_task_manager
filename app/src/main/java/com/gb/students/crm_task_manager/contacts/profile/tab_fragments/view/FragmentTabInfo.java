@@ -1,5 +1,6 @@
 package com.gb.students.crm_task_manager.contacts.profile.tab_fragments.view;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -34,6 +35,7 @@ import com.gb.students.crm_task_manager.view.base_views.BaseAbstractFragment;
 
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -214,17 +216,16 @@ public class FragmentTabInfo extends BaseAbstractFragment implements ProfileInfo
         showDialog(getResources().getString(R.string.add_relative))
                 .addEditText("name", getResources().getString(R.string.type_name))
                 .addSpinner("spinner", presenter.getTypes().getPetTypes().getAll(), null)
-
-                .onOkClick((views, isClosable, dialog) -> {
+                .onOkClick((views, window, dialog) -> {
                     EditText etName = (EditText) views.get("name");
                     Spinner spinner = (Spinner) views.get("type");
                     pet.setName(etName.getText().toString());
                     pet.setType(presenter.getTypes().getPetTypes().getAll().get(spinner.getSelectedItemPosition()));
                     if (checkEmptyEditableText(etName)) {
                         presenter.addPet(pet);
-                        dialog.dismiss();
+                        window.setClosable();
                     }
-                }) ;
+                });
 
     }
 
@@ -235,29 +236,29 @@ public class FragmentTabInfo extends BaseAbstractFragment implements ProfileInfo
             case R.id.tv_mail:
                 showDialog(getResources().getString(R.string.edit))
                         .addEditText("mail", getResources().getString(R.string.type_mail))
-                        .onOkClick((views, isClosable, dialog) -> {
+                        .onOkClick((views, window, dialog) -> {
                             EditText etMail = (EditText) views.get("mail");
                             if (checkEmptyEditableText(etMail)) {
                                 dataMapper.getContact().setEmail(etMail.getText().toString());
                                 mailTv.setText(etMail.getText().toString());
                                 dataMapper.saveContact(dataMapper.getContact());
-                                dialog.dismiss();
+                                window.setClosable();
                             }
-                        }) ;
+                        });
                 break;
             case R.id.iv_profile_phone:
             case R.id.tv_phone_number:
                 showDialog(getResources().getString(R.string.edit))
                         .addEditText("phone", getResources().getString(R.string.type_phone))
-                        .onOkClick((views, isClosable, dialog) -> {
+                        .onOkClick((HashMap<String, View> views, DialogBuilder.Window window, AlertDialog dialog) -> {
                             EditText etPhone = (EditText) views.get("phone");
                             if (checkEmptyEditableText(etPhone)) {
                                 dataMapper.getContact().setNumber(etPhone.getText().toString());
                                 phoneNumberTv.setText(etPhone.getText().toString());
                                 dataMapper.saveContact(dataMapper.getContact());
-                                dialog.dismiss();
+                                window.setClosable();
                             }
-                        }) ;
+                        });
                 break;
             default:
                 break;
@@ -282,7 +283,7 @@ public class FragmentTabInfo extends BaseAbstractFragment implements ProfileInfo
 
                     showDialog("Выбирите дату")
                             .addDatePicker("date")
-                            .onOkClick((views, isClosable, dialog) -> {
+                            .onOkClick((views, window, dialog) -> {
                                 DatePicker datePicker = (DatePicker) views.get("date");
                                 if (checkViewForNotNull(datePicker)) {
                                     GregorianCalendar calendarBeg = new GregorianCalendar(datePicker.getYear(),
@@ -290,12 +291,12 @@ public class FragmentTabInfo extends BaseAbstractFragment implements ProfileInfo
                                     Date date = calendarBeg.getTime();
                                     rel.setBirth(calendarBeg.getTime());
                                     text.setText(StringHelper.getDateFormat(StringHelper.Pattern.DOT_NUMERIC).format(date));
-                                    dialog.dismiss();
+                                   window.setClosable();
                                 }
                             })
-                            ;
+                    ;
                 })
-                .onOkClick((views, isClosable, dialog) -> {
+                .onOkClick((views, window, dialog) -> {
 
                     EditText etName = (EditText) views.get("name");
                     EditText etNote = (EditText) views.get("note");
@@ -306,9 +307,9 @@ public class FragmentTabInfo extends BaseAbstractFragment implements ProfileInfo
                             rel.setNote(etNote.getText().toString());
                             rel.setType(presenter.getTypes().getRelationTypes().getAll().get(spinner.getSelectedItemPosition()));
                             presenter.addRelation(rel);
-                            dialog.dismiss();
+                            window.setClosable();
                         }
-                }) ;
+                });
 
 
     }
