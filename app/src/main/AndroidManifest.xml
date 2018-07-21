@@ -22,6 +22,7 @@
         <activity android:name=".view.MainActivity">
 
         </activity>
+
         <activity
             android:name=".contacts.ContactActivity"
             android:label="@string/title_activity_contact"
@@ -29,27 +30,26 @@
 
         </activity>
         <activity android:name=".contacts.morecontacts.MoreContactsActivity" />
+
         <activity
             android:name=".contacts.profile.ProfileActivity"
             android:label="@string/title_activity_profile"
             android:theme="@style/AppTheme.NoActionBar">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".contacts.addcontact.AddContactActivity"
             android:label="@string/title_activity_add_contact">
-
         </activity>
+
         <activity
             android:name=".view.AddTaskActivity"
-            android:label="@string/title_activity_contact"
+            android:label="@string/title_activity_task"
             android:theme="@style/AppTheme.NoActionBar">
-
         </activity>
 
 

@@ -34,10 +34,14 @@
                 app:layout_collapseMode="pin"
                 app:popupTheme="@style/AppTheme.NoActionBar.PopupOverlay" />
 
+
+
+
         </android.support.design.widget.CollapsingToolbarLayout>
 
 
     </android.support.design.widget.AppBarLayout>
+
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -76,19 +80,59 @@
 
     <android.support.v4.view.ViewPager
         android:id="@+id/container_tabs"
-        android:layout_marginTop="60dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
+    <!--<com.github.clans.fab.FloatingActionMenu-->
+        <!--android:id="@+id/action_menu"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_margin="@dimen/fab_margin"-->
+        <!--app:layout_anchor="@id/app_bar_profile"-->
+        <!--app:layout_anchorGravity="bottom|end"-->
+        <!--app:menu_fab_size="normal"-->
+        <!--app:menu_labels_position="left"-->
+        <!--fab:menu_animationDelayPerItem="0"-->
+        <!--fab:menu_colorNormal="#FFB805"-->
+        <!--fab:menu_colorPressed="#F2AB00"-->
+        <!--fab:menu_colorRipple="#D99200"-->
+        <!--fab:menu_labels_hideAnimation="@anim/jump_to_down"-->
+        <!--fab:menu_labels_position="left"-->
+        <!--fab:menu_labels_showAnimation="@anim/jump_from_down"-->
+        <!--fab:menu_labels_style="@style/MenuLabelsStyle"-->
+        <!--fab:menu_openDirection="down"-->
+        <!--fab:menu_shadowColor="#444">-->
+
+        <!--<com.github.clans.fab.FloatingActionButton-->
+            <!--android:id="@+id/fab12"-->
+            <!--style="@style/MenuButtonsStyle"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:src="@drawable/ic_action_notifications"-->
+            <!--fab:fab_label="@string/notifications"-->
+            <!--fab:fab_size="mini" />-->
+
+        <!--<com.github.clans.fab.FloatingActionButton-->
+            <!--android:id="@+id/fab22"-->
+            <!--style="@style/MenuButtonsStyle"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:src="@drawable/ic_action_notifications"-->
+            <!--fab:fab_label="@string/tasks"-->
+            <!--fab:fab_size="mini" />-->
+
+
+    <!--</com.github.clans.fab.FloatingActionMenu>-->
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/fab_margin"
-        android:src="@android:drawable/ic_input_add"
-        app:layout_anchor="@id/app_bar_profile"
-        app:layout_anchorGravity="bottom|end" />
+    android:id="@+id/fab_profile"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/fab_margin"
+    android:src="@android:drawable/ic_input_add"
+    app:layout_anchor="@id/app_bar_profile"
+    app:layout_anchorGravity="bottom|end" />
 
 
 </android.support.design.widget.CoordinatorLayout>

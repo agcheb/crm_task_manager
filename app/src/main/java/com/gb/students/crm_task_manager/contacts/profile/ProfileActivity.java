@@ -1,6 +1,7 @@
 package com.gb.students.crm_task_manager.contacts.profile;
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
@@ -25,8 +26,9 @@ public class ProfileActivity extends BaseAbstractActivity implements ProfileView
 
     @BindView(R.id.profile_toolbar)
     Toolbar toolbar;
-//    @BindView(R.id.profile_fab)
-//    FloatingActionButton fab;
+
+    @BindView(R.id.fab_profile)
+    FloatingActionButton fab;
 
 
     @Override
@@ -48,14 +50,22 @@ public class ProfileActivity extends BaseAbstractActivity implements ProfileView
 
     @Override
     public void init() {
-//        label.setText(name);
+
         setSupportActionBar(toolbar);
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-//        fab.setOnClickListener(view -> Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                .setAction("Action", null).show());
-
-        //  profilePresenter.loadData();
+        fab.setOnClickListener(view ->
+                showDialog("Add")
+                        .addChoiceList((pos, choises) -> {
+                            switch (pos) {
+                                case 0:
+                                    toast(choises[pos]);
+                                    break;
+                                case 1:
+                                    toast(choises[pos]);
+                                    break;
+                            }
+                        }, "Tabs", "Notification")
+                        .show());
     }
 
     @Override

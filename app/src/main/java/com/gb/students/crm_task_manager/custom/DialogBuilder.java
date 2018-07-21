@@ -2,6 +2,7 @@ package com.gb.students.crm_task_manager.custom;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.AdapterView;
@@ -22,6 +23,13 @@ public class DialogBuilder {
 
     public interface OnButtonListener {
         void click(HashMap<String, View> views, Window isClosable, AlertDialog dialog);
+    }
+    public interface OnCancelListener {
+        void click(HashMap<String, View> views);
+    }
+
+    public interface OnChoiceListener{
+        void select(int pos, String[] choises);
     }
 
     public interface OnSpinnerSelected {
@@ -63,6 +71,21 @@ public class DialogBuilder {
         editText.setLayoutParams(params);
         editText.setHint(hint);
         acceptView(editText, name);
+        return this;
+    }
+
+    public DialogBuilder addChoiceList(OnChoiceListener choiceListener, String... choises){
+        builder.setItems(choises, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int item) {
+                // TODO Auto-generated method stub
+                choiceListener.select(item, choises);
+//                Toast.makeText(context,
+//                        "Selected: " + choises[item],
+//                        Toast.LENGTH_SHORT).show();
+            }
+        });
+       // builder.setCancelable(false);
         return this;
     }
 
@@ -116,11 +139,14 @@ public class DialogBuilder {
         acceptView(picker, name);
         return this;
     }
+    public DialogBuilder show(){
+        builder.show();
+        return this;
+    }
 
-
-    public DialogBuilder onOkClick(OnButtonListener buttonListener) {
+    public DialogBuilder onOkClick(String title, OnButtonListener buttonListener) {
         builder.setView(linearLayout);
-        builder.setPositiveButton(context.getResources().getString(R.string.ok), (dialog, which) -> {
+        builder.setPositiveButton(title, (dialog, which) -> {
         });
         Window resultAction = new Window();
         final AlertDialog dialog = builder.create();
@@ -138,6 +164,21 @@ public class DialogBuilder {
             }
         });
         return this;
+    }
+    public DialogBuilder onOkClick(OnButtonListener buttonListener) {
+        return  onOkClick(context.getResources().getString(R.string.ok), buttonListener);
+    }
+
+    public DialogBuilder onCancelClick(String title, OnCancelListener cancelListener) {
+        builder.setView(linearLayout);
+        builder.setNegativeButton(title, (dialog, which) -> {
+            cancelListener.click(views);
+        });
+        return this;
+    }
+
+    public DialogBuilder onCancelClick( OnCancelListener cancelListener){
+        return onCancelClick("Cancel", cancelListener);
     }
 
     private void acceptView(View view, String name) {

@@ -148,4 +148,6 @@
         completions."
     </string>
     <string name="fill_all_fields">Fill all fields correctly</string>
+    <string name="title_activity_task">AddTaskActivity</string>
+    <string name="fab_custom">com.gb.students.crm_task_manager.custom.FabMenuBehavior</string>
 </resources>
