@@ -75,17 +75,10 @@ public class DialogBuilder {
     }
 
     public DialogBuilder addChoiceList(OnChoiceListener choiceListener, String... choises){
-        builder.setItems(choises, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int item) {
-                // TODO Auto-generated method stub
-                choiceListener.select(item, choises);
-//                Toast.makeText(context,
-//                        "Selected: " + choises[item],
-//                        Toast.LENGTH_SHORT).show();
-            }
+        builder.setItems(choises, (dialog, item) -> {
+            choiceListener.select(item, choises);
         });
-       // builder.setCancelable(false);
+
         return this;
     }
 
