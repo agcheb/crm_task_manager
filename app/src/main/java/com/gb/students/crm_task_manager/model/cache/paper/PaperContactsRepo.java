@@ -60,7 +60,7 @@ public class PaperContactsRepo implements ContactsRepo{
             Contact current= Paper.book("contacts").read("current");
 
            if (current==null){
-                current=dummy();
+                throw new Exception("Contact is out of memory");
           }
             Timber.d("Current contact loaded from memory");
             emitter.onNext(current);
@@ -69,26 +69,6 @@ public class PaperContactsRepo implements ContactsRepo{
     }
 
 
-    Contact dummy() {
-        Contact c = new Contact("John Smith");
-        c.setNumber("88003009999");
-        c.setEmail("sas@saa.ru");
-        List<Task> tasks = new ArrayList<>();
-        Task task = new Task();
-        task.setExpDate(new Date());
-        task.setTitle("Super Task");
-        tasks.add(task);
-
-        tasks.add(task);
-        List<Notification> nts = new ArrayList<>();
-        Notification nt = new Notification();
-        nt.setDate(new Date());
-        nt.setLabel("To understand what is notification");
-        nts.add(nt);
-        c.setTasks(tasks);
-        c.setNotifications(nts);
-        return c;
-    }
 
     @Override
     public Observable<Boolean> setCurrentContact(Contact contact) {

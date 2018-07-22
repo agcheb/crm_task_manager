@@ -94,12 +94,14 @@ public class FragmentTabInfo extends BaseAbstractFragment implements ProfileInfo
         return currentFragment;
     }
 
-    ContactDataMapper dataMapper;
+   private ContactDataMapper dataMapper;
+    private Contact contact;
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         dataMapper = (ContactDataMapper) context;
+        contact=dataMapper.getContact();
         Timber.d("FragmentTabInfo successfully created");
     }
 
@@ -112,6 +114,7 @@ public class FragmentTabInfo extends BaseAbstractFragment implements ProfileInfo
 
     @Override
     public void init() {
+
         relativesRV.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         relativeAdapter = new RecyclerRelativeAdapter(presenter.getRelativeListPresenter());
         petsRV.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
@@ -119,6 +122,11 @@ public class FragmentTabInfo extends BaseAbstractFragment implements ProfileInfo
 
         relativesRV.setAdapter(relativeAdapter);
         petsRV.setAdapter(petAdapter);
+
+        if (contact.getNumber()!=null)
+            phoneNumberTv.setText(contact.getNumber());
+        if (contact.getEmail()!=null)
+            mailTv.setText(contact.getEmail());
 
         addRelativeBtn.setOnClickListener(this);
         addPetBtn.setOnClickListener(this);

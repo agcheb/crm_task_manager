@@ -25,7 +25,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/big_margin"
-
                 android:text="Note" />
 
             <TextView
@@ -33,8 +32,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignLeft="@id/note_lbl"
-                android:layout_below="@id/note_lbl"
-               />
+                android:layout_below="@id/note_lbl" />
 
             <ImageButton
                 android:id="@+id/iv_profile_phone"
@@ -52,8 +50,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignTop="@id/iv_profile_phone"
                 android:layout_marginLeft="@dimen/big_margin"
-                android:layout_toRightOf="@id/iv_profile_phone"
-                android:text="9-900-888-77-77" />
+                android:layout_toRightOf="@id/iv_profile_phone" />
 
             <TextView
                 android:id="@+id/tv_phone_type"
@@ -95,8 +92,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignTop="@id/iv_profile_mail"
                 android:layout_marginLeft="@dimen/big_margin"
-                android:layout_toRightOf="@id/iv_profile_phone"
-                android:text="mail@mail.ru" />
+                android:layout_toRightOf="@id/iv_profile_phone" />
 
             <TextView
                 android:id="@+id/tv_mail_type"

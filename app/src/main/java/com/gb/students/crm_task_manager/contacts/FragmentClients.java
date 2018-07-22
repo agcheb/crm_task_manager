@@ -137,10 +137,12 @@ public class FragmentClients extends MvpAppCompatFragment implements FragmentCli
     public void openProfile(Contact contact) {
 
         Intent intent = new Intent(getActivity(), ProfileActivity.class);
-        contactsRepo.setCurrentContact(contact);
+
         // intent.putExtra("name", contact.getName());
         startActivity(intent);
     }
+
+
 
 
     @Override
