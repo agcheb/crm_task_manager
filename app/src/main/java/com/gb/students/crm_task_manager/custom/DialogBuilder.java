@@ -23,9 +23,6 @@ public class DialogBuilder {
     public interface OnButtonListener {
         void click(HashMap<String, View> views, Window isClosable, AlertDialog dialog);
     }
-    public interface OnCancelListener {
-        void click(HashMap<String, View> views);
-    }
 
     public interface OnChoiceListener{
         void select(int pos, String[] choises);
@@ -44,7 +41,6 @@ public class DialogBuilder {
     private Context context;
     private LinearLayout linearLayout;
     private LinearLayout.LayoutParams params;
-    private String title;
 
     public DialogBuilder(Context context) {
         this.context = context;
@@ -59,7 +55,6 @@ public class DialogBuilder {
     }
 
     public DialogBuilder initDialog(String title) {
-        this.title = title;
         builder = new AlertDialog.Builder(context);
         builder.setTitle(title);
         return this;
@@ -159,18 +154,6 @@ public class DialogBuilder {
     }
     public DialogBuilder onOkClick(OnButtonListener buttonListener) {
         return  onOkClick(context.getResources().getString(R.string.ok), buttonListener);
-    }
-
-    public DialogBuilder onCancelClick(String title, OnCancelListener cancelListener) {
-        builder.setView(linearLayout);
-        builder.setNegativeButton(title, (dialog, which) -> {
-            cancelListener.click(views);
-        });
-        return this;
-    }
-
-    public DialogBuilder onCancelClick( OnCancelListener cancelListener){
-        return onCancelClick("Cancel", cancelListener);
     }
 
     private void acceptView(View view, String name) {
