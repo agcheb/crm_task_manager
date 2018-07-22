@@ -144,7 +144,7 @@ public class DialogBuilder {
             public void onClick(View v) {
 
                 buttonListener.click(views, resultAction, dialog);
-                if (resultAction.isClosable)
+                if (resultAction.isClosable())
                     dialog.dismiss();
                 else
                     Toast.makeText(context, context.getResources().getString(R.string.fill_all_fields), Toast.LENGTH_SHORT).show();
