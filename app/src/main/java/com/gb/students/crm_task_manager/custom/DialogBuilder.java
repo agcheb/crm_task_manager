@@ -2,7 +2,6 @@ package com.gb.students.crm_task_manager.custom;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.AdapterView;

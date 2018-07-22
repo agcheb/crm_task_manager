@@ -30,6 +30,7 @@ import com.gb.students.crm_task_manager.contacts.addcontact.AddContactActivity;
 import com.gb.students.crm_task_manager.contacts.data.TempDataManager;
 import com.gb.students.crm_task_manager.contacts.morecontacts.MoreContactsActivity;
 import com.gb.students.crm_task_manager.contacts.profile.ProfileActivity;
+import com.gb.students.crm_task_manager.model.cache.paper.PaperContactsRepo;
 import com.gb.students.crm_task_manager.model.entity.contact.Contact;
 import com.gb.students.crm_task_manager.view.MainActivity;
 
@@ -52,7 +53,8 @@ public class FragmentClients extends MvpAppCompatFragment implements FragmentCli
     //moxy for MVP
     @InjectPresenter ClientPresenter clientPresenter;
 
-    ClientRVAdapter adapter;
+    private ClientRVAdapter adapter;
+    private PaperContactsRepo contactsRepo;
 
     @ProvidePresenter
     public ClientPresenter provideMainPresenter()
@@ -78,7 +80,7 @@ public class FragmentClients extends MvpAppCompatFragment implements FragmentCli
         toolbar.setTitleTextColor(Color.WHITE);
 
         ((MainActivity) getActivity()).setSupportActionBar(toolbar);
-
+        contactsRepo=new PaperContactsRepo();
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         //recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
         adapter = new ClientRVAdapter(clientPresenter);
@@ -144,7 +146,8 @@ public class FragmentClients extends MvpAppCompatFragment implements FragmentCli
     public void openProfile(Contact contact) {
 
         Intent intent = new Intent(getActivity(),ProfileActivity.class);
-        intent.putExtra("name", contact.getName());
+        contactsRepo.setCurrentContact(contact);
+       // intent.putExtra("name", contact.getName());
         startActivity(intent);
     }
 
