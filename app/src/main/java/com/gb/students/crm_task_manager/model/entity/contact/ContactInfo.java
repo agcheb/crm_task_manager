@@ -1,7 +1,7 @@
 package com.gb.students.crm_task_manager.model.entity.contact;
 
 // к какому типу контактов принадлежит (братюни, коллеги, родственники), краткое описание
-class  ContactInfo {
+public class  ContactInfo {
     private String type;
 
     public String getType() {

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/std_margin">
+
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_action_profile" />
+
+    <TextView
+        android:id="@+id/tv_relative_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:textStyle="bold"
+        android:text="Петр"
+        android:textSize="@dimen/header_18"
+        app:layout_constraintStart_toEndOf="@+id/imageView2"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginLeft="8dp" />
+
+    <TextView
+        android:id="@+id/text_relative_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/std_margin"
+        android:text="Брат"
+        android:layout_marginTop="@dimen/lil_margin"
+        app:layout_constraintStart_toEndOf="@+id/imageView2"
+        app:layout_constraintTop_toBottomOf="@+id/tv_relative_name"
+        android:layout_marginLeft="8dp" />
+
+    <ImageView
+        android:id="@+id/iv_dot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/std_margin"
+        android:layout_marginStart="@dimen/std_margin"
+        android:layout_marginBottom="@dimen/lil_margin"
+       app:layout_constraintStart_toEndOf="@id/text_relative_type"
+        app:layout_constraintBottom_toBottomOf="@+id/text_relative_type"
+
+        app:srcCompat="@drawable/dot" />
+
+    <TextView
+        android:id="@+id/tv_relative_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/std_margin"
+        android:text="29 авг 2000"
+        app:layout_constraintStart_toEndOf="@+id/iv_dot"
+        app:layout_constraintTop_toTopOf="@+id/text_relative_type" />
+
+    <ImageButton
+        android:id="@+id/iv_relative_remove"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:src="@drawable/ic_close_black_24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_relative_descrtiption"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:text="хороший брат"
+        app:layout_constraintStart_toStartOf="@+id/text_relative_type"
+        app:layout_constraintTop_toBottomOf="@+id/text_relative_type" />
+
+</android.support.constraint.ConstraintLayout>

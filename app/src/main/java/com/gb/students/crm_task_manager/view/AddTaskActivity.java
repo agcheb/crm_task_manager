@@ -1,6 +1,5 @@
 package com.gb.students.crm_task_manager.view;
 
-import android.app.AlertDialog;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
@@ -16,12 +15,12 @@ import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.gb.students.crm_task_manager.R;
 import com.gb.students.crm_task_manager.model.entity.types.TaskTypes;
 import com.gb.students.crm_task_manager.presenter.AddTaskPresenter;
+import com.gb.students.crm_task_manager.view.base_views.BaseAbstractActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -34,7 +33,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 
-public class AddTaskActivity extends MvpAppCompatActivity implements AddTaskView, View.OnClickListener {
+import static com.gb.students.crm_task_manager.custom.DialogBuilder.checkViewForNotNull;
+
+public class AddTaskActivity extends BaseAbstractActivity implements AddTaskView, View.OnClickListener {
 
     @InjectPresenter
     AddTaskPresenter presenter;
@@ -43,6 +44,7 @@ public class AddTaskActivity extends MvpAppCompatActivity implements AddTaskView
     public AddTaskPresenter provide() {
         return new AddTaskPresenter(AndroidSchedulers.mainThread());
     }
+
     @BindView(R.id.etTaskLabel)
     EditText taskTitle;
     @BindView(R.id.etNote)
@@ -61,8 +63,10 @@ public class AddTaskActivity extends MvpAppCompatActivity implements AddTaskView
     ArrayAdapter<String> adapter;
     @BindView(R.id.spinnerTaskTypes)
     Spinner spinnerTaskTypes;
-    SimpleDateFormat dateFormat;
-    List<String> subtasks;
+
+    private SimpleDateFormat dateFormat;
+    private List<String> subtasks;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,8 +80,8 @@ public class AddTaskActivity extends MvpAppCompatActivity implements AddTaskView
         addSubtask.setOnClickListener(this);
         addContact.setOnClickListener(this);
         timePickerTv.setOnClickListener(this);
-        dateFormat=new SimpleDateFormat("dd MMMM yyyy", Locale.getDefault());
-        subtasks=new ArrayList<>();
+        dateFormat = new SimpleDateFormat("dd MMMM yyyy", Locale.getDefault());
+        subtasks = new ArrayList<>();
         adapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_1, subtasks);
         subtaskListView.setAdapter(adapter);
@@ -105,8 +109,8 @@ public class AddTaskActivity extends MvpAppCompatActivity implements AddTaskView
         spinnerTaskTypes.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent,
                                        View itemSelected, int selectedItemPosition, long selectedId) {
-                    presenter.setTaskType(selectedItemPosition);
-                }
+                presenter.setTaskType(selectedItemPosition);
+            }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
@@ -117,23 +121,25 @@ public class AddTaskActivity extends MvpAppCompatActivity implements AddTaskView
 
     @Override
     public void showDateDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
-        builder.setTitle(getString(R.string.select_date));
-        final DatePicker datePicker = new DatePicker(this);
-        builder.setView(datePicker);
-        builder.setPositiveButton(getResources().getString(R.string.ok),
-                (dialog, which) -> {
-                    GregorianCalendar calendarBeg=new GregorianCalendar(datePicker.getYear(),
-                            datePicker.getMonth(),datePicker.getDayOfMonth());
-                    Date date=calendarBeg.getTime();
+        showDialog(getString(R.string.select_date))
+                .addDatePicker("date")
+                .onOkClick((views, window, dialog) -> {
+                    final DatePicker datePicker = (DatePicker) views.get("date");
+                    if (checkViewForNotNull(datePicker)) {
 
-                    timePickerTv.setEnabled(true);
-                    datePickerTv.setText(dateFormat.format(date));
-                    presenter.setDate(date);
-                }
-        );
-        builder.show();
+                        GregorianCalendar calendarBeg = new GregorianCalendar(datePicker.getYear(),
+                                datePicker.getMonth(), datePicker.getDayOfMonth());
+                        Date date = calendarBeg.getTime();
+
+                        timePickerTv.setEnabled(true);
+                        datePickerTv.setText(dateFormat.format(date));
+                        presenter.setDate(date);
+                        window.setClosable();
+                    }
+
+                }) ;
+
     }
 
     @Override
@@ -163,44 +169,39 @@ public class AddTaskActivity extends MvpAppCompatActivity implements AddTaskView
     }
 
     private void addNewSubtask() {
-        //todo определиться с тем, как будут отображатсья новые сабтаски на текущем экране
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
-        builder.setTitle(getString(R.string.add_subtask));
-        final EditText editText = new EditText(this);
-        builder.setView(editText);
-        builder.setPositiveButton(getResources().getString(R.string.ok),
-                (dialog, which) -> {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                        String sbtLbl= editText.getText().toString();
-                        presenter.addSubtask(sbtLbl);
-                        subtasks.add(sbtLbl);
-                        adapter.notifyDataSetChanged();
-                    }
-                }
-        );
-        builder.show();
+        showDialog(getString(R.string.add_subtask))
+                .addEditText("subatask", "Ведите название")
+                .onOkClick((views, window, dialog) -> {
+                    EditText etName = (EditText) views.get("subatask");
+                    if (checkViewForNotNull())
+                        if (checkViewForNotNull(etName)) {
+                            String sbtLbl = etName.getText().toString();
+                            presenter.addSubtask(sbtLbl);
+                            subtasks.add(sbtLbl);
+                            adapter.notifyDataSetChanged();
+                            window.setClosable();
+                        }
+                });
+
     }
 
     private void showTimeDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-        builder.setTitle(getString(R.string.select_time));
-        final TimePicker picker = new TimePicker(this);
-        builder.setView(picker);
-        builder.setPositiveButton(getResources().getString(R.string.ok),
-                (dialog, which) -> {
+        showDialog(getString(R.string.select_time))
+                .addTimePicker("time")
+                .onOkClick((views, window, dialog) -> {
+                    TimePicker picker = (TimePicker) views.get("time");
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                        timePickerTv.setText(picker.getHour()+":"+picker.getMinute());
+                        timePickerTv.setText(picker.getHour() + ":" + picker.getMinute());
                         presenter.setTime(picker.getHour(), picker.getMinute());
+                       window.setClosable();
                     }
-                }
-        );
-        builder.show();
+                });
+
     }
 
     public void showRegistrationActivity(MenuItem item) {
-        presenter.applyNewTask(taskTitle.getText().toString(),etNote.getText().toString(), spinnerTaskTypes.getSelectedItem().toString());
+        presenter.applyNewTask(taskTitle.getText().toString(), etNote.getText().toString(), spinnerTaskTypes.getSelectedItem().toString());
 
     }
 }

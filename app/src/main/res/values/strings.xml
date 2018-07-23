@@ -117,6 +117,21 @@
     <string name="tab_text_2">Tab 2</string>
     <string name="tab_text_3">Tab 3</string>
     <string name="section_format">Hello World from section: %1$d</string>
+    <string name="more_info">More info</string>
+    <string name="notifications">Notifications</string>
+    <string name="tasks">Tasks</string>
+    <string name="info">Info</string>
+    <string name="add">+Add</string>
+    <string name="relatives">Relatives</string>
+    <string name="pets">Pets</string>
+    <string name="active">Active</string>
+    <string name="history">History</string>
+    <string name="add_relative">Add relative</string>
+    <string name="add_pet">Add pet</string>
+    <string name="type_name">Type name</string>
+    <string name="edit">Edit</string>
+    <string name="type_phone">Type phone</string>
+    <string name="type_mail">Type mail</string>
     <string name="title_activity_main2">Main2Activity</string>
     <string name="title_activity_add_contact">Add Contact</string>
 
@@ -132,4 +147,9 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="fill_all_fields">Fill all fields correctly</string>
+    <string name="title_activity_task">AddTaskActivity</string>
+    <string name="fab_custom">com.gb.students.crm_task_manager.custom.FabMenuBehavior</string>
+    <string name="new_one">New one</string>
+    <string name="from_contacts">From contacts</string>
 </resources>

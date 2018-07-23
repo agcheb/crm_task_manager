@@ -6,7 +6,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
+
 
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
@@ -30,8 +30,10 @@ import com.gb.students.crm_task_manager.contacts.addcontact.AddContactActivity;
 import com.gb.students.crm_task_manager.contacts.data.TempDataManager;
 import com.gb.students.crm_task_manager.contacts.morecontacts.MoreContactsActivity;
 import com.gb.students.crm_task_manager.contacts.profile.ProfileActivity;
+import com.gb.students.crm_task_manager.model.cache.paper.PaperContactsRepo;
 import com.gb.students.crm_task_manager.model.entity.contact.Contact;
 import com.gb.students.crm_task_manager.view.MainActivity;
+import com.github.clans.fab.FloatingActionButton;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -43,20 +45,23 @@ public class FragmentClients extends MvpAppCompatFragment implements FragmentCli
 
     @BindView(R.id.toolbar_clients)
     Toolbar toolbar;
-    @BindView(R.id.fab_clients)
-    FloatingActionButton fab;
+    @BindView(R.id.fab_from_contacts)
+    FloatingActionButton fabFromContacts;
+    @BindView(R.id.fab_new_contact)
+    FloatingActionButton fabNewContact;
     @BindView(R.id.recycler_clients)
     RecyclerView recyclerView;
 
 
     //moxy for MVP
-    @InjectPresenter ClientPresenter clientPresenter;
+    @InjectPresenter
+    ClientPresenter clientPresenter;
 
-    ClientRVAdapter adapter;
+    private ClientRVAdapter adapter;
+    private PaperContactsRepo contactsRepo;
 
     @ProvidePresenter
-    public ClientPresenter provideMainPresenter()
-    {
+    public ClientPresenter provideMainPresenter() {
 
         ClientPresenter presenter = new ClientPresenter(AndroidSchedulers.mainThread());
         return presenter;
@@ -65,9 +70,9 @@ public class FragmentClients extends MvpAppCompatFragment implements FragmentCli
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
-        super.onCreateView(inflater,parent,savedInstanceState);
+        super.onCreateView(inflater, parent, savedInstanceState);
         View view = inflater.inflate(R.layout.activity_fragment_clients, parent, false);
-        ButterKnife.bind(this,view);
+        ButterKnife.bind(this, view);
         return view;
     }
 
@@ -78,36 +83,24 @@ public class FragmentClients extends MvpAppCompatFragment implements FragmentCli
         toolbar.setTitleTextColor(Color.WHITE);
 
         ((MainActivity) getActivity()).setSupportActionBar(toolbar);
-
+        contactsRepo = new PaperContactsRepo();
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         //recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
+
         adapter = new ClientRVAdapter(clientPresenter);
         recyclerView.setAdapter(adapter);
-        fab.setOnClickListener(view -> showDial());
+        fabFromContacts.setOnClickListener(view -> {
+            Intent intent = new Intent(getContext(), MoreContactsActivity.class);
+            startActivityForResult(intent, REQUEST_CODE_CLIENT);
+        });
+
+        fabNewContact.setOnClickListener(view ->{
+            Intent intent = new Intent(getContext(), AddContactActivity.class);
+            startActivityForResult(intent, REQUEST_CODE_CLIENT);
+        });
         setHasOptionsMenu(true);
 
         clientPresenter.loadData();
-
-    }
-
-
-    private void showDial(){
-
-        CharSequence options[] = new CharSequence[] {"New one", "Phone contacts"};
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setTitle("Add contact");
-        builder.setItems(options, (dialog, which) -> {
-            if (which == 1) {
-                 Intent intent = new Intent(getContext(), MoreContactsActivity.class);
-                 startActivityForResult(intent,REQUEST_CODE_CLIENT);
-            } else
-            if (which == 0) {
-                Intent intent = new Intent(getContext(), AddContactActivity.class);
-                startActivityForResult(intent,REQUEST_CODE_CLIENT);
-            }
-        });
-        builder.show();
 
     }
 
@@ -122,9 +115,9 @@ public class FragmentClients extends MvpAppCompatFragment implements FragmentCli
     @Override
     public void getContacts() {
         TempDataManager.getContactsFromPhone(getActivity().getContentResolver())
-                  .subscribeOn(Schedulers.io())
-                  .observeOn(AndroidSchedulers.mainThread())
-                  .subscribe(clientPresenter::setContactList);
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(clientPresenter::setContactList);
     }
 
     private static Integer REQUEST_CODE_CLIENT = 101;
@@ -134,7 +127,7 @@ public class FragmentClients extends MvpAppCompatFragment implements FragmentCli
         super.onActivityResult(requestCode, resultCode, data);
 
         if ((requestCode == REQUEST_CODE_CLIENT) && (resultCode == Activity.RESULT_OK)) {
-             clientPresenter.loadData();
+            clientPresenter.loadData();
         }
 
     }
@@ -143,10 +136,12 @@ public class FragmentClients extends MvpAppCompatFragment implements FragmentCli
     @Override
     public void openProfile(Contact contact) {
 
-        Intent intent = new Intent(getActivity(),ProfileActivity.class);
-        intent.putExtra("name", contact.getName());
+        Intent intent = new Intent(getActivity(), ProfileActivity.class);
+
+        // intent.putExtra("name", contact.getName());
         startActivity(intent);
     }
+
 
 
 

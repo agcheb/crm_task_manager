@@ -1,17 +1,23 @@
 package com.gb.students.crm_task_manager.model.cache.paper;
 
+import com.gb.students.crm_task_manager.model.entity.Task;
 import com.gb.students.crm_task_manager.model.entity.contact.Contact;
+import com.gb.students.crm_task_manager.model.entity.contact.Notification;
 import com.gb.students.crm_task_manager.model.repos.ContactsRepo;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
 import io.paperdb.Paper;
 import io.reactivex.Observable;
+import io.reactivex.annotations.Nullable;
 import timber.log.Timber;
 
 public class PaperContactsRepo implements ContactsRepo{
+
+
     @Override
     public Observable<List<Contact>> getContacts() {
         return Observable.fromCallable(() -> {
@@ -20,6 +26,7 @@ public class PaperContactsRepo implements ContactsRepo{
             return types;
         });
     }
+
 
     @Override
     public Observable<Boolean> addContact(Contact contact) {
@@ -43,6 +50,31 @@ public class PaperContactsRepo implements ContactsRepo{
             }
             Timber.d("New contacts was written to memory");
             Paper.book("contacts").write("all", savedTasks);
+            return true;
+        });
+    }
+
+    @Override
+    public Observable<Contact> getCurrentContact() {
+        return Observable.create(emitter -> {
+            Contact current= Paper.book("contacts").read("current");
+
+           if (current==null){
+                throw new Exception("Contact is out of memory");
+          }
+            Timber.d("Current contact loaded from memory");
+            emitter.onNext(current);
+
+        });
+    }
+
+
+
+    @Override
+    public Observable<Boolean> setCurrentContact(Contact contact) {
+        return Observable.fromCallable(() -> {
+            Paper.book("contacts").write("current", contact);
+            Timber.d("Current contacts was written to memory");
             return true;
         });
     }

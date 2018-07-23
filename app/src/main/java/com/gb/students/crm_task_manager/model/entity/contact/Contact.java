@@ -1,5 +1,8 @@
 package com.gb.students.crm_task_manager.model.entity.contact;
 
+import com.gb.students.crm_task_manager.model.entity.Task;
+
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -19,6 +22,15 @@ public class Contact {
     private List<Notification> notifications;
     private List<Pet> pets;
 
+    public List<Task> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(List<Task> tasks) {
+        this.tasks = tasks;
+    }
+
+    private List<Task> tasks;
     private List<ContactInfo> contactInfos;
     private List<Address> adresses;
     private Acquaintance aqt;
@@ -27,7 +39,20 @@ public class Contact {
 
     private List<Gift> gifts;
     private String imagePath;
+    public Contact(){
+        initLists();
+    }
 
+    private void initLists(){
+        relations = new ArrayList<>();
+        notifications = new ArrayList<>();
+        tasks = new ArrayList<>();
+        pets=new ArrayList<>();
+        contactInfos=new ArrayList<>();
+        adresses=new ArrayList<>();
+        leisures=new ArrayList<>();
+        gifts=new ArrayList<>();
+    }
 
     public String getCategory() {
         return category;
@@ -169,9 +194,8 @@ public class Contact {
 
     public Contact(String name) {
         this.name = name;
+        initLists();
     }
-
-    public Contact(){}
 
     @Override
     public boolean equals(Object o) {

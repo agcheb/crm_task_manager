@@ -1,7 +1,7 @@
 package com.gb.students.crm_task_manager.model.entity.contact;
 
 // идеи для подарков
-class Gift {
+public class Gift {
     private String label;
     private String type;
     private Float price;

@@ -28,7 +28,7 @@ public class ClientPresenter extends MvpPresenter<FragmentClientView> {
 
     private List<Contact> tempContactList;
 
-    private HashMap<String,Bitmap> cashedImages = new HashMap<>();
+    private HashMap<String, Bitmap> cashedImages = new HashMap<>();
 
     private ContactsRepo contactsRepo = new PaperContactsRepo();
 
@@ -37,8 +37,7 @@ public class ClientPresenter extends MvpPresenter<FragmentClientView> {
     }
 
     @Override
-    protected void onFirstViewAttach()
-    {
+    protected void onFirstViewAttach() {
         super.onFirstViewAttach();
         getViewState().init();
     }
@@ -47,7 +46,7 @@ public class ClientPresenter extends MvpPresenter<FragmentClientView> {
     private String userName = "qwerty";
 
     @SuppressLint("CheckResult")
-    public void loadData(){
+    public void loadData() {
 
         contactsRepo.getContacts()
                 .subscribeOn(Schedulers.io())
@@ -66,16 +65,16 @@ public class ClientPresenter extends MvpPresenter<FragmentClientView> {
 
         Bitmap bitmap = null;
 
-        if (tempC.getImagePath()!=null) {
+        if (tempC.getImagePath() != null) {
             String contactId = tempC.getId();
             if (cashedImages.containsKey(contactId)) bitmap = cashedImages.get(contactId);
             else {
                 bitmap = BitmapFactory.decodeFile(tempC.getImagePath());
-                cashedImages.put(contactId,bitmap);
+                cashedImages.put(contactId, bitmap);
             }
         }
 
-        holder.setTitle(tempC.getName(),bitmap);
+        holder.setTitle(tempC.getName(), bitmap);
     }
 
     public int getRepoCount() {
@@ -85,8 +84,15 @@ public class ClientPresenter extends MvpPresenter<FragmentClientView> {
     }
 
     public void onItemClick(int adapterPosition) {
-       Timber.d("Position clicked  %s", adapterPosition);
-       getViewState().openProfile(tempContactList.get(adapterPosition));
+        Timber.d("Position clicked  %s", adapterPosition);
+
+        contactsRepo.setCurrentContact(tempContactList.get(adapterPosition))
+                .observeOn(scheduler)
+                .subscribeOn(Schedulers.io())
+                .subscribe(boo ->
+                        getViewState().openProfile(tempContactList.get(adapterPosition))
+               );
+
     }
 
 

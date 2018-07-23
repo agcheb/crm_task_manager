@@ -31,12 +31,12 @@ public class AddTaskPresenter extends MvpPresenter<AddTaskView> {
         this.scheduler = scheduler;
     }
 
-    PaperContactsRepo contactsRepo;
-    PaperTaskRepo taskRepo;
-    PaperTypesRepo typesRepo;
+    private PaperContactsRepo contactsRepo;
+    private PaperTaskRepo taskRepo;
+    private PaperTypesRepo typesRepo;
 
-    Task task;
-    List<String> types;
+    private Task task;
+    private List<String> types;
     @Override
     protected void onFirstViewAttach() {
         super.onFirstViewAttach();
@@ -73,7 +73,7 @@ public class AddTaskPresenter extends MvpPresenter<AddTaskView> {
                         getViewState().toast("Task saved");
                     });
         } else {
-            getViewState().showError("Task is empty or has no title");
+            getViewState().showError("Task is empty or has no label");
         }
 
     }

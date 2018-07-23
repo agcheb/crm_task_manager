@@ -3,7 +3,7 @@ package com.gb.students.crm_task_manager.model.entity.contact;
 import java.util.Date;
 
 // информация о знакомстве, когда, кто познакомил
-class  Acquaintance {
+public class  Acquaintance {
 
     private String description;
     private Contact introducedBy;

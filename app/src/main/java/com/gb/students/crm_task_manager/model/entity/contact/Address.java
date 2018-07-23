@@ -1,7 +1,7 @@
 package com.gb.students.crm_task_manager.model.entity.contact;
 
 // информация об адресе
-class Address {
+public class Address {
     private String street;
     private String house;
     private String flat;
