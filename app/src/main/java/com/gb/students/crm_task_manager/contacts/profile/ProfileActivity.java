@@ -1,5 +1,6 @@
 package com.gb.students.crm_task_manager.contacts.profile;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
@@ -30,11 +31,11 @@ public class ProfileActivity extends BaseAbstractActivity implements ProfileView
     @BindView(R.id.fab_profile)
     FloatingActionButton fab;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+
         ButterKnife.bind(this);
     }
 
@@ -43,15 +44,17 @@ public class ProfileActivity extends BaseAbstractActivity implements ProfileView
 
     @ProvidePresenter
     public ProfilePresenter provideMainPresenter() {
-        ProfilePresenter presenter = new ProfilePresenter(AndroidSchedulers.mainThread());
+        Intent intent = getIntent();
+        String id = intent.getStringExtra("contactId");
+        ProfilePresenter presenter = new ProfilePresenter(AndroidSchedulers.mainThread(), id);
         return presenter;
     }
 
 
     @Override
     public void init() {
-
         setSupportActionBar(toolbar);
+
 
         fab.setOnClickListener(view ->
                 showDialog("Add")
@@ -66,6 +69,7 @@ public class ProfileActivity extends BaseAbstractActivity implements ProfileView
                             }
                         }, "Tabs", "Notification")
                         .show());
+
     }
 
     @Override
@@ -80,10 +84,8 @@ public class ProfileActivity extends BaseAbstractActivity implements ProfileView
         customFragmentPA.addFragment(fragmentTabTasks, getString(R.string.tasks));
         customFragmentPA.addFragment(fragmentTabNotifications, getString(R.string.notifications));
 
-
         ViewPager mViewPager = findViewById(R.id.container_tabs);
         mViewPager.setAdapter(customFragmentPA);
-
 
         TabLayout tabLayout = findViewById(R.id.tabs_profile);
         tabLayout.setupWithViewPager(mViewPager);

@@ -15,4 +15,6 @@ public interface ContactsRepo {
     Observable<Boolean> addContacts(List<Contact> contacts);
     Observable<Contact> getCurrentContact();
     Observable<Boolean> setCurrentContact(Contact contact);
+    Observable<Contact> getContactById(String id);
+    Observable<Boolean> saveContact(Contact contact);
 }

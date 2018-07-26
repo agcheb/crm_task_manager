@@ -73,6 +73,7 @@ public class FragmentClients extends MvpAppCompatFragment implements FragmentCli
         super.onCreateView(inflater, parent, savedInstanceState);
         View view = inflater.inflate(R.layout.activity_fragment_clients, parent, false);
         ButterKnife.bind(this, view);
+
         return view;
     }
 
@@ -137,8 +138,7 @@ public class FragmentClients extends MvpAppCompatFragment implements FragmentCli
     public void openProfile(Contact contact) {
 
         Intent intent = new Intent(getActivity(), ProfileActivity.class);
-
-        // intent.putExtra("name", contact.getName());
+        intent.putExtra("contactId", contact.getId());
         startActivity(intent);
     }
 
