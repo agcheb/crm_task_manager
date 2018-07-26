@@ -15,13 +15,13 @@ import io.reactivex.Observable;
 import io.reactivex.annotations.Nullable;
 import timber.log.Timber;
 
-public class PaperContactsRepo implements ContactsRepo{
+public class PaperContactsRepo implements ContactsRepo {
 
 
     @Override
     public Observable<List<Contact>> getContacts() {
         return Observable.fromCallable(() -> {
-            List<Contact> types =readFromPaper();
+            List<Contact> types = readFromPaper();
             Timber.d("Contacts loaded from memory");
             return types;
         });
@@ -44,7 +44,7 @@ public class PaperContactsRepo implements ContactsRepo{
     public Observable<Boolean> addContacts(List<Contact> contacts) {
         return Observable.fromCallable(() -> {
             List<Contact> savedTasks = readFromPaper();
-            for(Contact c: contacts){
+            for (Contact c : contacts) {
                 c.setId(UUID.randomUUID().toString());
                 savedTasks.add(c);
             }
@@ -57,17 +57,16 @@ public class PaperContactsRepo implements ContactsRepo{
     @Override
     public Observable<Contact> getCurrentContact() {
         return Observable.create(emitter -> {
-            Contact current= Paper.book("contacts").read("current");
+            Contact current = Paper.book("contacts").read("current");
 
-           if (current==null){
+            if (current == null) {
                 throw new Exception("Contact is out of memory");
-          }
+            }
             Timber.d("Current contact loaded from memory");
             emitter.onNext(current);
 
         });
     }
-
 
 
     @Override
@@ -80,10 +79,39 @@ public class PaperContactsRepo implements ContactsRepo{
     }
 
     @Override
+    public Observable<Contact> getContactById(String id) {
+        return Observable.fromCallable(() -> {
+            List<Contact> contacts = readFromPaper();
+            if (contacts != null && contacts.size() > 0)
+                for (Contact c : contacts)
+                    if (c.getId().equals(id))
+                        return c;
+
+            return null;
+        });
+    }
+
+    @Override
+    public Observable<Boolean> saveContact(Contact contact) {
+        return Observable.fromCallable(() -> {
+            List<Contact> contactList = readFromPaper();
+            for (int i = 0; i < contactList.size(); i++)
+
+                if (contactList.get(i).getId().equals(contact.getId())) {
+                    contactList.set(i, contact);
+                    break;
+                }
+
+            Paper.book("contacts").write("all", contactList);
+            return true;
+        });
+    }
+
+    @Override
     public Observable<Boolean> removeContact(Contact contact) {
         return Observable.fromCallable(() -> {
             List<Contact> contactList = readFromPaper();
-            for(Contact c: contactList) {
+            for (Contact c : contactList) {
                 if (c.getName().equals(contact.getName())) {
                     contactList.remove(c);
                 }
@@ -92,8 +120,8 @@ public class PaperContactsRepo implements ContactsRepo{
         });
     }
 
-    private List<Contact>  readFromPaper(){
-        List<Contact>  types = Paper.book("contacts").read("all");
+    private List<Contact> readFromPaper() {
+        List<Contact> types = Paper.book("contacts").read("all");
         if (types == null) {
             types = new ArrayList<>();
         }

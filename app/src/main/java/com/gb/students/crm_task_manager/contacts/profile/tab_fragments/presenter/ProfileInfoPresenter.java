@@ -103,8 +103,8 @@ public class ProfileInfoPresenter extends BasePresenter<ProfileInfoView> {
 
     @Override
     protected void loadData() {
-        Observable<Types> typesObservable = typesRepo.loadTypes();
-        typesObservable.subscribeOn(Schedulers.io())
+        typesRepo.loadTypes()
+        .subscribeOn(Schedulers.io())
                 .observeOn(scheduler)
                 .subscribe(types -> {
                     this.types = types;

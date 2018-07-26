@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 public class Contact {
 
@@ -39,19 +40,21 @@ public class Contact {
 
     private List<Gift> gifts;
     private String imagePath;
-    public Contact(){
+
+    public Contact() {
         initLists();
     }
 
-    private void initLists(){
+    private void initLists() {
+        id = UUID.randomUUID().toString();
         relations = new ArrayList<>();
         notifications = new ArrayList<>();
         tasks = new ArrayList<>();
-        pets=new ArrayList<>();
-        contactInfos=new ArrayList<>();
-        adresses=new ArrayList<>();
-        leisures=new ArrayList<>();
-        gifts=new ArrayList<>();
+        pets = new ArrayList<>();
+        contactInfos = new ArrayList<>();
+        adresses = new ArrayList<>();
+        leisures = new ArrayList<>();
+        gifts = new ArrayList<>();
     }
 
     public String getCategory() {
