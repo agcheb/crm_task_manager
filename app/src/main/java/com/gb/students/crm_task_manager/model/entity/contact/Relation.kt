@@ -1,6 +1,6 @@
 package com.gb.students.crm_task_manager.model.entity.contact
 
-import com.gb.students.crm_task_manager.custom.StringHelper
+import com.gb.students.crm_task_manager.custom.Helper
 import java.util.*
 
 class Relation {
@@ -10,6 +10,6 @@ class Relation {
     var note: String? = null
 
     override fun toString(): String {
-        return "$name, $type, ${StringHelper.getDateFormat(StringHelper.Pattern.DOT_NUMERIC).format(birth)}\n$note"
+        return "$name, $type, ${Helper.getDateFormat(Helper.Pattern.DOT_NUMERIC).format(birth)}\n$note"
     }
 }

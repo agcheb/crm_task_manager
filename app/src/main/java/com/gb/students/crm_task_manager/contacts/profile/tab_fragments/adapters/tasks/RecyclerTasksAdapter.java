@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
 import com.gb.students.crm_task_manager.R;
-import com.gb.students.crm_task_manager.custom.StringHelper;
+import com.gb.students.crm_task_manager.custom.Helper;
 import com.gb.students.crm_task_manager.model.entity.Task;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -66,7 +66,7 @@ public class RecyclerTasksAdapter extends RecyclerView.Adapter<RecyclerTasksAdap
         public void setTask(Task task) {
             nameTV.setText(task.getTitle());
             isComplCB.setChecked(task.getComplete());
-            dateTV.setText(StringHelper.getDateFormat(StringHelper.Pattern.DOT_NUMERIC).format(task.getExpDate()));
+            dateTV.setText(Helper.getDateFormat(Helper.Pattern.DOT_NUMERIC).format(task.getExpDate()));
         }
     }
 

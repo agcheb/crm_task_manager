@@ -27,7 +27,7 @@ import com.gb.students.crm_task_manager.contacts.profile.tab_fragments.adapters.
 import com.gb.students.crm_task_manager.contacts.profile.tab_fragments.presenter.ProfileInfoPresenter;
 import com.gb.students.crm_task_manager.contacts.profile.tab_fragments.view.abstractions.ProfileInfoView;
 import com.gb.students.crm_task_manager.custom.DialogBuilder;
-import com.gb.students.crm_task_manager.custom.StringHelper;
+import com.gb.students.crm_task_manager.custom.Helper;
 import com.gb.students.crm_task_manager.model.entity.contact.Contact;
 import com.gb.students.crm_task_manager.model.entity.contact.Pet;
 import com.gb.students.crm_task_manager.model.entity.contact.Relation;
@@ -298,7 +298,7 @@ public class FragmentTabInfo extends BaseAbstractFragment implements ProfileInfo
                                             datePicker.getMonth(), datePicker.getDayOfMonth());
                                     Date date = calendarBeg.getTime();
                                     rel.setBirth(calendarBeg.getTime());
-                                    text.setText(StringHelper.getDateFormat(StringHelper.Pattern.DOT_NUMERIC).format(date));
+                                    text.setText(Helper.getDateFormat(Helper.Pattern.DOT_NUMERIC).format(date));
                                    window.setClosable();
                                 }
                             })

@@ -16,14 +16,16 @@ import java.util.List;
 import io.reactivex.Scheduler;
 
 @InjectViewState
-public class ProfileTaskPresenter extends BasePresenter<ProfileTasksView>{
+public class ProfileTaskPresenter extends BasePresenter<ProfileTasksView> {
 
     private final Contact contact;
     private List<Task> tasks;
     private TaskListPresenter taskListPresenter;
+
     public TaskListPresenter getTaskListPresenter() {
         return taskListPresenter;
     }
+
     private TaskRepo taskRepo;
 
     public ProfileTaskPresenter(Scheduler scheduler, Contact contact) {
@@ -33,6 +35,7 @@ public class ProfileTaskPresenter extends BasePresenter<ProfileTasksView>{
 
     private class TaskListPresenter implements IListTasksPresenter {
         List<Task> items = new ArrayList<>();
+
         @Override
         public void bindView(IListTasksRaw view) {
             view.setTask(items.get(view.getPos()));
@@ -46,7 +49,7 @@ public class ProfileTaskPresenter extends BasePresenter<ProfileTasksView>{
         @Override
         public void setComplete(int pos) {
             items.get(pos).setComplete(true);
-            getViewState().toast(items.get(pos).getTitle()+ "is complete");
+            getViewState().toast(items.get(pos).getTitle() + "is complete");
             items.remove(pos);
             getViewState().completeTask(items.get(pos));
             getViewState().updateList();
@@ -56,26 +59,23 @@ public class ProfileTaskPresenter extends BasePresenter<ProfileTasksView>{
     @Override
     protected void onFirstViewAttach() {
         super.onFirstViewAttach();
-        this.taskListPresenter.items=tasks;
+        this.taskListPresenter.items = tasks;
 
     }
 
     @Override
     protected void init() {
         taskRepo = new PaperTaskRepo();
-        taskListPresenter=new TaskListPresenter();
+        taskListPresenter = new TaskListPresenter();
         getViewState().init();
     }
 
     @Override
     protected void loadData() {
-         tasks=contact.getTasks();
-         getViewState().updateList();
+        tasks = contact.getTasks();
+        getViewState().updateList();
     }
 
-  public List<Task> getTasks()
-    {
-        return tasks;
-    }
+
 
 }

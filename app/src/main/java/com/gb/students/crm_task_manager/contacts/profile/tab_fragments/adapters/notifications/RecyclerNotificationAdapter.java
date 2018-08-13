@@ -9,7 +9,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.gb.students.crm_task_manager.R;
-import com.gb.students.crm_task_manager.custom.StringHelper;
+import com.gb.students.crm_task_manager.custom.Helper;
 import com.gb.students.crm_task_manager.model.entity.contact.Notification;
 
 import butterknife.BindView;
@@ -75,7 +75,7 @@ public class RecyclerNotificationAdapter extends RecyclerView.Adapter<RecyclerNo
         @Override
         public void setNotificaton(Notification notification) {
             nameTv.setText(notification.getLabel());
-            dateTv.setText(StringHelper.getDateFormat(StringHelper.Pattern.DOT_NUMERIC).format(notification.getDate()));
+            dateTv.setText(Helper.getDateFormat(Helper.Pattern.DOT_NUMERIC).format(notification.getDate()));
         }
     }
 

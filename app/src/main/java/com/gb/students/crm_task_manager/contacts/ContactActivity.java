@@ -21,6 +21,7 @@ public class ContactActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
 
+
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fragment_container, new FragmentClients());
         transaction.addToBackStack(null);

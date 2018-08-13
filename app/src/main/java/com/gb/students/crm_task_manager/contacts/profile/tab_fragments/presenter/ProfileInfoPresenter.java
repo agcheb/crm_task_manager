@@ -1,5 +1,7 @@
 package com.gb.students.crm_task_manager.contacts.profile.tab_fragments.presenter;
 
+import android.annotation.SuppressLint;
+
 import com.arellomobile.mvp.InjectViewState;
 import com.gb.students.crm_task_manager.contacts.profile.tab_fragments.adapters.pet.IListPetPresenter;
 import com.gb.students.crm_task_manager.contacts.profile.tab_fragments.adapters.pet.IListPetRaw;
@@ -101,6 +103,7 @@ public class ProfileInfoPresenter extends BasePresenter<ProfileInfoView> {
         getViewState().init();
     }
 
+    @SuppressLint("CheckResult")
     @Override
     protected void loadData() {
         Observable<Types> typesObservable = typesRepo.loadTypes();

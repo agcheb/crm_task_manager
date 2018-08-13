@@ -14,4 +14,5 @@
     <dimen name="fat_border">4dp</dimen>
     <dimen name="header_18">18sp</dimen>
     <dimen name="text_16">16sp</dimen>
+    <dimen name="std_constraint_margin">8dp</dimen>
 </resources>

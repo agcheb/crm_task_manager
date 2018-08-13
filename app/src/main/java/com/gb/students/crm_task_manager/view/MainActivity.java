@@ -18,6 +18,7 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.gb.students.crm_task_manager.R;
 import com.gb.students.crm_task_manager.contacts.FragmentClients;
+import com.gb.students.crm_task_manager.contacts.tasks.views.FragmentTasks;
 import com.gb.students.crm_task_manager.presenter.MainPresenter;
 
 import java.util.List;
@@ -26,7 +27,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends MvpAppCompatActivity implements MainView {
-
 
 
     @InjectPresenter
@@ -40,30 +40,26 @@ public class MainActivity extends MvpAppCompatActivity implements MainView {
 
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = new BottomNavigationView.OnNavigationItemSelectedListener() {
-
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.action_contacts:
-                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                    transaction.replace(R.id.fragment_container_main, new FragmentClients());
-                    transaction.addToBackStack(null);
-                    transaction.commit();
-                    return true;
-                case R.id.action_tasks:
-                    //mTextMessage.setText(R.string.title_dashboard);
-                    return true;
-                case R.id.action_notifications:
-                    //mTextMessage.setText(R.string.title_notifications);
-                    return true;
-                case R.id.action_profile:
-                    //mTextMessage.setText(R.string.title_notifications);
-                    return true;
-            }
-            return false;
-        }
-    };
+            = item -> {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                switch (item.getItemId()) {
+                    case R.id.action_contacts:
+                        transaction.replace(R.id.fragment_container_main, new FragmentClients());
+                        break;
+                    case R.id.action_tasks:
+                        transaction.replace(R.id.fragment_container_main, new FragmentTasks());
+                        break;
+                    case R.id.action_notifications:
+                        //mTextMessage.setText(R.string.title_notifications);
+                        return true;
+                    case R.id.action_profile:
+                        //mTextMessage.setText(R.string.title_notifications);
+                        return true;
+                }
+                transaction.addToBackStack(null);
+                transaction.commit();
+                return true;
+            };
 
 
     @Override
@@ -81,28 +77,25 @@ public class MainActivity extends MvpAppCompatActivity implements MainView {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if(requestCode == 100) {
+        if (requestCode == 100) {
             showContacts();
-        }
-        else {
+        } else {
             Toast.makeText(this, "Until you grant permission we cannot show your contacts", Toast.LENGTH_SHORT).show();
         }
     }
 
-    private void showContacts(){
+    private void showContacts() {
 
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED){
-            requestPermissions(new String[]{Manifest.permission.READ_CONTACTS,Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 100);
-        }
-        else {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.READ_CONTACTS, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 100);
+        } else {
             getSupportFragmentManager().beginTransaction().add(R.id.fragment_container_main, new FragmentClients()).commit();
 
         }
     }
 
     @ProvidePresenter
-    public MainPresenter provideMainPresenter()
-    {
+    public MainPresenter provideMainPresenter() {
         MainPresenter presenter = new MainPresenter();
         return presenter;
     }
@@ -116,9 +109,9 @@ public class MainActivity extends MvpAppCompatActivity implements MainView {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        List<Fragment> list =  getSupportFragmentManager().getFragments();
-        for(Fragment f: list){
-            f.onActivityResult(requestCode,resultCode,data);
+        List<Fragment> list = getSupportFragmentManager().getFragments();
+        for (Fragment f : list) {
+            f.onActivityResult(requestCode, resultCode, data);
         }
     }
 }

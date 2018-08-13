@@ -70,13 +70,9 @@ public class RecyclerPetAdapter extends RecyclerView.Adapter<RecyclerPetAdapter.
             noteTV.setText(pet.getNote());
         }
 
-
         @Override
         public void onClick(View view) {
-
             presenter.delRow(pos);
         }
     }
-
-
 }

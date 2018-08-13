@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 
 import com.gb.students.crm_task_manager.R;
-import com.gb.students.crm_task_manager.custom.StringHelper;
+import com.gb.students.crm_task_manager.custom.Helper;
 import com.gb.students.crm_task_manager.model.entity.contact.Relation;
 
 import butterknife.BindView;
@@ -67,7 +67,7 @@ public class RecyclerRelativeAdapter extends RecyclerView.Adapter<RecyclerRelati
         public void setRelative(Relation relation) {
             nameTV.setText(relation.getName());
             typeTV.setText(relation.getType());
-            dateTV.setText(StringHelper.getDateFormat(StringHelper.Pattern.DOT_NUMERIC).format(relation.getBirth()));
+            dateTV.setText(Helper.getDateFormat(Helper.Pattern.DOT_NUMERIC).format(relation.getBirth()));
             descriptTV.setText(relation.getNote());
         }
 
